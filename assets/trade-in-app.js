@@ -64,6 +64,10 @@
     });
   }
 
+  function clearCache() {
+    cache.clear();
+  }
+
   // ============================================================================
   // Utilities
   // ============================================================================
@@ -849,6 +853,18 @@
       });
     }
 
+    // Refresh Button
+    const refreshBtn = form.querySelector('[data-refresh-cards]');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', async () => {
+        refreshBtn.disabled = true;
+        refreshBtn.classList.add('trade-in-browse__refresh--loading');
+        await refreshCards();
+        refreshBtn.disabled = false;
+        refreshBtn.classList.remove('trade-in-browse__refresh--loading');
+      });
+    }
+
     // Set Filter
     const setFilter = form.querySelector('[data-set-filter]');
     if (setFilter) {
@@ -1015,6 +1031,22 @@
       if (loading) loading.hidden = true;
       grid.classList.remove('trade-in-browse__grid--loading');
     }
+  }
+
+  async function refreshCards() {
+    // Clear the cache to force fresh data
+    clearCache();
+
+    // Reset to first page
+    state.currentPage = 1;
+
+    // Reload cards and sets
+    await Promise.all([
+      loadBrowseCards(),
+      loadSets()
+    ]);
+
+    showToast('Cards refreshed', 'success');
   }
 
   async function loadSets() {
