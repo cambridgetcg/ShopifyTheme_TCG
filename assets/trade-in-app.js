@@ -128,6 +128,49 @@
     return data;
   }
 
+  /**
+   * Normalize card data from different API endpoints to a consistent format
+   */
+  function normalizeCardData(card, source = 'browse') {
+    // Handle different field names between search and browse APIs
+    const cardId = card.cardId || card.id;
+    const name = card.name || card.cardName;
+    const setCode = card.setCode || card.setName || '';
+    const cardNumber = card.cardNumber || '';
+    const variantType = card.variantType || card.variant || '';
+    const fullCardNumber = cardNumber ? `${setCode}-${cardNumber}` : setCode;
+
+    // Extract tradein price from prices object
+    // Search API: prices.NM, Browse API: prices.tradein.NM
+    let tradeinPriceGbp = 0;
+    let conditionPrices = null;
+
+    if (card.prices) {
+      if (source === 'search' && typeof card.prices.NM === 'number') {
+        // Search API returns prices.NM directly
+        tradeinPriceGbp = card.prices.NM;
+        conditionPrices = card.prices;
+      } else if (card.prices.tradein && typeof card.prices.tradein.NM === 'number') {
+        // Browse API returns prices.tradein.NM
+        tradeinPriceGbp = card.prices.tradein.NM;
+        conditionPrices = card.prices.tradein;
+      }
+    }
+
+    return {
+      cardId,
+      name,
+      setCode,
+      cardNumber,
+      variantType,
+      fullCardNumber,
+      rarity: card.rarity || '',
+      imageUrl: card.imageUrl || null,
+      tradeinPriceGbp,
+      conditionPrices
+    };
+  }
+
   async function searchCards(query) {
     if (state.searchAbortController) {
       state.searchAbortController.abort();
@@ -138,7 +181,14 @@
       const url = `${CONFIG.apiBase}/cards/search?q=${encodeURIComponent(query)}&limit=10`;
       const response = await fetch(url, { signal: state.searchAbortController.signal });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.json();
+      const data = await response.json();
+
+      // Normalize response: search API returns 'results', normalize to 'cards'
+      const rawCards = data.cards || data.results || [];
+      return {
+        ...data,
+        cards: rawCards.map(card => normalizeCardData(card, 'search'))
+      };
     } catch (err) {
       if (err.name === 'AbortError') return null;
       throw err;
@@ -157,7 +207,13 @@
 
       const response = await fetch(url, { signal: state.browseAbortController.signal });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return await response.json();
+      const data = await response.json();
+
+      // Normalize card data
+      return {
+        ...data,
+        cards: (data.cards || []).map(card => normalizeCardData(card, 'browse'))
+      };
     } catch (err) {
       if (err.name === 'AbortError') return null;
       throw err;
@@ -225,8 +281,15 @@
     if (existingIndex >= 0) {
       state.cart[existingIndex].quantity += quantity;
     } else {
-      const conditionData = CONFIG.conditions.find(c => c.code === condition);
-      const price = Math.floor(card.tradeinPriceGbp * conditionData.multiplier / 0.70);
+      // Use pre-calculated condition price from API if available
+      let price;
+      if (card.conditionPrices && typeof card.conditionPrices[condition] === 'number') {
+        price = card.conditionPrices[condition];
+      } else {
+        // Fallback to manual calculation if no condition prices
+        const conditionData = CONFIG.conditions.find(c => c.code === condition);
+        price = Math.floor(card.tradeinPriceGbp * conditionData.multiplier / 0.70);
+      }
 
       state.cart.push({
         cardId: card.cardId,
@@ -236,7 +299,8 @@
         condition,
         quantity,
         pricePerItem: price,
-        basePriceGbp: card.tradeinPriceGbp
+        basePriceGbp: card.tradeinPriceGbp,
+        conditionPrices: card.conditionPrices
       });
     }
 
@@ -536,7 +600,13 @@
     // Render conditions
     if (conditionsEl) {
       conditionsEl.innerHTML = CONFIG.conditions.map((cond, i) => {
-        const price = Math.floor(card.tradeinPriceGbp * cond.multiplier / 0.70);
+        // Use pre-calculated condition price from API if available
+        let price;
+        if (card.conditionPrices && typeof card.conditionPrices[cond.code] === 'number') {
+          price = card.conditionPrices[cond.code];
+        } else {
+          price = Math.floor(card.tradeinPriceGbp * cond.multiplier / 0.70);
+        }
         return `
           <button type="button" class="trade-in-condition${i === 0 ? ' trade-in-condition--selected' : ''}" data-condition="${cond.code}">
             <span class="trade-in-condition__code">${cond.code}</span>
@@ -574,7 +644,14 @@
     const conditionCode = selectedBtn.dataset.condition;
     const condition = CONFIG.conditions.find(c => c.code === conditionCode);
     const quantity = parseInt(qtyInput?.value || 1, 10);
-    const price = Math.floor(state.selectedCard.tradeinPriceGbp * condition.multiplier / 0.70);
+
+    // Use pre-calculated condition price from API if available
+    let price;
+    if (state.selectedCard.conditionPrices && typeof state.selectedCard.conditionPrices[conditionCode] === 'number') {
+      price = state.selectedCard.conditionPrices[conditionCode];
+    } else {
+      price = Math.floor(state.selectedCard.tradeinPriceGbp * condition.multiplier / 0.70);
+    }
 
     priceEl.textContent = formatPrice(price * quantity);
   }
