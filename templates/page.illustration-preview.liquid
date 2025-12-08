@@ -1,0 +1,204 @@
+{% comment %}
+  Illustration & Icon Preview Page
+  Preview Streamline assets before assigning to sections
+{% endcomment %}
+
+<style>
+  .preview-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  .preview-page h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .preview-page .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  .section-title {
+    margin: 50px 0 25px;
+    padding-top: 30px;
+    border-top: 2px solid #e6e6e6;
+    font-size: 24px;
+  }
+  .section-title:first-of-type {
+    border-top: none;
+    margin-top: 0;
+  }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .preview-card {
+    background: #f6f6f6;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .preview-card img,
+  .preview-card svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+    object-fit: contain;
+  }
+  .preview-card.illustration img {
+    width: 100%;
+    height: 150px;
+  }
+  .preview-card h4 {
+    font-size: 13px;
+    margin: 0 0 5px;
+    color: #333;
+  }
+  .preview-card code {
+    font-size: 10px;
+    color: #888;
+    word-break: break-all;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-top: 8px;
+  }
+  .tag-service { background: #d63a2f; color: white; }
+  .tag-tier { background: #ffd700; color: #333; }
+  .tag-illustration { background: #4a90d9; color: white; }
+</style>
+
+<div class="preview-page">
+  <h1>Asset Preview</h1>
+  <p class="subtitle">Streamline icons and illustrations for Cambridge TCG</p>
+
+  <h2 class="section-title">Service Icons (SVG)</h2>
+  <p style="color:#666; margin-bottom:20px;">For "How Our Service Works" section</p>
+  <div class="preview-grid">
+    <div class="preview-card">
+      <img src="{{ 'icon-sourcing.svg' | asset_url }}" alt="Sourcing">
+      <h4>Sourcing</h4>
+      <code>icon-sourcing.svg</code>
+      <span class="tag tag-service">Japan Import</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-handling.svg' | asset_url }}" alt="Handling">
+      <h4>Handling</h4>
+      <code>icon-handling.svg</code>
+      <span class="tag tag-service">Packaging</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-inspection.svg' | asset_url }}" alt="Inspection">
+      <h4>Inspection</h4>
+      <code>icon-inspection.svg</code>
+      <span class="tag tag-service">Quality Check</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Navigation Icons (SVG)</h2>
+  <p style="color:#666; margin-bottom:20px;">For "Explore Our Services" section</p>
+  <div class="preview-grid">
+    <div class="preview-card">
+      <img src="{{ 'icon-trade-in.svg' | asset_url }}" alt="Trade-In">
+      <h4>Trade-In</h4>
+      <code>icon-trade-in.svg</code>
+      <span class="tag tag-service">Exchange</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-faq.svg' | asset_url }}" alt="FAQ">
+      <h4>FAQs</h4>
+      <code>icon-faq.svg</code>
+      <span class="tag tag-service">Help</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-about.svg' | asset_url }}" alt="About">
+      <h4>About Us</h4>
+      <code>icon-about.svg</code>
+      <span class="tag tag-service">Store</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Membership Tier Icons (SVG)</h2>
+  <p style="color:#666; margin-bottom:20px;">For Membership page tier badges</p>
+  <div class="preview-grid">
+    <div class="preview-card">
+      <img src="{{ 'icon-tier-basic.svg' | asset_url }}" alt="Basic">
+      <h4>Basic</h4>
+      <code>icon-tier-basic.svg</code>
+      <span class="tag tag-tier">Free</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-tier-sr.svg' | asset_url }}" alt="SR">
+      <h4>SR Tier</h4>
+      <code>icon-tier-sr.svg</code>
+      <span class="tag tag-tier">180+</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-tier-ssr.svg' | asset_url }}" alt="SSR">
+      <h4>SSR Tier</h4>
+      <code>icon-tier-ssr.svg</code>
+      <span class="tag tag-tier">300+</span>
+    </div>
+    <div class="preview-card">
+      <img src="{{ 'icon-tier-premium.svg' | asset_url }}" alt="Premium">
+      <h4>Premium</h4>
+      <code>icon-tier-premium.svg</code>
+      <span class="tag tag-tier">Paid</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Illustrations (PNG)</h2>
+  <p style="color:#666; margin-bottom:20px;">Brooklyn & Tokyo style illustrations</p>
+  <div class="preview-grid">
+    <div class="preview-card illustration">
+      <img src="{{ 'startup-tokyo.png' | asset_url }}" alt="Startup Tokyo">
+      <h4>Startup (Tokyo)</h4>
+      <code>startup-tokyo.png</code>
+      <span class="tag tag-illustration">Hero/CTA</span>
+    </div>
+    <div class="preview-card illustration">
+      <img src="{{ 'let-get-started-tokyo.png' | asset_url }}" alt="Let's Get Started">
+      <h4>Get Started (Tokyo)</h4>
+      <code>let-get-started-tokyo.png</code>
+      <span class="tag tag-illustration">Onboarding</span>
+    </div>
+    <div class="preview-card illustration">
+      <img src="{{ 'about-our-team-1-brooklyn.png' | asset_url }}" alt="About Team 1">
+      <h4>About Team 1</h4>
+      <code>about-our-team-1-brooklyn.png</code>
+      <span class="tag tag-illustration">About</span>
+    </div>
+    <div class="preview-card illustration">
+      <img src="{{ 'agency-brooklyn.png' | asset_url }}" alt="Agency">
+      <h4>Agency</h4>
+      <code>agency-brooklyn.png</code>
+      <span class="tag tag-illustration">Services</span>
+    </div>
+    <div class="preview-card illustration">
+      <img src="{{ 'alignment-brooklyn.png' | asset_url }}" alt="Alignment">
+      <h4>Alignment</h4>
+      <code>alignment-brooklyn.png</code>
+      <span class="tag tag-illustration">Trade-In</span>
+    </div>
+    <div class="preview-card illustration">
+      <img src="{{ 'analyze-data-1-brooklyn.png' | asset_url }}" alt="Analyze Data 1">
+      <h4>Analyze Data 1</h4>
+      <code>analyze-data-1-brooklyn.png</code>
+      <span class="tag tag-illustration">Inspection</span>
+    </div>
+  </div>
+
+  <div style="margin-top:50px; padding:25px; background:#f0f0f0; border-radius:12px; text-align:center;">
+    <h3 style="margin-top:0;">Ready to Use</h3>
+    <p>These assets are now in your theme. To add them to sections:</p>
+    <ol style="text-align:left; max-width:500px; margin:15px auto;">
+      <li>Go to <strong>Theme Customizer</strong></li>
+      <li>Find the section you want to edit</li>
+      <li>Upload the corresponding image from your assets</li>
+    </ol>
+  </div>
+</div>
