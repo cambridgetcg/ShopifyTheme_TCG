@@ -94,15 +94,17 @@
                   <div class="flex items-center gap-3">
                     {%- if product.featured_media != blank -%}
                       <a href="{{ product.url }}" class="media-wrapper blocks-radius-sm">
-                        <img
-                          class=""
-                          src="{{ product.featured_media | image_url: width: 150 }}"
-                          alt="{{ product.featured_media.alt }}"
-                          width="100"
-                          is="image-lazy"
-                          loading="lazy"
-                          height="{{ 100 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
-                        >
+                        {{
+                          product.featured_media
+                          | image_url: width: 200
+                          | image_tag:
+                            loading: 'lazy',
+                            widths: '50, 100, 150, 200',
+                            sizes: '100px',
+                            alt: product.featured_media.alt,
+                            is: 'image-lazy',
+                            class: 'predictive-search__image'
+                        }}
                       </a>
                     {%- endif -%}
                     <div class="grid gap-1">
@@ -183,15 +185,17 @@
                           <div class="flex items-center gap-3">
                             {%- if product.featured_media != blank -%}
                               <a href="{{ product.url }}" class="media-wrapper blocks-radius-sm">
-                                <img
-                                  class=""
-                                  src="{{ product.featured_media | image_url: width: 150 }}"
-                                  alt="{{ product.featured_media.alt }}"
-                                  loading="lazy"
-                                  width="100"
-                                  is="image-lazy"
-                                  height="{{ 100 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
-                                >
+                                {{
+                                  product.featured_media
+                                  | image_url: width: 200
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '50, 100, 150, 200',
+                                    sizes: '100px',
+                                    alt: product.featured_media.alt,
+                                    is: 'image-lazy',
+                                    class: 'predictive-search__image'
+                                }}
                               </a>
                             {%- endif -%}
                             <div class="grid gap-1">

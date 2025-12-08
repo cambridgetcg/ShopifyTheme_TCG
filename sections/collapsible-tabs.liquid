@@ -157,6 +157,32 @@
       </div>
     </motion-element>
   </div>
+
+  {%- comment -%} FAQPage Schema Markup - Only renders if collapsible items exist {%- endcomment -%}
+  {%- assign faq_items = section.blocks | where: 'type', 'collapsible_item' -%}
+  {%- if faq_items.size > 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- for block in faq_items -%}
+            {%- if block.settings.heading != blank and block.settings.content != blank -%}
+              {%- unless forloop.first -%},{%- endunless -%}
+              {
+                "@type": "Question",
+                "name": {{ block.settings.heading | json }},
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": {{ block.settings.content | strip_html | json }}
+                }
+              }
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- endif -%}
 </div>
 {% schema %}
 {
