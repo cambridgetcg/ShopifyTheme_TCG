@@ -1,0 +1,185 @@
+/* Raffle Page Styles */
+.page-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.section h2 {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.raffles-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .raffles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .raffles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.raffle-prize-card,
+.raffle-entry-card {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.raffle-prize-card:hover,
+.raffle-entry-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.raffle-prize-card__image,
+.raffle-entry-card__image {
+  position: relative;
+  padding-top: 75%;
+  background-color: #f7f7f7;
+}
+
+.raffle-prize-img,
+.raffle-entry-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+.placeholder-image svg {
+  width: 50%;
+  height: 50%;
+  opacity: 0.2;
+}
+
+.raffle-prize-card__content,
+.raffle-entry-card__content {
+  padding: 1.25rem;
+}
+
+.raffle-prize-title,
+.raffle-entry-title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.raffle-prize-date,
+.raffle-entry-date,
+.raffle-entry-tickets {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.raffle-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0.75rem 0;
+}
+
+.raffle-status--won {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.raffle-status--shipped {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.raffle-status--processing {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.raffle-status--claimed {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.btn--primary {
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+/* Table styles */
+.raffles-table-wrapper {
+  overflow-x: auto;
+}
+
+.raffles-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.raffles-table th,
+.raffles-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.raffles-table th {
+  font-weight: 600;
+  background-color: #f7f7f7;
+}
+
+.raffle-result {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.raffle-result--won {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.raffle-result--lost {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.empty-state-text {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}

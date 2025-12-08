@@ -1,0 +1,194 @@
+{% if customer %}
+  <div class="my-raffles-section">
+    <div class="page-width">
+      <!-- Display Won Prizes -->
+      <div class="section section--prizes">
+        <h2>{{ 'account.raffles.prizes_won' | t }}</h2>
+
+        {% assign prizes = customer.metafields.raffles.prizes %}
+        {% if prizes and prizes.size > 0 %}
+          <div class="raffles-grid">
+            {% for prize in prizes %}
+              <div class="raffle-prize-card">
+                <div class="raffle-prize-card__image">
+                  {% if prize.featured_image %}
+                    <img
+                      src="{{ prize.featured_image | img_url: '300x300', crop: 'center' }}"
+                      alt="{{ prize.title }}"
+                      class="raffle-prize-img"
+                    >
+                  {% else %}
+                    <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+                  {% endif %}
+                </div>
+                <div class="raffle-prize-card__content">
+                  <h3 class="raffle-prize-title">{{ prize.title }}</h3>
+                  {% if prize.drawn_date %}
+                    <p class="raffle-prize-date">
+                      {{ 'account.raffles.won_on' | t }}: {{ prize.drawn_date | date: '%b %d, %Y' }}
+                    </p>
+                  {% endif %}
+
+                  {% if prize.status == 'shipped' %}
+                    <span class="raffle-status raffle-status--shipped">{{ 'account.raffles.status_shipped' | t }}</span>
+                  {% elsif prize.status == 'processing' %}
+                    <span class="raffle-status raffle-status--processing">
+                      {{- 'account.raffles.status_processing' | t -}}
+                    </span>
+                  {% elsif prize.status == 'claimed' %}
+                    <span class="raffle-status raffle-status--claimed">{{ 'account.raffles.status_claimed' | t }}</span>
+                  {% else %}
+                    <span class="raffle-status raffle-status--won">{{ 'account.raffles.status_won' | t }}</span>
+                  {% endif %}
+
+                  {% if prize.url %}
+                    <a href="{{ prize.url }}" class="btn btn--small btn--primary">
+                      {{- 'account.raffles.view_prize' | t -}}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty-state-text">{{ 'account.raffles.no_prizes' | t }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Active Raffle Entries -->
+      <div class="section section--active-entries">
+        <h2>{{ 'account.raffles.active_entries' | t }}</h2>
+
+        {% assign active_entries = customer.metafields.raffles.active_entries %}
+        {% if active_entries and active_entries.size > 0 %}
+          <div class="raffles-grid">
+            {% for entry in active_entries %}
+              <div class="raffle-entry-card">
+                <div class="raffle-entry-card__image">
+                  {% if entry.product.featured_image %}
+                    <img
+                      src="{{ entry.product.featured_image | img_url: '300x300', crop: 'center' }}"
+                      alt="{{ entry.product.title }}"
+                      class="raffle-entry-img"
+                    >
+                  {% else %}
+                    <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+                  {% endif %}
+                </div>
+                <div class="raffle-entry-card__content">
+                  <h3 class="raffle-entry-title">{{ entry.product.title }}</h3>
+                  <p class="raffle-entry-date">
+                    {{ 'account.raffles.entered_on' | t }}: {{ entry.entered_date | date: '%b %d, %Y' }}
+                  </p>
+                  <p class="raffle-entry-date">
+                    {{ 'account.raffles.draws_on' | t }}: {{ entry.draw_date | date: '%b %d, %Y' }}
+                  </p>
+                  <p class="raffle-entry-tickets">{{ 'account.raffles.tickets' | t }}: {{ entry.tickets }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty-state-text">{{ 'account.raffles.no_active_entries' | t }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Past Raffle Entries -->
+      <div class="section section--past-entries">
+        <h2>{{ 'account.raffles.past_entries' | t }}</h2>
+
+        {% assign past_entries = customer.metafields.raffles.past_entries %}
+        {% if past_entries and past_entries.size > 0 %}
+          <div class="raffles-table-wrapper">
+            <table class="raffles-table">
+              <thead>
+                <tr>
+                  <th>{{ 'account.raffles.product' | t }}</th>
+                  <th>{{ 'account.raffles.entered_date' | t }}</th>
+                  <th>{{ 'account.raffles.draw_date' | t }}</th>
+                  <th>{{ 'account.raffles.tickets' | t }}</th>
+                  <th>{{ 'account.raffles.result' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for entry in past_entries %}
+                  <tr>
+                    <td>{{ entry.product.title }}</td>
+                    <td>{{ entry.entered_date | date: '%b %d, %Y' }}</td>
+                    <td>{{ entry.draw_date | date: '%b %d, %Y' }}</td>
+                    <td>{{ entry.tickets }}</td>
+                    <td>
+                      {% if entry.result == 'won' %}
+                        <span class="raffle-result raffle-result--won">{{ 'account.raffles.result_won' | t }}</span>
+                      {% else %}
+                        <span class="raffle-result raffle-result--lost">{{ 'account.raffles.result_lost' | t }}</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="empty-state-text">{{ 'account.raffles.no_past_entries' | t }}</p>
+        {% endif %}
+      </div>
+
+      <div class="my-raffles-footer">
+        <a href="{{ routes.account_url }}" class="btn">{{ 'general.account.return_to_account' | t }}</a>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <div class="page-width">
+    <div class="form-message form-message--error">
+      <p>{{ 'customer.login_page.submit' | t }}</p>
+      <a href="{{ routes.account_login_url }}" class="btn">{{ 'customer.login_page.title' | t }}</a>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "My Raffles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Raffle Display Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_active_entries",
+      "label": "Show Active Entries",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_past_entries",
+      "label": "Show Past Entries",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "My Raffles",
+      "category": "Customer"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  /* Raffle Section Specific Styles */
+  .my-raffles-section {
+    padding: 2rem 0;
+  }
+
+  .my-raffles-footer {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  /* Import the main raffle styles */
+  {% include 'raffle-styles' %}
+</style>

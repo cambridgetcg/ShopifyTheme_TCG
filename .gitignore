@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Shopify CLI
+.shopify/
+
+# Node modules (if using build tools)
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Claude Code
+.claude/

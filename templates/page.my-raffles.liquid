@@ -1,0 +1,260 @@
+{% layout theme %}
+
+<div class="page-width page-content">
+  <div class="grid">
+    <div class="grid__item">
+      <div class="page-title-wrapper">
+        <h1 class="page-title">{{ 'account.raffles.title' | t }}</h1>
+        <a href="{{ routes.account_url }}" class="btn btn--small btn--secondary">
+          {{ 'general.account.return_to_account' | t }}
+        </a>
+      </div>
+
+      <div class="rte">
+        {% if customer %}
+          {% assign active_entries = customer.metafields.raffles.active_entries %}
+          {% assign past_entries = customer.metafields.raffles.past_entries %}
+          {% assign prizes = customer.metafields.raffles.prizes %}
+
+          <!-- Display Won Prizes -->
+          <div class="section section--prizes">
+            <h2>{{ 'account.raffles.prizes_won' | t }}</h2>
+
+            {% if prizes and prizes.size > 0 %}
+              <div class="raffles-grid">
+                {% for prize in prizes %}
+                  <div class="raffle-prize-card">
+                    <div class="raffle-prize-card__image">
+                      {% if prize.featured_image %}
+                        <img
+                          src="{{ prize.featured_image | img_url: '300x300', crop: 'center' }}"
+                          alt="{{ prize.title }}"
+                          class="raffle-prize-img"
+                        >
+                      {% else %}
+                        <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="raffle-prize-card__content">
+                      <h3 class="raffle-prize-title">{{ prize.title }}</h3>
+                      {% if prize.drawn_date %}
+                        <p class="raffle-prize-date">
+                          {{ 'account.raffles.won_on' | t }}: {{ prize.drawn_date | date: '%b %d, %Y' }}
+                        </p>
+                      {% endif %}
+
+                      {% if prize.status == 'shipped' %}
+                        <span class="raffle-status raffle-status--shipped">
+                          {{- 'account.raffles.status_shipped' | t -}}
+                        </span>
+                      {% elsif prize.status == 'processing' %}
+                        <span class="raffle-status raffle-status--processing">
+                          {{- 'account.raffles.status_processing' | t -}}
+                        </span>
+                      {% elsif prize.status == 'claimed' %}
+                        <span class="raffle-status raffle-status--claimed">
+                          {{- 'account.raffles.status_claimed' | t -}}
+                        </span>
+                      {% else %}
+                        <span class="raffle-status raffle-status--won">{{ 'account.raffles.status_won' | t }}</span>
+                      {% endif %}
+
+                      {% if prize.url %}
+                        <a href="{{ prize.url }}" class="btn btn--small btn--primary">
+                          {{- 'account.raffles.view_prize' | t -}}
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="empty-state-text">{{ 'account.raffles.no_prizes' | t }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Active Raffle Entries -->
+          <div class="section section--active-entries">
+            <h2>{{ 'account.raffles.active_entries' | t }}</h2>
+
+            {% if active_entries and active_entries.size > 0 %}
+              <div class="raffles-grid">
+                {% for entry in active_entries %}
+                  <div class="raffle-entry-card">
+                    <div class="raffle-entry-card__image">
+                      {% if entry.product.featured_image %}
+                        <img
+                          src="{{ entry.product.featured_image | img_url: '300x300', crop: 'center' }}"
+                          alt="{{ entry.product.title }}"
+                          class="raffle-entry-img"
+                        >
+                      {% else %}
+                        <div class="placeholder-image">{{ 'image' | placeholder_svg_tag }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="raffle-entry-card__content">
+                      <h3 class="raffle-entry-title">{{ entry.product.title }}</h3>
+                      <p class="raffle-entry-date">
+                        {{ 'account.raffles.entered_on' | t }}: {{ entry.entered_date | date: '%b %d, %Y' }}
+                      </p>
+                      <p class="raffle-entry-date">
+                        {{ 'account.raffles.draws_on' | t }}: {{ entry.draw_date | date: '%b %d, %Y' }}
+                      </p>
+                      <p class="raffle-entry-tickets">{{ 'account.raffles.tickets' | t }}: {{ entry.tickets }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="empty-state-text">{{ 'account.raffles.no_active_entries' | t }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Past Raffle Entries -->
+          <div class="section section--past-entries">
+            <h2>{{ 'account.raffles.past_entries' | t }}</h2>
+
+            {% if past_entries and past_entries.size > 0 %}
+              <div class="raffles-table-wrapper">
+                <table class="raffles-table">
+                  <thead>
+                    <tr>
+                      <th>{{ 'account.raffles.product' | t }}</th>
+                      <th>{{ 'account.raffles.entered_date' | t }}</th>
+                      <th>{{ 'account.raffles.draw_date' | t }}</th>
+                      <th>{{ 'account.raffles.tickets' | t }}</th>
+                      <th>{{ 'account.raffles.result' | t }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for entry in past_entries %}
+                      <tr>
+                        <td>{{ entry.product.title }}</td>
+                        <td>{{ entry.entered_date | date: '%b %d, %Y' }}</td>
+                        <td>{{ entry.draw_date | date: '%b %d, %Y' }}</td>
+                        <td>{{ entry.tickets }}</td>
+                        <td>
+                          {% if entry.result == 'won' %}
+                            <span class="raffle-result raffle-result--won">{{ 'account.raffles.result_won' | t }}</span>
+                          {% else %}
+                            <span class="raffle-result raffle-result--lost">
+                              {{- 'account.raffles.result_lost' | t -}}
+                            </span>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% else %}
+              <p class="empty-state-text">{{ 'account.raffles.no_past_entries' | t }}</p>
+            {% endif %}
+          </div>
+        {% else %}
+          <!-- Login prompt for non-logged in users -->
+          <div class="login-prompt">
+            <div class="login-prompt__content">
+              <h2>{{ 'account.raffles.login_required_heading' | t }}</h2>
+              <p>{{ 'account.raffles.login_required_text' | t }}</p>
+
+              <div class="login-prompt__buttons">
+                <a href="{{ routes.account_login_url }}" class="raffle-login-btn">
+                  {{ 'customer.login_page.title' | t }}
+                </a>
+                <a href="{{ routes.account_register_url }}" class="raffle-register-btn">
+                  {{ 'customer.register.title' | t }}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  {% include 'raffle-styles' %}
+
+  /* Login prompt styles */
+  .login-prompt {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+
+  .login-prompt__content {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .login-prompt h2 {
+    margin-bottom: 1rem;
+  }
+
+  .login-prompt p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: #666;
+  }
+
+  .login-prompt__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  /* Custom button styles to ensure consistent appearance */
+  .raffle-login-btn,
+  .raffle-register-btn {
+    display: inline-block;
+    min-width: 180px;
+    padding: 12px 24px;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  .raffle-login-btn {
+    background-color: #333333;
+    color: white !important;
+    border: 1px solid #333333;
+  }
+
+  .raffle-login-btn:hover {
+    background-color: #555555;
+    border-color: #555555;
+  }
+
+  .raffle-register-btn {
+    background-color: transparent;
+    color: #333333 !important;
+    border: 1px solid #333333;
+  }
+
+  .raffle-register-btn:hover {
+    background-color: #f5f5f5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .login-prompt__buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .raffle-login-btn,
+    .raffle-register-btn {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 0.75rem;
+    }
+  }
+</style>

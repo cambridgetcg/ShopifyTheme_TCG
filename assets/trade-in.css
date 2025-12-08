@@ -1,0 +1,203 @@
+<style>
+  .trade-in-cart-page {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .trade-in-cart-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Header styling */
+  .trade-in-cart-header {
+    display: flex;
+    background-color: #f8f8f8;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .header-cell {
+    flex: 1;
+    padding: 15px 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .item-col {
+    flex: 2;
+  }
+  
+  /* Row styling */
+  .trade-in-cart-row {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }
+  
+  .trade-in-cart-cell {
+    flex: 1;
+    padding: 15px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .item-col {
+    flex: 2;
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+  }
+  
+  .item-col img {
+    max-width: 80px;
+    max-height: 80px;
+    margin-right: 15px;
+  }
+  
+  .item-details {
+    flex: 1;
+  }
+  
+  .item-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .item-variant {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  /* Type badges */
+  .trade-in-type {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+  
+  .cash-type {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .credit-type {
+    background-color: #e6f2ff;
+    color: #0056b3;
+  }
+  
+  /* Action buttons */
+  .remove-item-btn {
+    background: none;
+    border: none;
+    color: #d9534f;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 5px;
+  }
+  
+  .remove-item-btn:hover {
+    color: #c9302c;
+  }
+  
+  /* Empty cart */
+  .empty-cart-message {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .empty-cart-message p {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  /* Cart footer */
+  .trade-in-cart-footer {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .trade-in-summary {
+    max-width: 500px;
+    margin-left: auto;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 1.1em;
+  }
+  
+  .trade-in-total {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .trade-in-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .trade-in-cart-header {
+      display: none;
+    }
+    
+    .trade-in-cart-row {
+      flex-direction: column;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    
+    .trade-in-cart-cell {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: right;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .trade-in-cart-cell:last-child {
+      border-bottom: none;
+    }
+    
+    .trade-in-cart-cell:before {
+      content: attr(data-label);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85em;
+    }
+    
+    .item-col {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .item-col img {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+    
+    .trade-in-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+</style>

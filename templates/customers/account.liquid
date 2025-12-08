@@ -1,0 +1,127 @@
+{% layout theme %}
+
+<div id="admin_header">
+  <div class="action_link action_return note" id="return_to_store">
+    <a href="{{ shop.url }}">{{ 'general.account.return_to_store' | t }}</a>
+  </div>
+  <h2 class="title">{{ 'customer.account.title' | t }}</h2>
+</div>
+
+<div id="customer_sidebar">
+  <div id="customer_detail" class="group">
+    <h5 class="name">{{ customer.name }}</h5>
+    <p class="email note">{{ customer.email }}</p>
+
+    {% if customer.phone %}
+      <p class="phone note">{{ 'customer.phone.label' | t }}: {{ customer.phone }}</p>
+    {% endif %}
+
+    {% if customer.gift_cards.size > 0 %}
+      <p class="store-credit note">
+        {{ 'account.store_credit.label' | t }}: {{ customer.gift_cards.first.balance | money }}
+      </p>
+    {% elsif customer.metafields.account.store_credit %}
+      <p class="store-credit note">
+        {{ 'account.store_credit.label' | t }}: {{ customer.metafields.account.store_credit | money }}
+      </p>
+    {% endif %}
+
+    <div class="address note">
+      {% if customer.default_address %}
+        <p>{{ customer.default_address.address1 }}</p>
+        {% if customer.default_address.address2 != blank %}
+          <p>{{ customer.default_address.address2 }}</p>
+        {% endif %}
+        <p>
+          {{ customer.default_address.city }},
+          {% if customer.default_address.province_code %}
+            {{ customer.default_address.province_code }},
+          {% endif %}
+          {{ customer.default_address.country }}
+        </p>
+        <p>{{ customer.default_address.zip }}</p>
+      {% endif %}
+    </div>
+
+    <a id="view_address" href="{{ routes.account_addresses_url }}" class="btn btn--underline">
+      {{ 'customer.addresses.view' | t: count: customer.addresses_count }}
+    </a>
+    <a id="customer_raffles_link" href="/pages/my-raffles" class="btn btn--underline">
+      {{ 'account.raffles.nav' | t }}
+    </a>
+  </div>
+</div>
+
+<div id="customer_orders">
+  {% if customer.orders.size > 0 %}
+    <table>
+      <thead>
+        <tr>
+          <th>{{ 'customer.order.number' | t }}</th>
+          <th>{{ 'customer.order.date' | t }}</th>
+          <th>{{ 'customer.order.payment_status' | t }}</th>
+          <th>{{ 'customer.order.fulfillment_status' | t }}</th>
+          <th>{{ 'customer.order.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in customer.orders %}
+          <tr class="{% cycle 'odd', 'even' %}{% if order.cancelled %} cancelled_order{% endif %}">
+            <td>{{ order.name | link_to: order.customer_url }}</td>
+            <td>
+              <span class="note">{{ order.created_at | date: '%b %d, %Y' }}</span>
+            </td>
+            <td>
+              <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span>
+            </td>
+            <td>
+              <span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span>
+            </td>
+            <td>
+              <span class="total money">{{ order.total_price | money }}</span>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>{{ 'customer.orders.empty' | t }}</p>
+  {% endif %}
+</div>
+
+<!-- Raffles Preview Module -->
+<div id="customer_raffles_preview" class="section section--padding">
+  <div class="section__wrapper">
+    <div class="raffle-header">
+      <h3>{{ 'account.raffles.title' | t }}</h3>
+      <a href="/pages/my-raffles" class="btn btn--small">{{ 'general.button.view_all' | t }}</a>
+    </div>
+
+    {% assign prizes = customer.metafields.raffles.prizes %}
+    {% if prizes and prizes.size > 0 %}
+      <ul class="raffles-list grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for product in prizes limit: 2 %}
+          <li class="card p-4">
+            <a href="{{ product.url }}" class="flex items-center space-x-4">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | img_url: "200x" }}"
+                  alt="{{ product.title }}"
+                  class="w-16 h-16 object-cover rounded"
+                >
+              {% endif %}
+              <div>
+                <h4 class="font-semibold">{{ product.title }}</h4>
+                {% if product.price %}
+                  <p class="text-sm">{{ product.price | money }}</p>
+                {% endif %}
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center note">{{ 'account.raffles.empty' | t }}</p>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ page.title }}</title>
+    {{ content_for_header }}
+    <script>
+      // Direct redirect to WhatsApp business number
+      document.addEventListener('DOMContentLoaded', function() {
+        window.location.href = "https://cambridgetcg.com/pages/membership";
+      });
+    </script>
+    <style>
+      body {
+        font-family: {{ settings.type_body_font.family }}, sans-serif;
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .redirect-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="redirect-container">
+      <h1>{{ page.title }}</h1>
+      <p>Redirecting you to WhatsApp...</p>
+    </div>
+  </body>
+</html>

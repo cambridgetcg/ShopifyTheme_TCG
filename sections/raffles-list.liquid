@@ -1,0 +1,32 @@
+<div class="section section--padding">
+  <div class="section__wrapper">
+    <h2 class="text-center">{{ 'account.raffles.title' | t }}</h2>
+
+    {% assign prizes = customer.metafields.raffles.prizes %}
+    {% if prizes and prizes.size > 0 %}
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for product in prizes %}
+          <li class="card p-4">
+            <a href="{{ product.url }}" class="flex items-center space-x-4">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | img_url: '200x' }}"
+                  alt="{{ product.title }}"
+                  class="w-16 h-16 object-cover rounded"
+                >
+              {% endif %}
+              <div>
+                <h3 class="font-semibold">{{ product.title }}</h3>
+                {% if product.price %}
+                  <p class="text-sm">{{ product.price | money }}</p>
+                {% endif %}
+              </div>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center note">{{ 'account.raffles.empty' | t }}</p>
+    {% endif %}
+  </div>
+</div>
