@@ -1,0 +1,232 @@
+{{ 'section-how-it-works.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign section_id = section.id
+-%}
+
+<div class="section section--padding how-it-works color-{{ section.settings.color_scheme }}" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section__header text-center">
+        <h2 class="section__heading {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subheading != blank -%}
+          <p class="section__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="how-it-works__grid how-it-works__grid--{{ section.blocks.size }}-cols">
+      {%- for block in section.blocks -%}
+        <div class="how-it-works__item" {{ block.shopify_attributes }}>
+          <div class="how-it-works__icon">
+            {%- case block.settings.icon -%}
+              {%- when 'sourcing' -%}
+                <img src="{{ 'icon-sourcing.svg' | asset_url }}" alt="Sourcing" width="64" height="64" loading="lazy">
+              {%- when 'handling' -%}
+                <img src="{{ 'icon-handling.svg' | asset_url }}" alt="Handling" width="64" height="64" loading="lazy">
+              {%- when 'inspection' -%}
+                <img src="{{ 'icon-inspection.svg' | asset_url }}" alt="Inspection" width="64" height="64" loading="lazy">
+              {%- when 'trade-in' -%}
+                <img src="{{ 'icon-trade-in.svg' | asset_url }}" alt="Trade-In" width="64" height="64" loading="lazy">
+              {%- when 'faq' -%}
+                <img src="{{ 'icon-faq.svg' | asset_url }}" alt="FAQ" width="64" height="64" loading="lazy">
+              {%- when 'about' -%}
+                <img src="{{ 'icon-about.svg' | asset_url }}" alt="About" width="64" height="64" loading="lazy">
+              {%- when 'shipping' -%}
+                <img src="{{ 'icon-ecom-shipping.svg' | asset_url }}" alt="Shipping" width="64" height="64" loading="lazy">
+              {%- when 'payment' -%}
+                <img src="{{ 'icon-ecom-payment.svg' | asset_url }}" alt="Payment" width="64" height="64" loading="lazy">
+              {%- when 'guarantee' -%}
+                <img src="{{ 'icon-ecom-guarantee.svg' | asset_url }}" alt="Guarantee" width="64" height="64" loading="lazy">
+              {%- when 'support' -%}
+                <img src="{{ 'icon-ecom-support.svg' | asset_url }}" alt="Support" width="64" height="64" loading="lazy">
+              {%- when 'custom' -%}
+                {%- if block.settings.custom_image != blank -%}
+                  <img src="{{ block.settings.custom_image | image_url: width: 128 }}" alt="{{ block.settings.title }}" width="64" height="64" loading="lazy">
+                {%- endif -%}
+            {%- endcase -%}
+          </div>
+          <div class="how-it-works__content">
+            {%- if block.settings.title != blank -%}
+              <h3 class="how-it-works__title {{ section.settings.item_heading_size }}">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="how-it-works__text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a href="{{ block.settings.button_link }}" class="how-it-works__button btn {{ block.settings.button_style }}">
+                {{ block.settings.button_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How It Works",
+  "tag": "section",
+  "class": "section-how-it-works",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How Our Service Works"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "hd1", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "item_heading_size",
+      "label": "Item heading size",
+      "options": [
+        { "value": "h5", "label": "Small" },
+        { "value": "h4", "label": "Medium" },
+        { "value": "h3", "label": "Large" }
+      ],
+      "default": "h4"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "sourcing", "label": "Sourcing (Japan)" },
+            { "value": "handling", "label": "Handling (Package)" },
+            { "value": "inspection", "label": "Inspection (Check)" },
+            { "value": "trade-in", "label": "Trade-In (Exchange)" },
+            { "value": "faq", "label": "FAQ (Question)" },
+            { "value": "about", "label": "About (Store)" },
+            { "value": "shipping", "label": "Shipping (Truck)" },
+            { "value": "payment", "label": "Payment (Card)" },
+            { "value": "guarantee", "label": "Guarantee (Badge)" },
+            { "value": "support", "label": "Support (Headset)" },
+            { "value": "custom", "label": "Custom Image" }
+          ],
+          "default": "sourcing"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom image",
+          "info": "Only used when icon is set to 'Custom Image'"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Describe this step of your process.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "btn--primary", "label": "Primary" },
+            { "value": "btn--secondary", "label": "Secondary" },
+            { "value": "btn--underline", "label": "Underline" }
+          ],
+          "default": "btn--underline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon": "sourcing",
+            "title": "Sourcing",
+            "text": "<p>We regularly source cards from our partners in Japan. If a mint condition card is available, they will be sent to our Japan warehouse.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "handling",
+            "title": "Handling",
+            "text": "<p>Once the order arrives at our Japan warehouse, they are repackaged securely and shipped to Cambridge, UK.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "inspection",
+            "title": "Inspection & Fulfillment",
+            "text": "<p>The cards will be carefully inspected for any flaws and authenticity before being posted to you.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

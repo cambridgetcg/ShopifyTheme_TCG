@@ -1,0 +1,24 @@
+{% comment %}
+  Streamline Icon Snippet
+  Usage: {% render 'icon-streamline', icon: 'sourcing', size: 64 %}
+
+  Available icons:
+  - sourcing, handling, inspection (service icons)
+  - trade-in, faq, about (navigation icons)
+  - tier-basic, tier-sr, tier-ssr, tier-premium (membership icons)
+{% endcomment %}
+
+{%- liquid
+  assign icon_size = size | default: 48
+  assign icon_class = class | default: ''
+  assign icon_file = 'icon-' | append: icon | append: '.svg'
+-%}
+
+<img
+  src="{{ icon_file | asset_url }}"
+  alt="{{ icon | replace: '-', ' ' | capitalize }}"
+  width="{{ icon_size }}"
+  height="{{ icon_size }}"
+  class="streamline-icon {{ icon_class }}"
+  loading="lazy"
+>

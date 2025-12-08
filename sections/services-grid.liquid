@@ -1,0 +1,193 @@
+{{ 'section-services-grid.css' | asset_url | stylesheet_tag }}
+
+<div class="section section--padding services-grid color-{{ section.settings.color_scheme }}" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section__header text-center">
+        <h2 class="section__heading {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="services-grid__items services-grid__items--{{ section.blocks.size }}-cols">
+      {%- for block in section.blocks -%}
+        <a href="{{ block.settings.link }}" class="services-grid__card" {{ block.shopify_attributes }}>
+          <div class="services-grid__icon">
+            {%- case block.settings.icon -%}
+              {%- when 'trade-in' -%}
+                <img src="{{ 'icon-trade-in.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'faq' -%}
+                <img src="{{ 'icon-faq.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'about' -%}
+                <img src="{{ 'icon-about.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'shipping' -%}
+                <img src="{{ 'icon-ecom-shipping.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'payment' -%}
+                <img src="{{ 'icon-ecom-payment.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'guarantee' -%}
+                <img src="{{ 'icon-ecom-guarantee.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'support' -%}
+                <img src="{{ 'icon-ecom-support.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'return' -%}
+                <img src="{{ 'icon-ecom-return.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'user' -%}
+                <img src="{{ 'icon-nav-user.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'home' -%}
+                <img src="{{ 'icon-nav-home.svg' | asset_url }}" alt="{{ block.settings.title }}" width="48" height="48">
+              {%- when 'custom' -%}
+                {%- if block.settings.custom_image != blank -%}
+                  <img src="{{ block.settings.custom_image | image_url: width: 96 }}" alt="{{ block.settings.title }}" width="48" height="48">
+                {%- endif -%}
+            {%- endcase -%}
+          </div>
+          <h3 class="services-grid__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.text != blank -%}
+            <p class="services-grid__text">{{ block.settings.text }}</p>
+          {%- endif -%}
+          <span class="services-grid__link">
+            {{ block.settings.button_label | default: 'Learn More' }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Services Grid",
+  "tag": "section",
+  "class": "section-services-grid",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore Our Services"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "trade-in", "label": "Trade-In" },
+            { "value": "faq", "label": "FAQ" },
+            { "value": "about", "label": "About/Store" },
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "payment", "label": "Payment" },
+            { "value": "guarantee", "label": "Guarantee" },
+            { "value": "support", "label": "Support" },
+            { "value": "return", "label": "Returns" },
+            { "value": "user", "label": "Account" },
+            { "value": "home", "label": "Home" },
+            { "value": "custom", "label": "Custom" }
+          ],
+          "default": "trade-in"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Service Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Services Grid",
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "icon": "trade-in",
+            "title": "Trade-In Program",
+            "text": "Got cards to sell? Trade in your collection for store credit or cash."
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "faq",
+            "title": "FAQs",
+            "text": "Find answers to commonly asked questions about our services."
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "icon": "about",
+            "title": "About Us",
+            "text": "Learn about our story and commitment to authenticity."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
