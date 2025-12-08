@@ -49,6 +49,9 @@
     <a id="customer_raffles_link" href="/pages/my-raffles" class="btn btn--underline">
       {{ 'account.raffles.nav' | t }}
     </a>
+    <a id="customer_trade_in_link" href="/pages/trade-in" class="btn btn--underline">
+      {{ 'account.trade_ins.nav' | t | default: 'Trade-In Cards' }}
+    </a>
   </div>
 </div>
 
@@ -88,6 +91,209 @@
     <p>{{ 'customer.orders.empty' | t }}</p>
   {% endif %}
 </div>
+
+<!-- Trade-In History Module -->
+<div id="customer_trade_ins" class="section section--padding">
+  <div class="section__wrapper">
+    <div class="trade-in-header">
+      <h3>{{ 'account.trade_ins.title' | t | default: 'Trade-In Submissions' }}</h3>
+      <a href="/pages/trade-in" class="btn btn--small">{{ 'account.trade_ins.new' | t | default: 'Start New Trade-In' }}</a>
+    </div>
+
+    <div id="tradeInList" class="trade-in-list">
+      <p class="loading-message">Loading your trade-in submissions...</p>
+    </div>
+
+    <template id="tradeInItemTemplate">
+      <div class="trade-in-item card p-4">
+        <div class="trade-in-item__header">
+          <span class="trade-in-item__number"></span>
+          <span class="trade-in-item__status"></span>
+        </div>
+        <div class="trade-in-item__details">
+          <span class="trade-in-item__date"></span>
+          <span class="trade-in-item__value"></span>
+          <span class="trade-in-item__items"></span>
+        </div>
+        <a href="#" class="trade-in-item__track btn btn--small btn--outline">Track</a>
+      </div>
+    </template>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const listEl = document.getElementById('tradeInList');
+    const template = document.getElementById('tradeInItemTemplate');
+
+    async function loadTradeIns() {
+      try {
+        const response = await fetch('/apps/trade-in/submissions?limit=5');
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to load submissions');
+        }
+
+        if (!data.submissions || data.submissions.length === 0) {
+          listEl.innerHTML = '<p class="empty-message note">{{ "account.trade_ins.empty" | t | default: "You haven\'t submitted any trade-ins yet." }}</p>';
+          return;
+        }
+
+        listEl.innerHTML = '';
+        data.submissions.forEach(sub => {
+          const item = template.content.cloneNode(true);
+          item.querySelector('.trade-in-item__number').textContent = sub.submissionNumber;
+          item.querySelector('.trade-in-item__status').textContent = formatStatus(sub.status);
+          item.querySelector('.trade-in-item__status').dataset.status = sub.status;
+          item.querySelector('.trade-in-item__date').textContent = formatDate(sub.createdAt);
+          item.querySelector('.trade-in-item__value').textContent = formatPrice(sub.quotedTotal);
+          item.querySelector('.trade-in-item__items').textContent = sub.itemCount + ' items';
+          item.querySelector('.trade-in-item__track').href = '/pages/trade-in-track?number=' + encodeURIComponent(sub.submissionNumber);
+          listEl.appendChild(item);
+        });
+
+      } catch (err) {
+        console.error('Trade-in load error:', err);
+        listEl.innerHTML = '<p class="error-message note">Unable to load trade-in submissions. <a href="/pages/trade-in-track">Track manually</a></p>';
+      }
+    }
+
+    function formatStatus(status) {
+      const labels = {
+        'DRAFT': 'Draft',
+        'SUBMITTED': 'Submitted',
+        'IN_TRANSIT': 'In Transit',
+        'RECEIVED': 'Received',
+        'GRADING': 'Grading',
+        'PENDING_APPROVAL': 'Pending Approval',
+        'APPROVED': 'Approved',
+        'COMPLETED': 'Completed',
+        'CANCELLED': 'Cancelled',
+        'RETURNED': 'Returned'
+      };
+      return labels[status] || status;
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function formatPrice(pence) {
+      return '£' + (pence / 100).toFixed(2);
+    }
+
+    loadTradeIns();
+  })();
+</script>
+
+<style>
+  #customer_trade_ins {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(var(--color-border));
+  }
+
+  .trade-in-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .trade-in-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .trade-in-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .trade-in-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgb(var(--color-secondary-background));
+    border-radius: 0.5rem;
+  }
+
+  .trade-in-item__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .trade-in-item__number {
+    font-family: monospace;
+    font-weight: 600;
+  }
+
+  .trade-in-item__status {
+    display: inline-flex;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #3b82f6;
+    color: white;
+  }
+
+  .trade-in-item__status[data-status="SUBMITTED"],
+  .trade-in-item__status[data-status="IN_TRANSIT"] {
+    background: #f59e0b;
+  }
+
+  .trade-in-item__status[data-status="COMPLETED"],
+  .trade-in-item__status[data-status="APPROVED"] {
+    background: #10b981;
+  }
+
+  .trade-in-item__status[data-status="CANCELLED"],
+  .trade-in-item__status[data-status="RETURNED"] {
+    background: #ef4444;
+  }
+
+  .trade-in-item__details {
+    display: flex;
+    gap: 1rem;
+    color: rgb(var(--color-foreground) / 0.7);
+    font-size: 0.875rem;
+  }
+
+  .trade-in-item__track {
+    margin-left: auto;
+  }
+
+  .loading-message,
+  .empty-message,
+  .error-message {
+    text-align: center;
+    padding: 1rem;
+    color: rgb(var(--color-foreground) / 0.6);
+  }
+
+  @media (max-width: 640px) {
+    .trade-in-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .trade-in-item__track {
+      margin-left: 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
 
 <!-- Raffles Preview Module -->
 <div id="customer_raffles_preview" class="section section--padding">

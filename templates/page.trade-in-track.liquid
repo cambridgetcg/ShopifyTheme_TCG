@@ -1,0 +1,151 @@
+{% comment %}
+  Trade-In Tracking Page
+  Allows customers to track their trade-in submission status
+{% endcomment %}
+
+{{ 'trade-in-track.css' | asset_url | stylesheet_tag }}
+
+<div class="trade-in-track page-width">
+  <div class="trade-in-track__header">
+    <h1 class="trade-in-track__title">Track Your Trade-In</h1>
+    <p class="trade-in-track__subtitle">Enter your submission number to check the status of your trade-in</p>
+  </div>
+
+  {%- comment -%} Search Form {%- endcomment -%}
+  <div class="trade-in-track__search">
+    <form id="trackingForm" class="trade-in-track__form">
+      <div class="trade-in-track__input-wrapper">
+        <label for="trackingNumber" class="visually-hidden">Submission Number</label>
+        <input
+          type="text"
+          id="trackingNumber"
+          name="number"
+          class="trade-in-track__input"
+          placeholder="e.g. TI-2024-ABC123"
+          autocomplete="off"
+          required
+        >
+        <button type="submit" class="trade-in-track__submit btn btn--primary">
+          <span class="trade-in-track__submit-text">Track</span>
+          <span class="trade-in-track__submit-loading" hidden>
+            <svg class="trade-in-track__spinner" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="32" stroke-dashoffset="32">
+                <animate attributeName="stroke-dashoffset" dur="1s" values="32;0" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <p class="trade-in-track__hint">Your submission number was sent to your email when you submitted your trade-in</p>
+    </form>
+  </div>
+
+  {%- comment -%} Error Message {%- endcomment -%}
+  <div id="trackingError" class="trade-in-track__error" hidden>
+    <svg class="trade-in-track__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <span id="trackingErrorMessage"></span>
+  </div>
+
+  {%- comment -%} Results Container {%- endcomment -%}
+  <div id="trackingResults" class="trade-in-track__results" hidden>
+
+    {%- comment -%} Status Header {%- endcomment -%}
+    <div class="trade-in-track__status-header">
+      <div class="trade-in-track__status-info">
+        <span class="trade-in-track__submission-number" id="resultNumber"></span>
+        <div class="trade-in-track__status-badge" id="resultStatusBadge">
+          <span id="resultStatus"></span>
+        </div>
+      </div>
+      <p class="trade-in-track__status-description" id="resultDescription"></p>
+    </div>
+
+    {%- comment -%} Timeline {%- endcomment -%}
+    <div class="trade-in-track__timeline-wrapper">
+      <h2 class="trade-in-track__section-title">Progress</h2>
+      <div class="trade-in-track__timeline" id="timeline"></div>
+    </div>
+
+    {%- comment -%} Summary Cards {%- endcomment -%}
+    <div class="trade-in-track__summary">
+      <div class="trade-in-track__summary-card">
+        <span class="trade-in-track__summary-label">Items</span>
+        <span class="trade-in-track__summary-value" id="resultItemCount">0</span>
+      </div>
+      <div class="trade-in-track__summary-card">
+        <span class="trade-in-track__summary-label">Quoted Value</span>
+        <span class="trade-in-track__summary-value" id="resultQuotedTotal">£0.00</span>
+      </div>
+      <div class="trade-in-track__summary-card">
+        <span class="trade-in-track__summary-label">Payout Method</span>
+        <span class="trade-in-track__summary-value" id="resultPayoutType">-</span>
+      </div>
+      <div class="trade-in-track__summary-card" id="bonusCard" hidden>
+        <span class="trade-in-track__summary-label">Store Credit Bonus</span>
+        <span class="trade-in-track__summary-value trade-in-track__summary-value--bonus" id="resultBonus">+£0.00</span>
+      </div>
+    </div>
+
+    {%- comment -%} Grading Results (if applicable) {%- endcomment -%}
+    <div id="gradingResults" class="trade-in-track__grading" hidden>
+      <h2 class="trade-in-track__section-title">Grading Results</h2>
+      <div class="trade-in-track__grading-summary">
+        <div class="trade-in-track__grading-row">
+          <span>Original Quote</span>
+          <span id="gradingOriginal">£0.00</span>
+        </div>
+        <div class="trade-in-track__grading-row" id="gradingAdjustmentRow" hidden>
+          <span>Adjustments (<span id="gradingAdjustedCount">0</span> items)</span>
+          <span id="gradingAdjustment" class="trade-in-track__grading-adjustment">-£0.00</span>
+        </div>
+        <div class="trade-in-track__grading-row trade-in-track__grading-row--total">
+          <span>Final Value</span>
+          <span id="gradingFinal">£0.00</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Items List {%- endcomment -%}
+    <div class="trade-in-track__items-wrapper">
+      <h2 class="trade-in-track__section-title">Items (<span id="itemsCount">0</span>)</h2>
+      <div class="trade-in-track__items" id="itemsList"></div>
+    </div>
+
+    {%- comment -%} Actions {%- endcomment -%}
+    <div class="trade-in-track__actions">
+      <a href="/pages/trade-in" class="btn btn--secondary">Start New Trade-In</a>
+      <button type="button" id="printPackingSlip" class="btn btn--outline">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Print Packing Slip
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Help Section {%- endcomment -%}
+  <div class="trade-in-track__help">
+    <h2 class="trade-in-track__help-title">Need Help?</h2>
+    <div class="trade-in-track__help-grid">
+      <div class="trade-in-track__help-item">
+        <h3>Can't find your submission number?</h3>
+        <p>Check your email inbox (and spam folder) for an email from us with your submission confirmation.</p>
+      </div>
+      <div class="trade-in-track__help-item">
+        <h3>Questions about grading?</h3>
+        <p>Visit our <a href="/pages/faq">FAQ page</a> to learn about our grading standards and process.</p>
+      </div>
+      <div class="trade-in-track__help-item">
+        <h3>Need to contact us?</h3>
+        <p>Email us at <a href="mailto:support@cambridgetcg.com">support@cambridgetcg.com</a> with your submission number.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'trade-in-track.js' | asset_url }}" defer></script>

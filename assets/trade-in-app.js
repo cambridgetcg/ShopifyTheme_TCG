@@ -640,7 +640,7 @@
 
         if (packingLink) packingLink.href = `${CONFIG.apiBase}/packing-slip/${result.submissionNumber}`;
         if (shippingLink) shippingLink.href = `${CONFIG.apiBase}/shipping-instructions/${result.submissionNumber}`;
-        if (trackingLink) trackingLink.href = `/pages/track-trade-in?number=${result.submissionNumber}`;
+        if (trackingLink) trackingLink.href = `/pages/trade-in-track?number=${result.submissionNumber}`;
       }
 
       // Clear cart
