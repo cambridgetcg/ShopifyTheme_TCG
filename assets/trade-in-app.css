@@ -25,6 +25,20 @@
   --ti-shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* Global SVG Reset - ensure icons display correctly */
+.trade-in-form svg,
+.trade-in-modal svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.trade-in-form svg[stroke],
+.trade-in-modal svg[stroke] {
+  fill: none;
+}
+
 /* Base Layout */
 .trade-in-form {
   font-family: system-ui, -apple-system, sans-serif;
@@ -557,6 +571,9 @@
 .trade-in-card__quick-add svg {
   width: 0.875rem;
   height: 0.875rem;
+  min-width: 0.875rem;
+  min-height: 0.875rem;
+  display: block;
 }
 
 .trade-in-card__quick-add--success {
@@ -582,6 +599,9 @@
 .trade-in-card__more svg {
   width: 1rem;
   height: 1rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  display: block;
   color: var(--ti-text-muted);
 }
 
@@ -1307,7 +1327,11 @@
 .trade-in-modal__close svg {
   width: 1.25rem;
   height: 1.25rem;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
   display: block;
+  stroke: currentColor;
+  fill: none;
 }
 
 .trade-in-modal__card-image {
@@ -1430,6 +1454,9 @@
 .trade-in-quantity__btn svg {
   width: 1rem;
   height: 1rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  display: block;
 }
 
 .trade-in-quantity__input {
