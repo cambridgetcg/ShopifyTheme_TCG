@@ -65,6 +65,19 @@
       endif
     -%}
 
+    {%- comment -%} LCP Image Preload for Homepage Slideshow {%- endcomment -%}
+    {%- if template == 'index' -%}
+      {%- for block in content_for_layout -%}
+        {%- if block.type == 'slideshow' -%}
+          {%- assign first_slide = block.blocks.first -%}
+          {%- if first_slide.settings.background != blank -%}
+            <link rel="preload" as="image" href="{{ first_slide.settings.background | image_url: width: 1500 }}" fetchpriority="high">
+          {%- endif -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
     {{ content_for_header }}
 
     <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
