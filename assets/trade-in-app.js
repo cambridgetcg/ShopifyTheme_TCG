@@ -10,13 +10,11 @@
   // Configuration
   // ============================================================================
 
-  const CONFIG = {
-    apiBase: '/apps/trade-in',
-    minSearchLength: 2,
-    searchDebounceMs: 300,
-    cacheMaxAge: 5 * 60 * 1000, // 5 minutes
+  // Default configuration (used as fallback if API fails)
+  const DEFAULT_CONFIG = {
     minimumValue: 500, // £5 in pence
     storeCreditBonus: 0.10, // 10%
+    freeShippingThreshold: 5000, // £50 in pence
     conditions: [
       { code: 'NM', name: 'Near Mint', multiplier: 0.70 },
       { code: 'LP', name: 'Lightly Played', multiplier: 0.55 },
@@ -25,6 +23,55 @@
       { code: 'DMG', name: 'Damaged', multiplier: 0.10 }
     ]
   };
+
+  const CONFIG = {
+    apiBase: '/apps/trade-in',
+    minSearchLength: 2,
+    searchDebounceMs: 300,
+    cacheMaxAge: 5 * 60 * 1000, // 5 minutes
+    // Dynamic settings - will be loaded from API
+    minimumValue: DEFAULT_CONFIG.minimumValue,
+    storeCreditBonus: DEFAULT_CONFIG.storeCreditBonus,
+    freeShippingThreshold: DEFAULT_CONFIG.freeShippingThreshold,
+    conditions: [...DEFAULT_CONFIG.conditions],
+    // Flag to track if config was loaded
+    configLoaded: false
+  };
+
+  /**
+   * Load configuration from the API
+   * This fetches dynamic settings from the cardforum backend
+   */
+  async function loadConfig() {
+    try {
+      const response = await fetch(`${CONFIG.apiBase}/settings`);
+      if (!response.ok) {
+        console.warn('Failed to load config, using defaults');
+        return;
+      }
+
+      const data = await response.json();
+
+      // Update CONFIG with server values
+      if (data.minimumValue !== undefined) {
+        CONFIG.minimumValue = data.minimumValue;
+      }
+      if (data.storeCreditBonus !== undefined) {
+        CONFIG.storeCreditBonus = data.storeCreditBonus;
+      }
+      if (data.freeShippingThreshold !== undefined) {
+        CONFIG.freeShippingThreshold = data.freeShippingThreshold;
+      }
+      if (data.conditions && Array.isArray(data.conditions)) {
+        CONFIG.conditions = data.conditions;
+      }
+
+      CONFIG.configLoaded = true;
+      console.log('Trade-in config loaded from server');
+    } catch (err) {
+      console.warn('Failed to load config from server, using defaults:', err);
+    }
+  }
 
   // ============================================================================
   // State
@@ -134,6 +181,10 @@
 
   /**
    * Normalize card data from different API endpoints to a consistent format
+   *
+   * API Response Formats:
+   * - Search API: { id, cardName, bestPriceGbp, prices: { NM, LP, MP, HP, DMG } }
+   * - Browse API: { cardId, name, prices: { market, tradein: { NM, LP, MP, HP, DMG } } }
    */
   function normalizeCardData(card, source = 'browse') {
     // Handle different field names between search and browse APIs
@@ -144,20 +195,36 @@
     const variantType = card.variantType || card.variant || '';
     const fullCardNumber = cardNumber ? `${setCode}-${cardNumber}` : setCode;
 
-    // Extract best price (market price) for trade-in calculations
-    // Use bestPriceGbp as the base price, NOT tradeinPriceGbp (which is already discounted)
+    // Extract market price (in pence) for reference
     let bestPriceGbp = 0;
-
-    if (card.bestPriceGbp && typeof card.bestPriceGbp === 'number') {
+    if (typeof card.bestPriceGbp === 'number') {
       bestPriceGbp = card.bestPriceGbp;
-    } else if (card.bestpriceGBP && typeof card.bestpriceGBP === 'number') {
-      bestPriceGbp = card.bestpriceGBP;
-    } else if (card.prices) {
-      // Fallback to prices object if bestPriceGbp not available
-      if (card.prices.bestPriceGbp && typeof card.prices.bestPriceGbp === 'number') {
-        bestPriceGbp = card.prices.bestPriceGbp;
-      } else if (card.prices.best && typeof card.prices.best === 'number') {
-        bestPriceGbp = card.prices.best;
+    } else if (card.prices && typeof card.prices.market === 'number') {
+      bestPriceGbp = card.prices.market;
+    }
+
+    // Extract pre-calculated condition prices from API
+    // The API now returns correct prices (market × condition multiplier)
+    let prices = null;
+    if (card.prices) {
+      if (typeof card.prices.NM === 'number') {
+        // Search API format: { NM, LP, MP, HP, DMG } directly
+        prices = {
+          NM: card.prices.NM,
+          LP: card.prices.LP,
+          MP: card.prices.MP,
+          HP: card.prices.HP,
+          DMG: card.prices.DMG
+        };
+      } else if (card.prices.tradein && typeof card.prices.tradein.NM === 'number') {
+        // Browse API format: { market, tradein: { NM, LP, ... } }
+        prices = {
+          NM: card.prices.tradein.NM,
+          LP: card.prices.tradein.LP,
+          MP: card.prices.tradein.MP,
+          HP: card.prices.tradein.HP,
+          DMG: card.prices.tradein.DMG
+        };
       }
     }
 
@@ -171,8 +238,8 @@
       rarity: card.rarity || '',
       imageUrl: card.imageUrl || null,
       bestPriceGbp,
-      // Calculate condition prices from best price using multipliers
-      conditionPrices: null
+      // Pre-calculated condition prices from API (already includes multipliers)
+      prices
     };
   }
 
@@ -286,9 +353,20 @@
     if (existingIndex >= 0) {
       state.cart[existingIndex].quantity += quantity;
     } else {
-      // Calculate condition price from best price using multiplier
-      const conditionData = CONFIG.conditions.find(c => c.code === condition);
-      const price = Math.floor(card.bestPriceGbp * conditionData.multiplier);
+      // Use pre-calculated price from API (already has condition multiplier applied)
+      // This avoids double-discount - API applies multipliers to market price
+      let price = 0;
+      if (card.prices && typeof card.prices[condition] === 'number') {
+        // Price is in pence from API
+        price = card.prices[condition];
+      } else {
+        // Fallback: calculate from market price if API didn't provide condition prices
+        const conditionData = CONFIG.conditions.find(c => c.code === condition);
+        if (conditionData && card.bestPriceGbp) {
+          // bestPriceGbp is now in pence from API
+          price = Math.floor(card.bestPriceGbp * conditionData.multiplier);
+        }
+      }
 
       state.cart.push({
         cardId: card.cardId,
@@ -379,7 +457,7 @@
           <span class="trade-in-search__result-name">${escapeHtml(card.name)}</span>
           <span class="trade-in-search__result-set">${escapeHtml(card.fullCardNumber || card.setCode)} ${card.variantType ? `(${escapeHtml(card.variantType)})` : ''}</span>
         </div>
-        <span class="trade-in-search__result-price">${formatPrice(Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
+        <span class="trade-in-search__result-price">${formatPrice(card.prices && card.prices.NM ? card.prices.NM : Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
       </button>
     `).join('');
 
@@ -404,7 +482,7 @@
         <div class="trade-in-card__info">
           <span class="trade-in-card__name">${escapeHtml(card.name)}</span>
           <span class="trade-in-card__set">${escapeHtml(card.fullCardNumber || card.setCode)}</span>
-          <span class="trade-in-card__price">${formatPrice(Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
+          <span class="trade-in-card__price">${formatPrice(card.prices && card.prices.NM ? card.prices.NM : Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
         </div>
         <div class="trade-in-card__actions">
           <button type="button" class="trade-in-card__quick-add" data-quick-add="${i}">
@@ -595,10 +673,13 @@
     if (setEl) setEl.textContent = `${card.fullCardNumber || card.setCode} ${card.variantType ? `(${card.variantType})` : ''}`;
     if (qtyInput) qtyInput.value = 1;
 
-    // Render conditions with prices calculated from best price
+    // Render conditions with pre-calculated prices from API
     if (conditionsEl) {
       conditionsEl.innerHTML = CONFIG.conditions.map((cond, i) => {
-        const price = Math.floor(card.bestPriceGbp * cond.multiplier);
+        // Use pre-calculated price from API, fallback to calculation
+        const price = card.prices && typeof card.prices[cond.code] === 'number'
+          ? card.prices[cond.code]
+          : Math.floor(card.bestPriceGbp * cond.multiplier);
         return `
           <button type="button" class="trade-in-condition${i === 0 ? ' trade-in-condition--selected' : ''}" data-condition="${cond.code}">
             <span class="trade-in-condition__code">${cond.code}</span>
@@ -637,8 +718,11 @@
     const condition = CONFIG.conditions.find(c => c.code === conditionCode);
     const quantity = parseInt(qtyInput?.value || 1, 10);
 
-    // Calculate price from best price using condition multiplier
-    const price = Math.floor(state.selectedCard.bestPriceGbp * condition.multiplier);
+    // Use pre-calculated price from API, fallback to calculation
+    const card = state.selectedCard;
+    const price = card.prices && typeof card.prices[conditionCode] === 'number'
+      ? card.prices[conditionCode]
+      : Math.floor(card.bestPriceGbp * condition.multiplier);
 
     priceEl.textContent = formatPrice(price * quantity);
   }
@@ -1050,6 +1134,12 @@
   async function init() {
     const form = document.querySelector('[data-trade-in-form]');
     if (!form) return;
+
+    // Load configuration from server first (non-blocking for UI)
+    // This updates CONFIG with values from the merchant's settings
+    loadConfig().catch(() => {
+      console.warn('Config loading failed, continuing with defaults');
+    });
 
     // Load saved cart
     loadCart();
