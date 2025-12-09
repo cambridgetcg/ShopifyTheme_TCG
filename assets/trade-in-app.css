@@ -1460,13 +1460,20 @@
 }
 
 .trade-in-quantity__input {
-  width: 3.5rem;
+  width: 4rem;
   padding: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   text-align: center;
   border: 1px solid var(--ti-border);
   border-radius: var(--ti-radius);
+  -moz-appearance: textfield;
+}
+
+.trade-in-quantity__input::-webkit-outer-spin-button,
+.trade-in-quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .trade-in-quantity__input:focus {
