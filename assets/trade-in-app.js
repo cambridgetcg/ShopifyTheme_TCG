@@ -243,14 +243,14 @@
     };
   }
 
-  async function searchCards(query) {
+  async function searchCards(query, limit = 10) {
     if (state.searchAbortController) {
       state.searchAbortController.abort();
     }
     state.searchAbortController = new AbortController();
 
     try {
-      const url = `${CONFIG.apiBase}/cards/search?q=${encodeURIComponent(query)}&limit=10`;
+      const url = `${CONFIG.apiBase}/cards/search?q=${encodeURIComponent(query)}&limit=${limit}`;
       const response = await fetch(url, { signal: state.searchAbortController.signal });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
@@ -264,6 +264,40 @@
     } catch (err) {
       if (err.name === 'AbortError') return null;
       throw err;
+    }
+  }
+
+  /**
+   * Full search - triggered by Enter key
+   * Shows all matching cards in the browse grid area
+   */
+  async function fullSearch(query) {
+    const browseGrid = document.querySelector('[data-browse-grid]');
+    const browseSection = document.querySelector('[data-browse-section]');
+
+    if (!browseGrid) return;
+
+    // Show loading state in browse grid
+    browseGrid.innerHTML = '<div class="trade-in-browse__loading"><div class="trade-in-spinner"></div> Searching for all matches...</div>';
+    if (browseSection) browseSection.hidden = false;
+
+    try {
+      // Search with higher limit to get all matching cards
+      const data = await searchCards(query, 50);
+
+      if (data && data.cards && data.cards.length > 0) {
+        // Update section title to show search results
+        const sectionTitle = document.querySelector('[data-browse-title]');
+        if (sectionTitle) {
+          sectionTitle.textContent = `Search results for "${query}" (${data.cards.length} cards)`;
+        }
+
+        renderBrowseGrid(browseGrid, data.cards);
+      } else {
+        browseGrid.innerHTML = `<div class="trade-in-browse__empty">No cards found matching "${escapeHtml(query)}"</div>`;
+      }
+    } catch (err) {
+      browseGrid.innerHTML = '<div class="trade-in-browse__empty">Search failed. Please try again.</div>';
     }
   }
 
@@ -857,6 +891,15 @@
         if (e.key === 'Escape') {
           searchResults.hidden = true;
           searchInput.blur();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          const query = searchInput.value.trim();
+          if (query.length >= CONFIG.minSearchLength) {
+            // Hide dropdown and perform full search
+            searchResults.hidden = true;
+            fullSearch(query);
+            searchInput.blur();
+          }
         }
       });
 
