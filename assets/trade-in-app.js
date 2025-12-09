@@ -406,6 +406,8 @@
         cardId: card.cardId,
         name: card.name,
         set: card.fullCardNumber || card.setCode,
+        setCode: card.setCode || null,
+        variantType: card.variantType || null,
         imageUrl: card.imageUrl,
         condition,
         quantity,
@@ -802,7 +804,11 @@
         payoutType,
         shopifyCustomerId,
         items: state.cart.map(item => ({
-          cardId: item.cardId,
+          cardPriceId: item.cardId,
+          cardName: item.name,
+          setName: item.set || 'Unknown',
+          setCode: item.setCode || null,
+          variant: item.variantType || null,
           conditionClaimed: item.condition,
           quantity: item.quantity
         }))
