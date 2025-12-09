@@ -144,20 +144,20 @@
     const variantType = card.variantType || card.variant || '';
     const fullCardNumber = cardNumber ? `${setCode}-${cardNumber}` : setCode;
 
-    // Extract tradein price from prices object
-    // Search API: prices.NM, Browse API: prices.tradein.NM
-    let tradeinPriceGbp = 0;
-    let conditionPrices = null;
+    // Extract best price (market price) for trade-in calculations
+    // Use bestPriceGbp as the base price, NOT tradeinPriceGbp (which is already discounted)
+    let bestPriceGbp = 0;
 
-    if (card.prices) {
-      if (source === 'search' && typeof card.prices.NM === 'number') {
-        // Search API returns prices.NM directly
-        tradeinPriceGbp = card.prices.NM;
-        conditionPrices = card.prices;
-      } else if (card.prices.tradein && typeof card.prices.tradein.NM === 'number') {
-        // Browse API returns prices.tradein.NM
-        tradeinPriceGbp = card.prices.tradein.NM;
-        conditionPrices = card.prices.tradein;
+    if (card.bestPriceGbp && typeof card.bestPriceGbp === 'number') {
+      bestPriceGbp = card.bestPriceGbp;
+    } else if (card.bestpriceGBP && typeof card.bestpriceGBP === 'number') {
+      bestPriceGbp = card.bestpriceGBP;
+    } else if (card.prices) {
+      // Fallback to prices object if bestPriceGbp not available
+      if (card.prices.bestPriceGbp && typeof card.prices.bestPriceGbp === 'number') {
+        bestPriceGbp = card.prices.bestPriceGbp;
+      } else if (card.prices.best && typeof card.prices.best === 'number') {
+        bestPriceGbp = card.prices.best;
       }
     }
 
@@ -170,8 +170,9 @@
       fullCardNumber,
       rarity: card.rarity || '',
       imageUrl: card.imageUrl || null,
-      tradeinPriceGbp,
-      conditionPrices
+      bestPriceGbp,
+      // Calculate condition prices from best price using multipliers
+      conditionPrices: null
     };
   }
 
@@ -285,15 +286,9 @@
     if (existingIndex >= 0) {
       state.cart[existingIndex].quantity += quantity;
     } else {
-      // Use pre-calculated condition price from API if available
-      let price;
-      if (card.conditionPrices && typeof card.conditionPrices[condition] === 'number') {
-        price = card.conditionPrices[condition];
-      } else {
-        // Fallback to manual calculation if no condition prices
-        const conditionData = CONFIG.conditions.find(c => c.code === condition);
-        price = Math.floor(card.tradeinPriceGbp * conditionData.multiplier / 0.70);
-      }
+      // Calculate condition price from best price using multiplier
+      const conditionData = CONFIG.conditions.find(c => c.code === condition);
+      const price = Math.floor(card.bestPriceGbp * conditionData.multiplier);
 
       state.cart.push({
         cardId: card.cardId,
@@ -303,8 +298,7 @@
         condition,
         quantity,
         pricePerItem: price,
-        basePriceGbp: card.tradeinPriceGbp,
-        conditionPrices: card.conditionPrices
+        basePriceGbp: card.bestPriceGbp
       });
     }
 
@@ -385,7 +379,7 @@
           <span class="trade-in-search__result-name">${escapeHtml(card.name)}</span>
           <span class="trade-in-search__result-set">${escapeHtml(card.fullCardNumber || card.setCode)} ${card.variantType ? `(${escapeHtml(card.variantType)})` : ''}</span>
         </div>
-        <span class="trade-in-search__result-price">${formatPrice(card.tradeinPriceGbp)}</span>
+        <span class="trade-in-search__result-price">${formatPrice(Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
       </button>
     `).join('');
 
@@ -410,7 +404,7 @@
         <div class="trade-in-card__info">
           <span class="trade-in-card__name">${escapeHtml(card.name)}</span>
           <span class="trade-in-card__set">${escapeHtml(card.fullCardNumber || card.setCode)}</span>
-          <span class="trade-in-card__price">${formatPrice(card.tradeinPriceGbp)}</span>
+          <span class="trade-in-card__price">${formatPrice(Math.floor(card.bestPriceGbp * CONFIG.conditions[0].multiplier))}</span>
         </div>
         <div class="trade-in-card__actions">
           <button type="button" class="trade-in-card__quick-add" data-quick-add="${i}">
@@ -601,16 +595,10 @@
     if (setEl) setEl.textContent = `${card.fullCardNumber || card.setCode} ${card.variantType ? `(${card.variantType})` : ''}`;
     if (qtyInput) qtyInput.value = 1;
 
-    // Render conditions
+    // Render conditions with prices calculated from best price
     if (conditionsEl) {
       conditionsEl.innerHTML = CONFIG.conditions.map((cond, i) => {
-        // Use pre-calculated condition price from API if available
-        let price;
-        if (card.conditionPrices && typeof card.conditionPrices[cond.code] === 'number') {
-          price = card.conditionPrices[cond.code];
-        } else {
-          price = Math.floor(card.tradeinPriceGbp * cond.multiplier / 0.70);
-        }
+        const price = Math.floor(card.bestPriceGbp * cond.multiplier);
         return `
           <button type="button" class="trade-in-condition${i === 0 ? ' trade-in-condition--selected' : ''}" data-condition="${cond.code}">
             <span class="trade-in-condition__code">${cond.code}</span>
@@ -649,13 +637,8 @@
     const condition = CONFIG.conditions.find(c => c.code === conditionCode);
     const quantity = parseInt(qtyInput?.value || 1, 10);
 
-    // Use pre-calculated condition price from API if available
-    let price;
-    if (state.selectedCard.conditionPrices && typeof state.selectedCard.conditionPrices[conditionCode] === 'number') {
-      price = state.selectedCard.conditionPrices[conditionCode];
-    } else {
-      price = Math.floor(state.selectedCard.tradeinPriceGbp * condition.multiplier / 0.70);
-    }
+    // Calculate price from best price using condition multiplier
+    const price = Math.floor(state.selectedCard.bestPriceGbp * condition.multiplier);
 
     priceEl.textContent = formatPrice(price * quantity);
   }
