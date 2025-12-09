@@ -355,13 +355,40 @@
   // Cart Management
   // ============================================================================
 
+  // Cart version - increment when cart data structure changes
+  const CART_VERSION = 2;
+
   function loadCart() {
     try {
       const saved = localStorage.getItem('tradeInCart');
+      const savedVersion = localStorage.getItem('tradeInCartVersion');
+
+      // Clear cart if version mismatch (data structure changed)
+      if (savedVersion !== String(CART_VERSION)) {
+        console.log('Trade-in cart version mismatch, clearing old cart data');
+        localStorage.removeItem('tradeInCart');
+        localStorage.setItem('tradeInCartVersion', String(CART_VERSION));
+        state.cart = [];
+        return;
+      }
+
       if (saved) {
-        state.cart = JSON.parse(saved);
+        const parsedCart = JSON.parse(saved);
+        // Validate cart items have required fields
+        state.cart = parsedCart.filter(item => {
+          const isValid = item && item.cardId && item.name && item.condition;
+          if (!isValid) {
+            console.warn('Removing invalid cart item:', item);
+          }
+          return isValid;
+        });
+        // Re-save if we filtered out invalid items
+        if (state.cart.length !== parsedCart.length) {
+          saveCart();
+        }
       }
     } catch (e) {
+      console.error('Error loading cart:', e);
       state.cart = [];
     }
   }
@@ -369,7 +396,10 @@
   function saveCart() {
     try {
       localStorage.setItem('tradeInCart', JSON.stringify(state.cart));
-    } catch (e) {}
+      localStorage.setItem('tradeInCartVersion', String(CART_VERSION));
+    } catch (e) {
+      console.error('Error saving cart:', e);
+    }
   }
 
   function clearCart() {
