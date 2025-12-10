@@ -876,13 +876,29 @@
       }
 
       const result = await submitTradeIn(submissionData);
+      const totals = getCartTotals();
 
       // Success
       if (loadingEl) loadingEl.hidden = true;
       if (successEl) {
         successEl.hidden = false;
+
+        // Submission number
         const numberEl = successEl.querySelector('[data-submission-number]');
         if (numberEl) numberEl.textContent = result.submissionNumber;
+
+        // Email display
+        const emailEl = successEl.querySelector('[data-success-email]');
+        if (emailEl) emailEl.textContent = email;
+
+        // Quick summary
+        const itemsEl = successEl.querySelector('[data-success-items]');
+        const totalEl = successEl.querySelector('[data-success-total]');
+        const payoutEl = successEl.querySelector('[data-success-payout]');
+
+        if (itemsEl) itemsEl.textContent = totals.itemCount;
+        if (totalEl) totalEl.textContent = formatPrice(payoutType === 'STORE_CREDIT' ? totals.storeCreditTotal : totals.subtotal);
+        if (payoutEl) payoutEl.textContent = payoutType === 'STORE_CREDIT' ? 'Store Credit (+10%)' : 'Bank Transfer';
 
         // Update links
         const packingLink = successEl.querySelector('[data-packing-slip-link]');
@@ -892,6 +908,58 @@
         if (packingLink) packingLink.href = `${CONFIG.apiBase}/packing-slip/${result.submissionNumber}`;
         if (shippingLink) shippingLink.href = `${CONFIG.apiBase}/shipping-instructions/${result.submissionNumber}`;
         if (trackingLink) trackingLink.href = `/pages/trade-in-track?number=${result.submissionNumber}`;
+
+        // Fetch and display ship-to address
+        const addressEl = successEl.querySelector('[data-ship-to-address]');
+        if (addressEl) {
+          try {
+            const settingsResponse = await fetch(`${CONFIG.apiBase}/settings`);
+            if (settingsResponse.ok) {
+              const settings = await settingsResponse.json();
+              if (settings.returnAddress) {
+                const addr = settings.returnAddress;
+                addressEl.innerHTML = [
+                  addr.companyName,
+                  addr.addressLine1,
+                  addr.addressLine2,
+                  addr.city,
+                  addr.postalCode
+                ].filter(Boolean).join('<br>');
+              } else {
+                addressEl.textContent = 'See confirmation email for shipping address';
+              }
+            } else {
+              addressEl.textContent = 'See confirmation email for shipping address';
+            }
+          } catch (err) {
+            console.error('Failed to fetch return address:', err);
+            addressEl.textContent = 'See confirmation email for shipping address';
+          }
+        }
+
+        // Setup copy button
+        const copyBtn = successEl.querySelector('[data-copy-number]');
+        if (copyBtn) {
+          copyBtn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(result.submissionNumber);
+              copyBtn.classList.add('copied');
+              setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+            } catch (err) {
+              // Fallback for older browsers
+              const textArea = document.createElement('textarea');
+              textArea.value = result.submissionNumber;
+              textArea.style.position = 'fixed';
+              textArea.style.left = '-9999px';
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              copyBtn.classList.add('copied');
+              setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+            }
+          });
+        }
       }
 
       // Clear cart
