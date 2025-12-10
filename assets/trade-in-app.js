@@ -813,10 +813,34 @@
     const payoutType = form.querySelector('[name="payoutType"]:checked')?.value || 'STORE_CREDIT';
     const shopifyCustomerId = form.querySelector('[name="shopifyCustomerId"]')?.value;
 
-    // Validate
+    // Bank details
+    const bankAccountName = form.querySelector('[name="bankAccountName"]')?.value?.trim() || '';
+    const bankSortCode = form.querySelector('[name="bankSortCode"]')?.value?.replace(/[-\s]/g, '') || '';
+    const bankAccountNumber = form.querySelector('[name="bankAccountNumber"]')?.value?.replace(/\s/g, '') || '';
+
+    // Validate email
     if (!email) {
       showError('Please enter your email address');
       return;
+    }
+
+    // Validate bank details if bank transfer selected
+    if (payoutType === 'BANK') {
+      if (!bankAccountName) {
+        showError('Please enter the account holder name for bank transfer');
+        form.querySelector('[name="bankAccountName"]')?.focus();
+        return;
+      }
+      if (!bankSortCode || !/^\d{6}$/.test(bankSortCode)) {
+        showError('Please enter a valid 6-digit sort code (e.g. 12-34-56)');
+        form.querySelector('[name="bankSortCode"]')?.focus();
+        return;
+      }
+      if (!bankAccountNumber || !/^\d{8}$/.test(bankAccountNumber)) {
+        showError('Please enter a valid 8-digit account number');
+        form.querySelector('[name="bankAccountNumber"]')?.focus();
+        return;
+      }
     }
 
     // Show loading
@@ -827,7 +851,7 @@
     if (loadingEl) loadingEl.hidden = false;
 
     try {
-      const result = await submitTradeIn({
+      const submissionData = {
         email,
         firstName,
         lastName,
@@ -842,7 +866,16 @@
           conditionClaimed: item.condition,
           quantity: item.quantity
         }))
-      });
+      };
+
+      // Include bank details if bank transfer selected
+      if (payoutType === 'BANK') {
+        submissionData.bankAccountName = bankAccountName;
+        submissionData.bankSortCode = bankSortCode;
+        submissionData.bankAccountNumber = bankAccountNumber;
+      }
+
+      const result = await submitTradeIn(submissionData);
 
       // Success
       if (loadingEl) loadingEl.hidden = true;
@@ -1145,6 +1178,32 @@
         if (successEl) successEl.hidden = true;
         if (formContent) formContent.style.display = '';
         updateFormSections();
+      });
+    }
+
+    // Sort code auto-formatting (XX-XX-XX)
+    const sortCodeInput = form.querySelector('[name="bankSortCode"]');
+    if (sortCodeInput) {
+      sortCodeInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-digits
+        value = value.slice(0, 6); // Limit to 6 digits
+
+        // Format as XX-XX-XX
+        if (value.length > 4) {
+          value = value.slice(0, 2) + '-' + value.slice(2, 4) + '-' + value.slice(4);
+        } else if (value.length > 2) {
+          value = value.slice(0, 2) + '-' + value.slice(2);
+        }
+
+        e.target.value = value;
+      });
+    }
+
+    // Account number - digits only
+    const accountNumberInput = form.querySelector('[name="bankAccountNumber"]');
+    if (accountNumberInput) {
+      accountNumberInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 8);
       });
     }
   }

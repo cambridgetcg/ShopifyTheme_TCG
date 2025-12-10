@@ -179,6 +179,57 @@
           </div>
         </div>
       {% endif %}
+
+      {% comment %} Bank Details (always visible, required for bank transfer) {% endcomment %}
+      <div class="trade-in-bank-details" data-bank-details>
+        <h4 class="trade-in-bank-details__title">Bank Details</h4>
+        <p class="trade-in-bank-details__subtitle">Required if you choose bank transfer as your payout method</p>
+        <div class="trade-in-form__fields">
+          <div class="trade-in-form__field trade-in-form__field--full">
+            <label for="bank-account-name" class="trade-in-form__label">
+              Account Holder Name
+            </label>
+            <input
+              type="text"
+              id="bank-account-name"
+              name="bankAccountName"
+              class="trade-in-form__input"
+              placeholder="John Smith"
+              data-bank-account-name
+            >
+          </div>
+          <div class="trade-in-form__field">
+            <label for="bank-sort-code" class="trade-in-form__label">
+              Sort Code
+            </label>
+            <input
+              type="text"
+              id="bank-sort-code"
+              name="bankSortCode"
+              class="trade-in-form__input"
+              placeholder="12-34-56"
+              maxlength="8"
+              data-bank-sort-code
+            >
+            <span class="trade-in-form__hint">6 digits, e.g. 12-34-56</span>
+          </div>
+          <div class="trade-in-form__field">
+            <label for="bank-account-number" class="trade-in-form__label">
+              Account Number
+            </label>
+            <input
+              type="text"
+              id="bank-account-number"
+              name="bankAccountNumber"
+              class="trade-in-form__input"
+              placeholder="12345678"
+              maxlength="8"
+              data-bank-account-number
+            >
+            <span class="trade-in-form__hint">8 digits</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     {% comment %} Payout Selection {% endcomment %}

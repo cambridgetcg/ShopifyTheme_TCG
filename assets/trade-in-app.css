@@ -962,6 +962,36 @@
   color: var(--ti-error);
 }
 
+.trade-in-form__hint {
+  font-size: 0.75rem;
+  color: var(--ti-text-muted);
+}
+
+/* ============================================================================
+   Bank Details Section
+   ============================================================================ */
+
+.trade-in-bank-details {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: var(--ti-bg-muted);
+  border: 1px solid var(--ti-border);
+  border-radius: var(--ti-radius);
+}
+
+.trade-in-bank-details__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--ti-text);
+}
+
+.trade-in-bank-details__subtitle {
+  font-size: 0.875rem;
+  color: var(--ti-text-muted);
+  margin: 0 0 1rem;
+}
+
 /* ============================================================================
    Payout Options - Visual Selection
    ============================================================================ */
