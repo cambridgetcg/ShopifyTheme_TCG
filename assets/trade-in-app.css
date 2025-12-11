@@ -435,12 +435,259 @@
 }
 
 /* ============================================================================
-   Game Navigation Tabs
+   Style Preview Section (Temporary - Remove after selection)
+   ============================================================================ */
+
+.style-preview {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #fef3c7;
+  border: 2px dashed #f59e0b;
+  border-radius: var(--ti-radius-lg);
+}
+
+.style-preview__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: #92400e;
+  text-align: center;
+}
+
+.style-preview__option {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.style-preview__option:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.style-preview__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #78350f;
+  margin-bottom: 0.75rem;
+}
+
+/* ============================================================================
+   Game Navigation Tabs (Default/Current Style)
    ============================================================================ */
 
 .trade-in-nav {
   margin-bottom: 1rem;
 }
+
+/* ============================================================================
+   Variation A: Pill Buttons
+   ============================================================================ */
+
+.trade-in-nav--pills {
+  margin-bottom: 1rem;
+}
+
+.trade-in-nav--pills .trade-in-nav__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--ti-bg-muted);
+  border-radius: 999px;
+  width: fit-content;
+  border-bottom: none;
+}
+
+.trade-in-nav--pills .trade-in-nav__tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ti-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.trade-in-nav--pills .trade-in-nav__tab:hover:not(:disabled) {
+  color: var(--ti-text);
+  background: rgba(0,0,0,0.05);
+}
+
+.trade-in-nav--pills .trade-in-nav__tab--active {
+  background: var(--ti-bg);
+  color: var(--ti-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-bottom: none;
+}
+
+.trade-in-nav--pills .trade-in-nav__tab--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.trade-in-nav--pills .trade-in-nav__tab-badge {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.5625rem;
+  background: var(--ti-border);
+  color: var(--ti-text-muted);
+  border-radius: 999px;
+}
+
+/* ============================================================================
+   Variation B: Game Cards
+   ============================================================================ */
+
+.trade-in-nav--cards {
+  margin-bottom: 1rem;
+}
+
+.trade-in-nav--cards .trade-in-nav__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  max-width: 500px;
+  border-bottom: none;
+}
+
+.trade-in-nav--cards .trade-in-nav__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  background: var(--ti-bg);
+  border: 2px solid var(--ti-border);
+  border-radius: var(--ti-radius-lg);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ti-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0;
+}
+
+.trade-in-nav--cards .trade-in-nav__tab:hover:not(:disabled) {
+  border-color: var(--ti-text-muted);
+  transform: translateY(-2px);
+}
+
+.trade-in-nav--cards .trade-in-nav__tab--active {
+  background: var(--ti-primary);
+  border-color: var(--ti-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.trade-in-nav--cards .trade-in-nav__tab--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--ti-bg-muted);
+}
+
+.trade-in-nav--cards .trade-in-nav__tab-name {
+  font-size: 0.875rem;
+}
+
+.trade-in-nav--cards .trade-in-nav__tab-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.5625rem;
+  background: rgba(0,0,0,0.1);
+  color: inherit;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trade-in-nav--cards .trade-in-nav__tab--active .trade-in-nav__tab-badge {
+  background: rgba(255,255,255,0.2);
+}
+
+/* ============================================================================
+   Variation C: Underline Minimal
+   ============================================================================ */
+
+.trade-in-nav--underline {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--ti-border);
+}
+
+.trade-in-nav--underline .trade-in-nav__tabs {
+  display: flex;
+  gap: 2rem;
+  border-bottom: none;
+}
+
+.trade-in-nav--underline .trade-in-nav__tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 0;
+  background: none;
+  border: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ti-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.trade-in-nav--underline .trade-in-nav__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.trade-in-nav--underline .trade-in-nav__tab:hover:not(:disabled) {
+  color: var(--ti-text);
+}
+
+.trade-in-nav--underline .trade-in-nav__tab--active {
+  color: var(--ti-primary);
+  font-weight: 600;
+}
+
+.trade-in-nav--underline .trade-in-nav__tab--active::after {
+  background: var(--ti-primary);
+}
+
+.trade-in-nav--underline .trade-in-nav__tab--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.trade-in-nav--underline .trade-in-nav__tab-badge {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  background: var(--ti-bg-muted);
+  color: var(--ti-text-muted);
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* ============================================================================
+   Game Navigation Tabs (Original/Current Style)
+   ============================================================================ */
 
 .trade-in-nav__tabs {
   display: flex;
