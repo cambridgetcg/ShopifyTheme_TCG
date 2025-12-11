@@ -84,8 +84,11 @@
     browseAbortController: null,
     currentPage: 1,
     totalPages: 1,
+    currentGame: 'onepiece',
+    currentLanguage: '',
     currentSet: '',
-    sets: []
+    sets: [],
+    languages: []
   };
 
   // ============================================================================
@@ -301,14 +304,15 @@
     }
   }
 
-  async function browseCards(page = 1, set = '') {
+  async function browseCards(page = 1, game = 'onepiece', language = '', set = '') {
     if (state.browseAbortController) {
       state.browseAbortController.abort();
     }
     state.browseAbortController = new AbortController();
 
     try {
-      let url = `${CONFIG.apiBase}/cards/browse?page=${page}&limit=12`;
+      let url = `${CONFIG.apiBase}/cards/browse?page=${page}&limit=12&game=${encodeURIComponent(game)}`;
+      if (language) url += `&language=${encodeURIComponent(language)}`;
       if (set) url += `&set=${encodeURIComponent(set)}`;
 
       const response = await fetch(url, { signal: state.browseAbortController.signal });
@@ -326,12 +330,22 @@
     }
   }
 
-  async function fetchSets() {
+  async function fetchSets(game = 'onepiece') {
     try {
-      const data = await fetchWithCache(`${CONFIG.apiBase}/cards/sets`);
+      const data = await fetchWithCache(`${CONFIG.apiBase}/cards/sets?game=${encodeURIComponent(game)}`);
       return data.sets || [];
     } catch (err) {
       console.error('Failed to fetch sets:', err);
+      return [];
+    }
+  }
+
+  async function fetchLanguages(game = 'onepiece') {
+    try {
+      const data = await fetchWithCache(`${CONFIG.apiBase}/cards/languages?game=${encodeURIComponent(game)}`);
+      return data.languages || [];
+    } catch (err) {
+      console.error('Failed to fetch languages:', err);
       return [];
     }
   }
@@ -1112,6 +1126,56 @@
       });
     }
 
+    // Game Tabs
+    const gameTabs = form.querySelector('[data-game-tabs]');
+    if (gameTabs) {
+      gameTabs.addEventListener('click', async (e) => {
+        const tab = e.target.closest('[data-game]');
+        if (!tab || tab.disabled) return;
+
+        const game = tab.dataset.game;
+        if (game === state.currentGame) return;
+
+        // Update active tab
+        gameTabs.querySelectorAll('.trade-in-nav__tab').forEach(t => {
+          t.classList.remove('trade-in-nav__tab--active');
+        });
+        tab.classList.add('trade-in-nav__tab--active');
+
+        // Update state and reset filters
+        state.currentGame = game;
+        state.currentLanguage = '';
+        state.currentSet = '';
+        state.currentPage = 1;
+
+        // Reset filter dropdowns
+        const langFilter = form.querySelector('[data-language-filter]');
+        const setFilter = form.querySelector('[data-set-filter]');
+        if (langFilter) langFilter.value = '';
+        if (setFilter) setFilter.value = '';
+
+        // Clear cache to get fresh data for new game
+        clearCache();
+
+        // Reload languages, sets, and cards for new game
+        await Promise.all([
+          loadLanguages(game),
+          loadSets(game),
+          loadBrowseCards()
+        ]);
+      });
+    }
+
+    // Language Filter
+    const languageFilter = form.querySelector('[data-language-filter]');
+    if (languageFilter) {
+      languageFilter.addEventListener('change', async (e) => {
+        state.currentLanguage = e.target.value;
+        state.currentPage = 1;
+        await loadBrowseCards();
+      });
+    }
+
     // Set Filter
     const setFilter = form.querySelector('[data-set-filter]');
     if (setFilter) {
@@ -1291,7 +1355,7 @@
     grid.classList.add('trade-in-browse__grid--loading');
 
     try {
-      const data = await browseCards(state.currentPage, state.currentSet);
+      const data = await browseCards(state.currentPage, state.currentGame, state.currentLanguage, state.currentSet);
       if (data) {
         state.totalPages = data.totalPages || 1;
         renderBrowseGrid(grid, data.cards || []);
@@ -1313,27 +1377,43 @@
     // Reset to first page
     state.currentPage = 1;
 
-    // Reload cards and sets
+    // Reload cards, sets, and languages for current game
     await Promise.all([
       loadBrowseCards(),
-      loadSets()
+      loadSets(state.currentGame),
+      loadLanguages(state.currentGame)
     ]);
 
     showToast('Cards refreshed', 'success');
   }
 
-  async function loadSets() {
+  async function loadSets(game = 'onepiece') {
     const select = document.querySelector('[data-set-filter]');
     if (!select) return;
 
     try {
-      const sets = await fetchSets();
+      const sets = await fetchSets(game);
       state.sets = sets;
 
       select.innerHTML = '<option value="">All Sets</option>' +
         sets.map(set => `<option value="${escapeHtml(set.code)}">${escapeHtml(set.name)}</option>`).join('');
     } catch (err) {
       console.error('Failed to load sets:', err);
+    }
+  }
+
+  async function loadLanguages(game = 'onepiece') {
+    const select = document.querySelector('[data-language-filter]');
+    if (!select) return;
+
+    try {
+      const languages = await fetchLanguages(game);
+      state.languages = languages;
+
+      select.innerHTML = '<option value="">All Languages</option>' +
+        languages.map(lang => `<option value="${escapeHtml(lang.code)}">${escapeHtml(lang.name)} (${lang.cardCount})</option>`).join('');
+    } catch (err) {
+      console.error('Failed to load languages:', err);
     }
   }
 
@@ -1355,10 +1435,11 @@
     // Setup event listeners
     setupEventListeners();
 
-    // Load browse cards and sets
+    // Load browse cards, sets, and languages
     await Promise.all([
       loadBrowseCards(),
-      loadSets()
+      loadSets(state.currentGame),
+      loadLanguages(state.currentGame)
     ]);
   }
 
