@@ -21,7 +21,7 @@
               is: 'image-lazy'
           }}
         {%- else -%}
-          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          <img src="{{ 'illustration-testimonial-2.png' | asset_url }}" alt="Customer review" loading="lazy" class="motion-reduce hover-scale-up">
         {%- endif -%}
       </motion-element>
     </div>
