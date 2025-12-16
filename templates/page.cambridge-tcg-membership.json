@@ -1,1 +1,337 @@
-{"sections":{"main":{"type":"main-page","disabled":true,"settings":{"padding_top":28,"padding_bottom":28}},"rich_text_QNyxMC":{"type":"rich-text","blocks":{"heading_YY6Hp8":{"type":"heading","settings":{"heading":"The Cambridge TCG Club","heading_size":"hd1","heading_highlight_style":"none"}},"text_U7FBbU":{"type":"text","settings":{"text":"<p>Welcome to the <strong>The Cambridge TCG Club<\/strong>, designed exclusively for passionate collectors who want to maximize their experience with premium Japanese trading cards. Whether you're just starting or a dedicated collector, our membership tiers offer incredible rewards, cashback, and exclusive perks.<\/p>","text_size":"text-base"}},"button_U3NHkC":{"type":"button","settings":{"button_label":"Join The Community","button_link":"https:\/\/shopify.com\/authentication\/74549035273\/login?client_id=a530cdc7-8b98-4d15-9f45-4300b590f263&locale=en&redirect_uri=https%3A%2F%2Fshopify.com%2Fauthentication%2F74549035273%2Foauth%2Fauthorize%3Fclient_id%3Da530cdc7-8b98-4d15-9f45-4300b590f263%26locale%3Den%26nonce%3D683f2b71-a295-46e2-a5c7-4fd0482f74b8%26redirect_uri%3Dhttps%253A%252F%252Faccount.cambridgetcg.com%252Fcallback%253Fsource%253Dcore%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3D01JSY0Z2SZEAV98C3HC7QFEQV1","button_style":"btn--primary"}}},"block_order":["heading_YY6Hp8","text_U7FBbU","button_U3NHkC"],"settings":{"color_scheme":"","content_alignment":"center","padding_top":50,"padding_bottom":50,"show_section_divider":false,"divider_width":"fixed"}},"multicolumn_ff6GU6":{"type":"multicolumn","blocks":{"column_rQGDAq":{"type":"column","settings":{"image_width":"medium","title":"Basic","heading_size":"h4","text":"<h3><strong>Free to Join!<\/strong><\/h3><h3><\/h3><p>✅ 1 free raffle ticket for mystery packs every month<br\/><br\/>✅ 3% cashback to spend in our <strong>Shopify store<\/strong><\/p><p><\/p>","text_size":"text-base","button_label":"","button_style":"btn--underline","button_link":"","mobile_layout":"inherit"}},"column_fU7HgA":{"type":"column","settings":{"image_width":"medium","title":"<strong>SR<\/strong>","heading_size":"h4","text":"<h3><strong>Unlock with £180+ in purchases per year<\/strong><\/h3><p>✅ 3 free raffle tickets for mystery packs every month<br\/><br\/>✅ 5% cashback to spend in our <strong>Shopify store<\/strong><\/p>","text_size":"text-base","button_label":"","button_style":"btn--underline","button_link":"","mobile_layout":"inherit"}},"column_6i7UQk":{"type":"column","settings":{"image_width":"medium","title":"<strong>SSR<\/strong>","heading_size":"h4","text":"<h3><strong>Unlock with £300+ in purchases per year<\/strong><\/h3><p>✅ 5 free raffle tickets for mystery packs every month<br\/><br\/>✅ 8% cashback to spend in our <strong>Shopify store<\/strong><br\/><br\/>✅ <strong>100 free toploaders and sleeves per year<\/strong><\/p>","text_size":"text-base","button_label":"","button_style":"btn--underline","button_link":"","mobile_layout":"inherit"}},"column_tjTTFP":{"type":"column","settings":{"image_width":"medium","title":"<strong>Premium<\/strong>","heading_size":"h4","text":"<h3><strong>(Coming Soon) - £28 per year<\/strong><\/h3><p>✅ 8 free raffle tickets for mystery packs every month<br\/><br\/>✅ 12% cashback to spend in our <strong>Shopify store<\/strong><br\/><br\/>✅ <strong>100 free toploaders and sleeves per year<\/strong><\/p>","text_size":"text-base","button_label":"Join Now","button_style":"btn--primary","button_link":"https:\/\/shopify.com\/authentication\/74549035273\/login?client_id=a530cdc7-8b98-4d15-9f45-4300b590f263&locale=en&redirect_uri=https%3A%2F%2Fshopify.com%2Fauthentication%2F74549035273%2Foauth%2Fauthorize%3Fclient_id%3Da530cdc7-8b98-4d15-9f45-4300b590f263%26locale%3Den%26nonce%3D683f2b71-a295-46e2-a5c7-4fd0482f74b8%26redirect_uri%3Dhttps%253A%252F%252Faccount.cambridgetcg.com%252Fcallback%253Fsource%253Dcore%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3D01JSY0Z2SZEAV98C3HC7QFEQV1","mobile_layout":"inherit"}}},"block_order":["column_rQGDAq","column_fU7HgA","column_6i7UQk","column_tjTTFP"],"settings":{"color_scheme":"","heading":"Membership Tier","heading_size":"h1","heading_highlight_style":"none","subheading":"","description":"","text_size":"text-base","column_alignment":"left","columns_desktop":4,"column_gap":"large","columns_mobile":"1","swipe_on_mobile":true,"padding_top":50,"padding_bottom":50,"show_section_divider":false,"divider_width":"fixed"}},"layered_images_with_text_CXWtQB":{"type":"layered-images-with-text","blocks":{"image_GUHQ3X":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/IMG_2119.jpg","custom_classes":""}},"image_CbthXH":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/12.png","custom_classes":""}},"image_7cKy7x":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/IMG_2114.jpg","custom_classes":""}},"image_JCMyGV":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/IMG_2113.jpg","custom_classes":""}},"image_NXRVKt":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/4.png","custom_classes":""}}},"block_order":["image_GUHQ3X","image_CbthXH","image_7cKy7x","image_JCMyGV","image_NXRVKt"],"settings":{"color_scheme":"","heading":"🎁 <strong>Mystery Pack Raffle<\/strong>","heading_size":"h1","heading_highlight_style":"none","subheading":"","description":"<p>Each month, we allocate a fixed number of <strong>exclusive prizes<\/strong> for our mystery pack raffle! Prizes include:<\/p><p>⭐ <strong>Alternative Art Cards<\/strong><br\/><br\/>⭐ <strong>High-Value Collectibles<\/strong><br\/><br\/>⭐ <strong>Jackpot Rewards<\/strong><\/p>","description_size":"text-base","button_label":"Join The Raffle","button_link":"shopify:\/\/pages\/my-raffles","button_style":"btn--primary","padding_top":50,"padding_bottom":50,"show_section_divider":false,"divider_width":"fixed"}},"image_with_text_HKi796":{"type":"image-with-text","blocks":{"heading_TL44RR":{"type":"heading","settings":{"heading":"Membership Raffle Benefits","heading_size":"hd1","heading_highlight_style":"none"}},"text_ew37KE":{"type":"text","settings":{"text":"<p>Only those who win the raffle will receive a pack, making it a truly exclusive benefit for our members. A percentage of our profits is dedicated to ensuring the mystery packs remain <strong>exciting & rewarding<\/strong> for our community.<\/p><h2><\/h2>","text_size":"text-base"}},"button_RtPxcj":{"type":"button","settings":{"button_label":"Join The Community","button_link":"shopify:\/\/pages\/my-raffles","button_style":"btn--primary"}}},"block_order":["heading_TL44RR","text_ew37KE","button_RtPxcj"],"settings":{"section_color_scheme":"","color_scheme":"","image":"shopify:\/\/shop_images\/d59bbfd8-95ce-4ef1-b274-0a0591e777f5.jpg","image_height":"adapt","layout":"image_first","desktop_content_position":"center","desktop_content_alignment":"left","enable_parallax":false,"parallax_direction":"vertical","mobile_content_alignment":"left","padding_top":50,"padding_bottom":50,"show_section_divider":false,"divider_width":"fixed"}},"membership_explore":{"type":"multicolumn","blocks":{"explore_tradein":{"type":"column","settings":{"image_width":"medium","title":"Trade-In Program","heading_size":"h4","text":"<p>Got cards to sell? Trade in your collection for store credit or cash at competitive rates.<\/p>","text_size":"text-base","button_label":"Start Trade-In","button_style":"btn--secondary","button_link":"shopify:\/\/pages\/trade-in","mobile_layout":"inherit"}},"explore_faq":{"type":"column","settings":{"image_width":"medium","title":"FAQs","heading_size":"h4","text":"<p>Questions about membership, shipping, or authenticity? Find quick answers here.<\/p>","text_size":"text-base","button_label":"View FAQs","button_style":"btn--secondary","button_link":"shopify:\/\/pages\/faq","mobile_layout":"inherit"}},"explore_shop":{"type":"column","settings":{"image_width":"medium","title":"Browse Cards","heading_size":"h4","text":"<p>Explore our collection of authentic Japanese trading cards and start earning cashback.<\/p>","text_size":"text-base","button_label":"Shop Now","button_style":"btn--secondary","button_link":"shopify:\/\/collections","mobile_layout":"inherit"}}},"block_order":["explore_tradein","explore_faq","explore_shop"],"settings":{"color_scheme":"scheme-2","heading":"Explore More","heading_size":"h2","heading_highlight_style":"none","subheading":"","description":"","text_size":"text-base","column_alignment":"center","columns_desktop":3,"column_gap":"large","columns_mobile":"1","swipe_on_mobile":true,"padding_top":60,"padding_bottom":80,"show_section_divider":false,"divider_width":"fixed"}}},"order":["main","rich_text_QNyxMC","multicolumn_ff6GU6","layered_images_with_text_CXWtQB","image_with_text_HKi796","membership_explore"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "rich_text_QNyxMC": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_YY6Hp8": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Cambridge TCG Club",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_U7FBbU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Welcome to the <strong>The Cambridge TCG Club</strong>, designed exclusively for passionate collectors who want to maximize their experience with premium Japanese trading cards. Whether you're just starting or a dedicated collector, our membership tiers offer incredible rewards, cashback, and exclusive perks.</p>",
+            "text_size": "text-base"
+          }
+        },
+        "button_U3NHkC": {
+          "type": "button",
+          "settings": {
+            "button_label": "Join The Community",
+            "button_link": "https://shopify.com/authentication/74549035273/login?client_id=a530cdc7-8b98-4d15-9f45-4300b590f263&locale=en&redirect_uri=https%3A%2F%2Fshopify.com%2Fauthentication%2F74549035273%2Foauth%2Fauthorize%3Fclient_id%3Da530cdc7-8b98-4d15-9f45-4300b590f263%26locale%3Den%26nonce%3D683f2b71-a295-46e2-a5c7-4fd0482f74b8%26redirect_uri%3Dhttps%253A%252F%252Faccount.cambridgetcg.com%252Fcallback%253Fsource%253Dcore%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3D01JSY0Z2SZEAV98C3HC7QFEQV1",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_YY6Hp8",
+        "text_U7FBbU",
+        "button_U3NHkC"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "content_alignment": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "multicolumn_ff6GU6": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_rQGDAq": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Basic",
+            "heading_size": "h4",
+            "text": "<h3><strong>Free to Join!</strong></h3><h3></h3><p>✅ 1 free raffle ticket for mystery packs every month<br/><br/>✅ 3% cashback to spend in our <strong>Shopify store</strong></p><p></p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_fU7HgA": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "<strong>SR</strong>",
+            "heading_size": "h4",
+            "text": "<h3><strong>Unlock with £180+ in purchases per year</strong></h3><p>✅ 3 free raffle tickets for mystery packs every month<br/><br/>✅ 5% cashback to spend in our <strong>Shopify store</strong></p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_6i7UQk": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "<strong>SSR</strong>",
+            "heading_size": "h4",
+            "text": "<h3><strong>Unlock with £300+ in purchases per year</strong></h3><p>✅ 5 free raffle tickets for mystery packs every month<br/><br/>✅ 8% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "column_tjTTFP": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "<strong>Premium</strong>",
+            "heading_size": "h4",
+            "text": "<h3><strong>(Coming Soon) - £28 per year</strong></h3><p>✅ 8 free raffle tickets for mystery packs every month<br/><br/>✅ 12% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
+            "text_size": "text-base",
+            "button_label": "Join Now",
+            "button_style": "btn--primary",
+            "button_link": "https://shopify.com/authentication/74549035273/login?client_id=a530cdc7-8b98-4d15-9f45-4300b590f263&locale=en&redirect_uri=https%3A%2F%2Fshopify.com%2Fauthentication%2F74549035273%2Foauth%2Fauthorize%3Fclient_id%3Da530cdc7-8b98-4d15-9f45-4300b590f263%26locale%3Den%26nonce%3D683f2b71-a295-46e2-a5c7-4fd0482f74b8%26redirect_uri%3Dhttps%253A%252F%252Faccount.cambridgetcg.com%252Fcallback%253Fsource%253Dcore%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3D01JSY0Z2SZEAV98C3HC7QFEQV1",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "column_rQGDAq",
+        "column_fU7HgA",
+        "column_6i7UQk",
+        "column_tjTTFP"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "heading": "Membership Tier",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "left",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "layered_images_with_text_CXWtQB": {
+      "type": "layered-images-with-text",
+      "blocks": {
+        "image_GUHQ3X": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2119.jpg",
+            "custom_classes": ""
+          }
+        },
+        "image_CbthXH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/12.png",
+            "custom_classes": ""
+          }
+        },
+        "image_7cKy7x": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2114.jpg",
+            "custom_classes": ""
+          }
+        },
+        "image_JCMyGV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2113.jpg",
+            "custom_classes": ""
+          }
+        },
+        "image_NXRVKt": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4.png",
+            "custom_classes": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_GUHQ3X",
+        "image_CbthXH",
+        "image_7cKy7x",
+        "image_JCMyGV",
+        "image_NXRVKt"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "heading": "🎁 <strong>Mystery Pack Raffle</strong>",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "<p>Each month, we allocate a fixed number of <strong>exclusive prizes</strong> for our mystery pack raffle! Prizes include:</p><p>⭐ <strong>Alternative Art Cards</strong><br/><br/>⭐ <strong>High-Value Collectibles</strong><br/><br/>⭐ <strong>Jackpot Rewards</strong></p>",
+        "description_size": "text-base",
+        "button_label": "Join The Raffle",
+        "button_link": "shopify://pages/my-raffles",
+        "button_style": "btn--primary",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "image_with_text_HKi796": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_TL44RR": {
+          "type": "heading",
+          "settings": {
+            "heading": "Membership Raffle Benefits",
+            "heading_size": "hd1",
+            "heading_highlight_style": "none"
+          }
+        },
+        "text_ew37KE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Only those who win the raffle will receive a pack, making it a truly exclusive benefit for our members. A percentage of our profits is dedicated to ensuring the mystery packs remain <strong>exciting & rewarding</strong> for our community.</p><h2></h2>",
+            "text_size": "text-base"
+          }
+        },
+        "button_RtPxcj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Join The Community",
+            "button_link": "shopify://pages/my-raffles",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_TL44RR",
+        "text_ew37KE",
+        "button_RtPxcj"
+      ],
+      "settings": {
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image": "shopify://shop_images/d59bbfd8-95ce-4ef1-b274-0a0591e777f5.jpg",
+        "image_height": "adapt",
+        "layout": "image_first",
+        "desktop_content_position": "center",
+        "desktop_content_alignment": "left",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "mobile_content_alignment": "left",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "membership_explore": {
+      "type": "multicolumn",
+      "blocks": {
+        "explore_tradein": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Trade-In Program",
+            "heading_size": "h4",
+            "text": "<p>Got cards to sell? Trade in your collection for store credit or cash at competitive rates.</p>",
+            "text_size": "text-base",
+            "button_label": "Start Trade-In",
+            "button_style": "btn--secondary",
+            "button_link": "shopify://pages/trade-in",
+            "mobile_layout": "inherit"
+          }
+        },
+        "explore_faq": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "FAQs",
+            "heading_size": "h4",
+            "text": "<p>Questions about membership, shipping, or authenticity? Find quick answers here.</p>",
+            "text_size": "text-base",
+            "button_label": "View FAQs",
+            "button_style": "btn--secondary",
+            "button_link": "shopify://pages/faq",
+            "mobile_layout": "inherit"
+          }
+        },
+        "explore_shop": {
+          "type": "column",
+          "settings": {
+            "image_width": "medium",
+            "title": "Browse Cards",
+            "heading_size": "h4",
+            "text": "<p>Explore our collection of authentic Japanese trading cards and start earning cashback.</p>",
+            "text_size": "text-base",
+            "button_label": "Shop Now",
+            "button_style": "btn--secondary",
+            "button_link": "shopify://collections",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "explore_tradein",
+        "explore_faq",
+        "explore_shop"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Explore More",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "center",
+        "columns_desktop": 3,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 60,
+        "padding_bottom": 80,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_QNyxMC",
+    "multicolumn_ff6GU6",
+    "layered_images_with_text_CXWtQB",
+    "image_with_text_HKi796",
+    "membership_explore"
+  ]
+}

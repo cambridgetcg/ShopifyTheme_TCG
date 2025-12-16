@@ -179,10 +179,7 @@
           "settings": {
             "button_label": "Contact Us",
             "button_link": "shopify://pages/about-us",
-            "button_style": "btn--primary",
-            "button_label_2": "Browse Cards",
-            "button_link_2": "shopify://collections",
-            "button_style_2": "btn--secondary"
+            "button_style": "btn--primary"
           }
         }
       },
