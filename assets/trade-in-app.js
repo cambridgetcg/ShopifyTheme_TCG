@@ -832,10 +832,38 @@
     const bankSortCode = form.querySelector('[name="bankSortCode"]')?.value?.replace(/[-\s]/g, '') || '';
     const bankAccountNumber = form.querySelector('[name="bankAccountNumber"]')?.value?.replace(/\s/g, '') || '';
 
+    // Contact preferences
+    const phone = form.querySelector('[name="phone"]')?.value?.trim() || '';
+    const contactChannel = form.querySelector('[name="contactChannel"]')?.value || '';
+
     // Validate email
     if (!email) {
       showError('Please enter your email address');
       return;
+    }
+
+    // Validate phone (required)
+    if (!phone) {
+      showError('Please enter your phone number');
+      const phoneError = form.querySelector('[data-phone-error]');
+      if (phoneError) phoneError.hidden = false;
+      form.querySelector('[name="phone"]')?.focus();
+      return;
+    } else {
+      const phoneError = form.querySelector('[data-phone-error]');
+      if (phoneError) phoneError.hidden = true;
+    }
+
+    // Validate contact channel (required)
+    if (!contactChannel) {
+      showError('Please select a contact method');
+      const channelError = form.querySelector('[data-contact-channel-error]');
+      if (channelError) channelError.hidden = false;
+      form.querySelector('[name="contactChannel"]')?.focus();
+      return;
+    } else {
+      const channelError = form.querySelector('[data-contact-channel-error]');
+      if (channelError) channelError.hidden = true;
     }
 
     // Validate bank details if bank transfer selected
@@ -871,6 +899,9 @@
         lastName,
         payoutType,
         shopifyCustomerId,
+        // Contact preferences (required)
+        phone,
+        contactChannel,
         items: state.cart.map(item => ({
           cardPriceId: item.cardId,
           cardName: item.name,
