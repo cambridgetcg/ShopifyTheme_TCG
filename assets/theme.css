@@ -6698,3 +6698,81 @@ body:not(.header-pinned) .header-scrolled .header {
     order: 2;
   }
 }
+
+/* ==========================================================================
+   Banner/Hero Sections - White text, Black buttons
+   ========================================================================== */
+
+/* Banner buttons - black background with white text */
+.slideshow-wrapper .btn,
+.slideshow-wrapper .btn--primary,
+.slideshow-wrapper .btn--secondary,
+.video-hero .btn,
+.video-hero .btn--primary,
+.video-hero .btn--secondary,
+.section--lookbook-banner .btn,
+.section--lookbook-banner .btn--primary,
+.section--lookbook-banner .btn--secondary,
+.section--image-with-text .btn,
+.section--image-with-text .btn--primary,
+.section--image-with-text .btn--secondary,
+.section--collection-hero .btn,
+.section--collection-hero .btn--primary,
+.section--collection-hero .btn--secondary {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #000000 !important;
+}
+
+/* Banner buttons hover state */
+.slideshow-wrapper .btn:hover,
+.slideshow-wrapper .btn--primary:hover,
+.slideshow-wrapper .btn--secondary:hover,
+.video-hero .btn:hover,
+.video-hero .btn--primary:hover,
+.video-hero .btn--secondary:hover,
+.section--lookbook-banner .btn:hover,
+.section--lookbook-banner .btn--primary:hover,
+.section--lookbook-banner .btn--secondary:hover,
+.section--image-with-text .btn:hover,
+.section--image-with-text .btn--primary:hover,
+.section--image-with-text .btn--secondary:hover,
+.section--collection-hero .btn:hover,
+.section--collection-hero .btn--primary:hover,
+.section--collection-hero .btn--secondary:hover {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+}
+
+/* Banner text - white color */
+.slideshow-wrapper .slideshow__title,
+.slideshow-wrapper .slideshow__subtitle,
+.slideshow-wrapper .slideshow__description,
+.slideshow-wrapper .slideshow__text,
+.slideshow-wrapper .rich-text__heading,
+.slideshow-wrapper .rich-text__subheading,
+.slideshow-wrapper .rich-text__text,
+.video-hero__content-wrapper,
+.video-hero__content-wrapper .rich-text__heading,
+.video-hero__content-wrapper .rich-text__subheading,
+.video-hero__content-wrapper .rich-text__text,
+.section--lookbook-banner .rich-text__heading,
+.section--lookbook-banner .rich-text__subheading,
+.section--lookbook-banner .rich-text__text {
+  color: #ffffff !important;
+}
+
+.slideshow-wrapper .slideshow__text *,
+.video-hero__content-wrapper * {
+  color: #ffffff !important;
+}
+
+/* Ensure banner button text stays white */
+.slideshow-wrapper .btn *,
+.video-hero .btn *,
+.section--lookbook-banner .btn *,
+.section--image-with-text .btn *,
+.section--collection-hero .btn * {
+  color: #ffffff !important;
+}
