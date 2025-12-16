@@ -29,14 +29,14 @@
         "heading_GeX69R": {
           "type": "heading",
           "settings": {
-            "heading": "Discover more in our FAQ",
-            "heading_size": "hd2"
+            "heading": "Frequently Asked Questions",
+            "heading_size": "hd1"
           }
         },
         "text_nb9hEL": {
           "type": "text",
           "settings": {
-            "text": "<p>Have a question or comment? Don't be shy: Reach out and say hi! <br/>Support hours: Monday-Friday, 7am-3pm</p>",
+            "text": "<p>Find answers to common questions about our products, shipping, and services. Can't find what you're looking for? <a href=\"/pages/about-us\">Contact us</a> and we'll be happy to help!</p>",
             "text_size": "text-lg"
           }
         }
@@ -52,70 +52,48 @@
         "padding_bottom": 0
       }
     },
-    "collapsible_tabs_phAkEE": {
+    "faq_products": {
       "type": "collapsible-tabs",
       "blocks": {
-        "collapsible_item_eFemDY": {
+        "item_what_cards": {
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "What is PSA grading?",
-            "content": "<p>PSA (Professional Sports Authenticator) grading is the industry standard for card condition. A PSA 9-10 grade indicates near-mint to mint condition with minimal to no visible flaws. We guarantee all our cards meet PSA 9-10 equivalent standards.</p>",
+            "heading": "What trading cards do you sell?",
+            "content": "<p>We specialize in authentic Japanese trading cards, primarily <strong>One Piece Card Game</strong> and <strong>Pokemon Card Game</strong>. Our One Piece collection includes sets from OP01 to the latest OP13 releases, plus Extra Booster sets. For Pokemon, we carry the Japanese SV (Scarlet & Violet) series. All cards are sourced directly from Japan and verified for authenticity.</p>",
             "custom_liquid": "",
             "page": "",
             "open": true
           }
         },
-        "collapsible_item_RQ3WzW": {
+        "item_psa": {
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "How long does shipping take?",
-            "content": "<p>Orders typically take 2-3 weeks for delivery. We source cards directly from Japan and ship from our UK warehouse with tracked shipping. International orders may take additional time for customs processing.</p>",
+            "heading": "What is PSA grading and your quality guarantee?",
+            "content": "<p>PSA (Professional Sports Authenticator) grading is the industry standard for card condition. A PSA 9-10 grade indicates near-mint to mint condition with minimal to no visible flaws.</p><p><strong>Our Mint Guarantee:</strong> We guarantee that the card you receive will meet the high standards equivalent to a PSA 9-10 grade. Each card is meticulously inspected for surface quality, sharp corners, centered design, and overall appearance before shipping. If we detect any imperfections, we will promptly notify you and secure a suitable replacement.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
           }
         },
-        "collapsible_item_aKpRFm": {
+        "item_authentic": {
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "Are your cards authentic?",
-            "content": "<p>Yes, all our cards are 100% authentic. We source directly from trusted partners in Japan and verify every card using advanced detection methods and expert inspection before shipping.</p>",
+            "heading": "How do you verify card authenticity?",
+            "content": "<p>At Cambridge TCG, we guarantee that all our products are 100% authentic. Our verification process includes:</p><ul><li>Direct sourcing from trusted partners in Japan</li><li>Expert inspection by our trained team</li><li>Advanced detection devices for authenticity verification</li><li>Comparison against our stock of reference cards</li></ul><p>This rigorous process ensures you receive only genuine trading cards with every purchase.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
           }
         },
-        "collapsible_item_3c4PkF": {
+        "item_source": {
           "type": "collapsible_item",
           "settings": {
             "icon": "none",
-            "heading": "What is your return policy?",
-            "content": "<p>We offer hassle-free returns within 30 days if you're not satisfied. Cards must be returned in the same condition as received. Contact us for return instructions.</p>",
-            "custom_liquid": "",
-            "page": "",
-            "open": false
-          }
-        },
-        "collapsible_item_Hwt9zL": {
-          "type": "collapsible_item",
-          "settings": {
-            "icon": "none",
-            "heading": "How does membership work?",
-            "content": "<p>Our membership program offers up to 12% cashback on every purchase, priority access to new releases, and entry to exclusive mystery pack raffles. <a href=\"/pages/cambridge-tcg-membership\">Visit our Membership page</a> to learn more and sign up.</p>",
-            "custom_liquid": "",
-            "page": "",
-            "open": false
-          }
-        },
-        "collapsible_item_tradein": {
-          "type": "collapsible_item",
-          "settings": {
-            "icon": "none",
-            "heading": "Can I trade in my cards?",
-            "content": "<p>Yes! We offer a trade-in program where you can exchange your cards for store credit or cash. We offer competitive rates for quality cards. <a href=\"/pages/trade-in\">Visit our Trade-In page</a> to get started.</p>",
+            "heading": "Where do you source your cards?",
+            "content": "<p>We source cards directly from our trusted partners in Japan. Here's our process:</p><ol><li><strong>Sourcing:</strong> When mint condition cards are available, they're sent to our Japan warehouse in Toyama</li><li><strong>Handling:</strong> Cards are repackaged securely and shipped to Cambridge, UK. We handle all customs and logistics</li><li><strong>Inspection:</strong> Each card is carefully inspected for flaws and authenticity before being posted to you</li></ol><p>This direct sourcing allows us to offer authentic Japanese cards with quality guarantees.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -123,25 +101,17 @@
         }
       },
       "block_order": [
-        "collapsible_item_eFemDY",
-        "collapsible_item_RQ3WzW",
-        "collapsible_item_aKpRFm",
-        "collapsible_item_3c4PkF",
-        "collapsible_item_Hwt9zL",
-        "collapsible_item_tradein"
-      ],
-      "custom_css": [
-        ".collapsible-tabs__wrapper {--row-gap-mobile: 4.8rem !important;}",
-        "@media (min-width: 768px) {.accordion-item:first-child .accordion-details__summary {padding-top: 0; }}",
-        "@media (min-width: 1280px) {.section--collapsible-tabs {max-width: 1170px; } .collapsible-tabs__wrapper {--column-gap: 9rem; }}",
-        "@media (max-width: 767px) {.section--collapsible-tabs {padding-top: 1.2rem; }}"
+        "item_what_cards",
+        "item_psa",
+        "item_authentic",
+        "item_source"
       ],
       "settings": {
         "container": "narrow",
         "color_scheme": "",
         "header_layout": "vertical",
-        "heading": "",
-        "heading_size": "h1",
+        "heading": "Products & Quality",
+        "heading_size": "h2",
         "subheading": "",
         "description": "",
         "button_label": "",
@@ -152,8 +122,284 @@
         "item_style": "standard",
         "item_color_scheme": "",
         "item_heading_font": "heading",
-        "item_heading_size": "h3",
-        "padding_top": 80,
+        "item_heading_size": "h4",
+        "padding_top": 60,
+        "padding_bottom": 40
+      }
+    },
+    "faq_shipping": {
+      "type": "collapsible-tabs",
+      "blocks": {
+        "item_shipping_time": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How long does shipping take?",
+            "content": "<p>Orders typically take <strong>2-3 weeks</strong> for delivery. This includes time for:</p><ul><li>Import and verification from Japan (if item is not in UK stock)</li><li>Quality inspection at our Cambridge warehouse</li><li>Tracked shipping to your address</li></ul><p>We're continuously expanding our UK inventory to ship in-stock items immediately. International orders may take additional time for customs processing.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_shipping_cost": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "What are your shipping costs?",
+            "content": "<p><strong>Free UK Shipping</strong> on orders over £80!</p><p>For orders under £80, standard UK shipping rates apply at checkout. All orders are sent with tracked shipping so you can monitor your delivery.</p><p>International shipping rates vary by destination and are calculated at checkout.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_packaging": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How are cards packaged?",
+            "content": "<p>We take card protection seriously. Each card is:</p><ul><li>Placed in a protective sleeve</li><li>Secured in a toploader or card saver</li><li>Packaged in rigid mailers to prevent bending</li><li>Shipped with tracking for peace of mind</li></ul><p>Our secure packaging ensures your cards arrive in the same mint condition they left our warehouse.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_tracking": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How can I track my order?",
+            "content": "<p>Once your order ships, you'll receive an email with tracking information. You can also track your order by:</p><ul><li>Logging into your <a href=\"/account\">customer account</a></li><li>Checking your order confirmation email</li><li>Contacting us with your order number</li></ul>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "item_shipping_time",
+        "item_shipping_cost",
+        "item_packaging",
+        "item_tracking"
+      ],
+      "settings": {
+        "container": "narrow",
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Shipping & Delivery",
+        "heading_size": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "column_gap": "large",
+        "row_gap": "inherit",
+        "item_style": "standard",
+        "item_color_scheme": "",
+        "item_heading_font": "heading",
+        "item_heading_size": "h4",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "faq_membership": {
+      "type": "collapsible-tabs",
+      "blocks": {
+        "item_membership_how": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How does membership work?",
+            "content": "<p>The Cambridge TCG Club rewards our loyal customers with cashback, raffle entries, and exclusive perks. Membership is free to join and automatically tracks your purchases.</p><p><strong>Membership Tiers:</strong></p><ul><li><strong>Basic (Free):</strong> 3% cashback + 1 raffle ticket/month</li><li><strong>SR (£180+/year):</strong> 5% cashback + 3 raffle tickets/month</li><li><strong>SSR (£300+/year):</strong> 8% cashback + 5 raffle tickets/month + 100 free toploaders & sleeves</li><li><strong>Premium (Coming Soon):</strong> 12% cashback + 8 raffle tickets/month + 100 free toploaders & sleeves</li></ul><p><a href=\"/pages/cambridge-tcg-membership\">Learn more about membership benefits</a></p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_raffle": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "What is the Mystery Pack Raffle?",
+            "content": "<p>Each month, we run exclusive mystery pack raffles for our members! Prizes include:</p><ul><li>Alternative Art Cards</li><li>High-Value Collectibles</li><li>Jackpot Rewards</li></ul><p>Only raffle winners receive packs, making it a truly exclusive benefit. A percentage of our profits goes toward ensuring the mystery packs remain exciting and rewarding for our community.</p><p><a href=\"/pages/my-raffles\">Check your raffle entries</a></p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_cashback": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How does cashback work?",
+            "content": "<p>Cashback is automatically calculated on every purchase and added to your account balance. You can use your cashback balance on future orders in our store.</p><p>Your cashback percentage depends on your membership tier (3% to 12%). The more you shop, the higher your tier and cashback rate!</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "item_membership_how",
+        "item_raffle",
+        "item_cashback"
+      ],
+      "settings": {
+        "container": "narrow",
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Membership & Rewards",
+        "heading_size": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "column_gap": "large",
+        "row_gap": "inherit",
+        "item_style": "standard",
+        "item_color_scheme": "",
+        "item_heading_font": "heading",
+        "item_heading_size": "h4",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "faq_tradein": {
+      "type": "collapsible-tabs",
+      "blocks": {
+        "item_tradein_how": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How does the Trade-In program work?",
+            "content": "<p>Our Trade-In program lets you exchange your trading cards for store credit or cash. Here's how it works:</p><ol><li><strong>Submit your cards:</strong> Tell us what cards you want to trade in via our <a href=\"/pages/trade-in\">Trade-In page</a></li><li><strong>Get a quote:</strong> We'll provide competitive rates based on card condition and market value</li><li><strong>Ship your cards:</strong> Send your cards to us (we provide shipping instructions)</li><li><strong>Receive payment:</strong> Choose store credit (with bonus value) or cash payout</li></ol>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_tradein_cards": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "What cards do you accept for trade-in?",
+            "content": "<p>We primarily accept One Piece and Pokemon trading cards in good condition. Cards should be:</p><ul><li>Authentic (no counterfeits or proxies)</li><li>In reasonable condition (near-mint preferred)</li><li>From sets we currently stock or have demand for</li></ul><p>Submit your cards through our Trade-In page and we'll let you know if we can accept them and at what value.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_tradein_payment": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How do I get paid for my trade-ins?",
+            "content": "<p>You can choose between two payout options:</p><ul><li><strong>Store Credit:</strong> Get bonus value (typically 10% more) to spend in our store</li><li><strong>Bank Transfer:</strong> Receive cash directly to your bank account</li></ul><p>Payment is processed after we receive and verify your cards.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_tradein_track": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "How can I track my trade-in submission?",
+            "content": "<p>You can track your trade-in status by:</p><ul><li>Using the <a href=\"/pages/trade-in-track\">Trade-In Tracker</a> with your submission number</li><li>Checking your email for status updates</li><li>Logging into your <a href=\"/account\">customer account</a> to view all submissions</li></ul><p>We'll notify you at each stage: received, grading, approved, and paid.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "item_tradein_how",
+        "item_tradein_cards",
+        "item_tradein_payment",
+        "item_tradein_track"
+      ],
+      "settings": {
+        "container": "narrow",
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Trade-In Program",
+        "heading_size": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "column_gap": "large",
+        "row_gap": "inherit",
+        "item_style": "standard",
+        "item_color_scheme": "",
+        "item_heading_font": "heading",
+        "item_heading_size": "h4",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "faq_orders": {
+      "type": "collapsible-tabs",
+      "blocks": {
+        "item_returns": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "What is your return policy?",
+            "content": "<p>We offer hassle-free returns within <strong>30 days</strong> if you're not satisfied. To be eligible for a return:</p><ul><li>Cards must be in the same condition as received</li><li>Original packaging should be intact</li><li>Contact us first to receive return instructions</li></ul><p>Refunds are processed to your original payment method within 5-7 business days of receiving the return.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_payment": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "What payment methods do you accept?",
+            "content": "<p>We accept all major payment methods including:</p><ul><li>Credit/Debit Cards (Visa, Mastercard, American Express)</li><li>PayPal</li><li>Shop Pay</li><li>Apple Pay / Google Pay</li><li>Store Credit / Cashback Balance</li></ul>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        },
+        "item_cancel": {
+          "type": "collapsible_item",
+          "settings": {
+            "icon": "none",
+            "heading": "Can I cancel or modify my order?",
+            "content": "<p>If you need to cancel or modify your order, please contact us as soon as possible. We process orders quickly, so changes may not always be possible once an order has been placed.</p><p>If your order hasn't shipped yet, we'll do our best to accommodate your request. Once shipped, you'll need to wait for delivery and then initiate a return if needed.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "item_returns",
+        "item_payment",
+        "item_cancel"
+      ],
+      "settings": {
+        "container": "narrow",
+        "color_scheme": "",
+        "header_layout": "vertical",
+        "heading": "Orders & Returns",
+        "heading_size": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_style": "btn--primary",
+        "column_gap": "large",
+        "row_gap": "inherit",
+        "item_style": "standard",
+        "item_color_scheme": "",
+        "item_heading_font": "heading",
+        "item_heading_size": "h4",
+        "padding_top": 40,
         "padding_bottom": 60
       }
     },
@@ -170,7 +416,7 @@
         "text_faq_contact": {
           "type": "text",
           "settings": {
-            "text": "<p>We're here to help! Reach out to our team and we'll get back to you as soon as possible.</p>",
+            "text": "<p>We're here to help! Reach out to our team and we'll get back to you as soon as possible.<br/>Support hours: Monday-Friday, 7am-3pm</p>",
             "text_size": "text-base"
           }
         },
@@ -202,7 +448,11 @@
     "breadcrumbs_RzgTi9",
     "main",
     "rich_text_rwWQrL",
-    "collapsible_tabs_phAkEE",
+    "faq_products",
+    "faq_shipping",
+    "faq_membership",
+    "faq_tradein",
+    "faq_orders",
     "faq_contact_cta"
   ]
 }
