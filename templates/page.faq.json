@@ -104,7 +104,7 @@
           "settings": {
             "icon": "none",
             "heading": "How does membership work?",
-            "content": "<p>Our membership program offers up to 12% cashback on every purchase, priority access to new releases, and entry to exclusive mystery pack raffles. Visit our Membership page to learn more and sign up.</p>",
+            "content": "<p>Our membership program offers up to 12% cashback on every purchase, priority access to new releases, and entry to exclusive mystery pack raffles. <a href=\"/pages/cambridge-tcg-membership\">Visit our Membership page</a> to learn more and sign up.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -115,7 +115,7 @@
           "settings": {
             "icon": "none",
             "heading": "Can I trade in my cards?",
-            "content": "<p>Yes! We offer a trade-in program where you can exchange your cards for store credit or cash. We offer competitive rates for quality cards. Visit our Trade-In page to get started.</p>",
+            "content": "<p>Yes! We offer a trade-in program where you can exchange your cards for store credit or cash. We offer competitive rates for quality cards. <a href=\"/pages/trade-in\">Visit our Trade-In page</a> to get started.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -179,7 +179,10 @@
           "settings": {
             "button_label": "Contact Us",
             "button_link": "shopify://pages/about-us",
-            "button_style": "btn--primary"
+            "button_style": "btn--primary",
+            "button_label_2": "Browse Cards",
+            "button_link_2": "shopify://collections",
+            "button_style_2": "btn--secondary"
           }
         }
       },
