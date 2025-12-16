@@ -316,7 +316,7 @@
           "type": "button",
           "settings": {
             "button_label": "Contact Us",
-            "button_link": "shopify://pages/about-cambridge-tcg",
+            "button_link": "shopify://pages/about-us",
             "button_style": "btn--primary"
           }
         }
