@@ -64,7 +64,9 @@
         "column_rQGDAq": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-tier-basic",
+            "image_width": "large",
             "title": "Basic",
             "heading_size": "h4",
             "text": "<h3><strong>Free to Join!</strong></h3><h3></h3><p>✅ 1 free raffle ticket for mystery packs every month<br/><br/>✅ 3% cashback to spend in our <strong>Shopify store</strong></p><p></p>",
@@ -78,7 +80,9 @@
         "column_fU7HgA": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-tier-sr",
+            "image_width": "large",
             "title": "<strong>SR</strong>",
             "heading_size": "h4",
             "text": "<h3><strong>Unlock with £180+ in purchases per year</strong></h3><p>✅ 3 free raffle tickets for mystery packs every month<br/><br/>✅ 5% cashback to spend in our <strong>Shopify store</strong></p>",
@@ -92,7 +96,9 @@
         "column_6i7UQk": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-tier-ssr",
+            "image_width": "large",
             "title": "<strong>SSR</strong>",
             "heading_size": "h4",
             "text": "<h3><strong>Unlock with £300+ in purchases per year</strong></h3><p>✅ 5 free raffle tickets for mystery packs every month<br/><br/>✅ 8% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
@@ -106,7 +112,9 @@
         "column_tjTTFP": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-tier-premium",
+            "image_width": "large",
             "title": "<strong>Premium</strong>",
             "heading_size": "h4",
             "text": "<h3><strong>(Coming Soon) - £28 per year</strong></h3><p>✅ 8 free raffle tickets for mystery packs every month<br/><br/>✅ 12% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
@@ -261,7 +269,9 @@
         "explore_tradein": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-trade-in",
+            "image_width": "large",
             "title": "Trade-In Program",
             "heading_size": "h4",
             "text": "<p>Got cards to sell? Trade in your collection for store credit or cash at competitive rates.</p>",
@@ -275,7 +285,9 @@
         "explore_faq": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-faq",
+            "image_width": "large",
             "title": "FAQs",
             "heading_size": "h4",
             "text": "<p>Questions about membership, shipping, or authenticity? Find quick answers here.</p>",
@@ -289,7 +301,9 @@
         "explore_shop": {
           "type": "column",
           "settings": {
-            "image_width": "medium",
+            "show_image": true,
+            "icon_asset": "icon-nav-cart",
+            "image_width": "large",
             "title": "Browse Cards",
             "heading_size": "h4",
             "text": "<p>Explore our collection of authentic Japanese trading cards and start earning cashback.</p>",

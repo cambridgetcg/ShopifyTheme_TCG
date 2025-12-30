@@ -1,0 +1,444 @@
+/**
+ * Japanese Design System for Cambridge TCG
+ * =========================================
+ * Traditional Japanese aesthetic elements for TCG retail
+ * Inspired by: Asanoha, Seigaiha, Hanko, and minimalist design
+ */
+
+/* ==========================================================================
+   CSS Custom Properties - Japanese Color Palette
+   ========================================================================== */
+
+:root {
+  /* Japanese Traditional Colors (Nihon no Dentouteki na Iro) */
+  --color-aka: #c41e3a;           /* Japanese Red / Carmine */
+  --color-kuro: #1a1a1a;          /* Sumi Ink Black */
+  --color-shiro: #fafafa;         /* Pure White */
+  --color-kiniro: #d4af37;        /* Gold */
+  --color-giniro: #c0c0c0;        /* Silver */
+  --color-ai: #1e3a5f;            /* Indigo Blue */
+  --color-sakura: #fef4f4;        /* Cherry Blossom Pink */
+  --color-washi: #f5f5f3;         /* Washi Paper */
+
+  /* TCG Rarity Colors */
+  --rarity-common: #6b7280;
+  --rarity-uncommon: #059669;
+  --rarity-rare: #3b82f6;
+  --rarity-sr: #d97706;
+  --rarity-ssr: #f59e0b;
+  --rarity-premium: #d4af37;
+  --rarity-secret: #9333ea;
+
+  /* Brand Colors */
+  --brand-onepiece-red: #c41e3a;
+  --brand-onepiece-gold: #f5d742;
+  --brand-onepiece-navy: #1e3a5f;
+  --brand-pokemon-yellow: #ffcb05;
+  --brand-pokemon-blue: #3d7dca;
+  --brand-pokemon-red: #cc0000;
+
+  /* Pattern Properties */
+  --pattern-opacity: 0.03;
+  --pattern-size-sm: 40px;
+  --pattern-size-md: 60px;
+  --pattern-size-lg: 80px;
+
+  /* Japanese Typography */
+  --font-japanese: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
+  --line-height-ja: 1.8;
+}
+
+/* ==========================================================================
+   Asanoha Pattern (Hemp Leaf) - 麻の葉
+   Traditional geometric pattern symbolizing growth and good health
+   ========================================================================== */
+
+.asanoha-pattern {
+  position: relative;
+}
+
+.asanoha-pattern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: var(--pattern-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath fill='%231a1a1a' fill-opacity='1' d='M30 0L45 15H30L15 0H30zM30 60L15 45H30L45 60H30zM0 30L15 15V30L0 45V30zM60 30L45 45V30L60 15V30zM30 30L15 15L30 0L45 15L30 30zM30 30L45 45L30 60L15 45L30 30z'/%3E%3C/svg%3E");
+  background-size: var(--pattern-size-md);
+  z-index: 0;
+}
+
+.asanoha-pattern > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Light variant for dark backgrounds */
+.asanoha-pattern--light::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M30 0L45 15H30L15 0H30zM30 60L15 45H30L45 60H30zM0 30L15 15V30L0 45V30zM60 30L45 45V30L60 15V30zM30 30L15 15L30 0L45 15L30 30zM30 30L45 45L30 60L15 45L30 30z'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Seigaiha Pattern (Blue Ocean Waves) - 青海波
+   Wave pattern representing good fortune and calm seas
+   Perfect for One Piece themed sections
+   ========================================================================== */
+
+.seigaiha-pattern {
+  position: relative;
+}
+
+.seigaiha-pattern::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: var(--pattern-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cpath fill='%231e3a5f' fill-opacity='1' d='M0 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.13A20 20 0 0 1 20.2 40H0zM40 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.13A20 20 0 0 1 60.2 40H40zM80 40a19.96 19.96 0 0 1 5.9-14.11 20.17 20.17 0 0 1 19.44-5.13A20 20 0 0 1 100.2 40H80zM20 0a19.96 19.96 0 0 1 5.9 14.11 20.17 20.17 0 0 1-19.44 5.13A20 20 0 0 1 0.2 0H20zM60 0a19.96 19.96 0 0 1 5.9 14.11 20.17 20.17 0 0 1-19.44 5.13A20 20 0 0 1 40.2 0H60z'/%3E%3C/svg%3E");
+  background-size: var(--pattern-size-lg);
+  z-index: 0;
+}
+
+.seigaiha-pattern > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Hanko Stamp Effect (Japanese Seal) - 判子
+   Red seal stamp for authenticity markers
+   ========================================================================== */
+
+.hanko-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em 0.75em;
+  background-color: var(--color-aka);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  position: relative;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Aged/authentic hanko look */
+.hanko-stamp::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+/* Square variant (traditional) */
+.hanko-stamp--square {
+  aspect-ratio: 1;
+  padding: 0.5em;
+  border-radius: 0;
+}
+
+/* Gold variant for premium */
+.hanko-stamp--gold {
+  background-color: var(--color-kiniro);
+  color: var(--color-kuro);
+}
+
+/* ==========================================================================
+   Japan Import Badge
+   Visual indicator for authentic Japanese products
+   ========================================================================== */
+
+.japan-import-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.375em 0.75em;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f3 100%);
+  border: 1px solid var(--color-aka);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-kuro);
+}
+
+.japan-import-badge::before {
+  content: "";
+  width: 1.25em;
+  height: 1.25em;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c41e3a' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M2 12h2M20 12h2'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* ==========================================================================
+   Torii Gate Decorative Element - 鳥居
+   Subtle visual separator inspired by shrine gates
+   ========================================================================== */
+
+.torii-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  color: var(--color-aka);
+}
+
+.torii-divider::before,
+.torii-divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-aka) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+.torii-divider__icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   Washi Paper Texture Background
+   Subtle paper-like texture for premium feel
+   ========================================================================== */
+
+.washi-texture {
+  background-color: var(--color-washi);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Japanese Typography Utilities
+   ========================================================================== */
+
+/* Vertical text (for decorative elements) */
+.text-vertical-ja {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.1em;
+}
+
+/* Japanese text optimization */
+.text-ja {
+  font-family: var(--font-japanese);
+  line-height: var(--line-height-ja);
+  word-break: keep-all;
+}
+
+/* Furigana support */
+.furigana {
+  font-size: 0.5em;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   TCG Card Aesthetic Enhancements
+   ========================================================================== */
+
+/* Card shimmer effect for rare cards */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+  pointer-events: none;
+}
+
+/* Holographic effect for SSR/Premium cards */
+@keyframes holo {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.card-holographic {
+  position: relative;
+}
+
+.card-holographic::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 215, 0, 0.1) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    rgba(255, 215, 0, 0.1) 100%
+  );
+  background-size: 400% 400%;
+  animation: holo 8s ease infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-holographic:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Rarity Border Accents
+   ========================================================================== */
+
+.rarity-border--common {
+  border: 1px solid var(--rarity-common);
+}
+
+.rarity-border--rare {
+  border: 2px solid var(--rarity-rare);
+}
+
+.rarity-border--sr {
+  border: 2px solid var(--rarity-sr);
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.2);
+}
+
+.rarity-border--ssr {
+  border: 2px solid var(--rarity-ssr);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+.rarity-border--premium {
+  border: 2px solid var(--rarity-premium);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* ==========================================================================
+   Japanese-Inspired Button Styles
+   ========================================================================== */
+
+/* Ink brush stroke button */
+.btn-sumi {
+  position: relative;
+  background: var(--color-kuro);
+  color: #ffffff;
+  padding: 0.75em 1.5em;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-sumi:hover {
+  transform: translateY(-2px);
+}
+
+.btn-sumi::before {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 5%;
+  right: 5%;
+  height: 3px;
+  background: var(--color-aka);
+  transform: skewX(-20deg);
+}
+
+/* ==========================================================================
+   One Piece Themed Elements
+   ========================================================================== */
+
+.onepiece-themed {
+  --theme-primary: var(--brand-onepiece-red);
+  --theme-secondary: var(--brand-onepiece-gold);
+  --theme-accent: var(--brand-onepiece-navy);
+}
+
+/* ==========================================================================
+   Pokemon Themed Elements
+   ========================================================================== */
+
+.pokemon-themed {
+  --theme-primary: var(--brand-pokemon-blue);
+  --theme-secondary: var(--brand-pokemon-yellow);
+  --theme-accent: var(--brand-pokemon-red);
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+/* Japanese red accent */
+.text-aka { color: var(--color-aka); }
+.bg-aka { background-color: var(--color-aka); }
+
+/* Gold accent */
+.text-kiniro { color: var(--color-kiniro); }
+.bg-kiniro { background-color: var(--color-kiniro); }
+
+/* Ink black */
+.text-kuro { color: var(--color-kuro); }
+.bg-kuro { background-color: var(--color-kuro); }
+
+/* Washi paper background */
+.bg-washi { background-color: var(--color-washi); }
+
+/* Sakura pink */
+.bg-sakura { background-color: var(--color-sakura); }
+
+/* Pattern opacity modifiers */
+.pattern-opacity-subtle { --pattern-opacity: 0.02; }
+.pattern-opacity-light { --pattern-opacity: 0.03; }
+.pattern-opacity-medium { --pattern-opacity: 0.05; }
+.pattern-opacity-strong { --pattern-opacity: 0.08; }

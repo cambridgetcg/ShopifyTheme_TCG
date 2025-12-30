@@ -91,6 +91,15 @@
                           widths: '165, 360, 535, 750, 940, 1100',
                           is: 'image-lazy'
                       }}
+                    {%- elsif block.settings.icon_asset != blank -%}
+                      <img
+                        src="{{ block.settings.icon_asset | append: '.svg' | asset_url }}"
+                        alt="{{ block.settings.title | escape }}"
+                        class="multicolumn-card__icon"
+                        loading="lazy"
+                        width="64"
+                        height="64"
+                      >
                     {%- else -%}
                       {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
                     {%- endif -%}
@@ -423,6 +432,13 @@
           "type": "image_picker",
           "id": "image",
           "label": "t:sections.all.image.label",
+          "visible_if": "{{ block.settings.show_image == true }}"
+        },
+        {
+          "type": "text",
+          "id": "icon_asset",
+          "label": "Icon asset name",
+          "info": "Enter asset filename without .svg extension (e.g., 'icon-tier-basic'). Used when no image is selected.",
           "visible_if": "{{ block.settings.show_image == true }}"
         },
         {
