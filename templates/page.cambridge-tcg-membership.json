@@ -65,7 +65,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-tier-basic",
             "image_width": "large",
             "title": "Basic",
             "heading_size": "h4",
@@ -81,7 +80,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-tier-sr",
             "image_width": "large",
             "title": "<strong>SR</strong>",
             "heading_size": "h4",
@@ -97,7 +95,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-tier-ssr",
             "image_width": "large",
             "title": "<strong>SSR</strong>",
             "heading_size": "h4",
@@ -113,7 +110,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-tier-premium",
             "image_width": "large",
             "title": "<strong>Premium</strong>",
             "heading_size": "h4",
@@ -270,7 +266,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-trade-in",
             "image_width": "large",
             "title": "Trade-In Program",
             "heading_size": "h4",
@@ -286,7 +281,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-faq",
             "image_width": "large",
             "title": "FAQs",
             "heading_size": "h4",
@@ -302,7 +296,6 @@
           "type": "column",
           "settings": {
             "show_image": true,
-            "icon_asset": "icon-nav-cart",
             "image_width": "large",
             "title": "Browse Cards",
             "heading_size": "h4",
