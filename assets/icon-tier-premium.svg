@@ -1,6 +1,18 @@
-<svg viewBox="0 0 64 64" fill="#000000" xmlns="http://www.w3.org/2000/svg" id="Vip-Diamond-Fill--Streamline-Remix-Fill" height="64" width="64">
-  <desc>
-    Vip Diamond Fill Streamline Icon: https://streamlinehq.com
-  </desc>
-  <path d="M13.006906666666666 8.007333333333332H51.0184c0.8530666666666666 0 1.6546666666666667 0.4082133333333333 2.156533333333333 1.0981866666666666l10.194133333333333 14.017066666666667c0.3741333333333333 0.5143466666666666 0.3328 1.22128 -0.0984 1.6885866666666667L32.992266666666666 57.61253333333333c-0.4994666666666666 0.5410666666666666 -1.3429333333333333 0.5749333333333333 -1.884 0.07546666666666665 -0.02613333333333333 -0.024266666666666666 -0.051199999999999996 -0.049333333333333326 -0.07546666666666665 -0.07546666666666665L0.7546453333333334 24.811173333333333C0.3232693333333333 24.343866666666663 0.282 23.63693333333333 0.6560693333333333 23.122586666666667l10.194223999999998 -14.017066666666667c0.5018133333333332 -0.6899733333333333 1.3034666666666666 -1.0981866666666666 2.156613333333333 -1.0981866666666666Z" stroke-width="2.6667"></path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Premium Tier: Crown kamon - represents ultimate prestige -->
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d742"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#b8962a"/>
+    </linearGradient>
+  </defs>
+  <!-- Crown base -->
+  <path d="M12 44L16 24L26 34L32 18L38 34L48 24L52 44L12 44Z" fill="url(#goldGradient)"/>
+  <!-- Crown band -->
+  <rect x="10" y="44" width="44" height="8" rx="2" fill="url(#goldGradient)"/>
+  <!-- Crown jewels -->
+  <circle cx="32" cy="18" r="4" fill="#d4af37" stroke="#f5d742" stroke-width="1"/>
+  <circle cx="20" cy="30" r="3" fill="#d4af37"/>
+  <circle cx="44" cy="30" r="3" fill="#d4af37"/>
 </svg>

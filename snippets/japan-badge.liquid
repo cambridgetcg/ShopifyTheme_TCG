@@ -1,0 +1,72 @@
+{% comment %}
+  Japan Authenticity Badge Snippet
+  Usage:
+    {% render 'japan-badge' %}
+    {% render 'japan-badge', style: 'compact' %}
+    {% render 'japan-badge', style: 'hanko' %}
+    {% render 'japan-badge', text: 'Direct from Japan' %}
+{% endcomment %}
+
+{%- liquid
+  assign badge_style = style | default: 'default'
+  assign badge_text = text | default: 'Imported from Japan'
+-%}
+
+{%- case badge_style -%}
+  {%- when 'default' -%}
+    <span class="japan-import-badge">
+      <svg class="japan-badge__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#c41e3a"/>
+        <circle cx="12" cy="12" r="10" stroke="#c41e3a" stroke-width="1.5" fill="none"/>
+      </svg>
+      <span class="japan-badge__text">{{ badge_text }}</span>
+    </span>
+
+  {%- when 'compact' -%}
+    <span class="japan-import-badge japan-import-badge--compact" title="{{ badge_text }}">
+      <svg class="japan-badge__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="5" fill="#c41e3a"/>
+        <circle cx="12" cy="12" r="10" stroke="#c41e3a" stroke-width="1.5" fill="none"/>
+      </svg>
+    </span>
+
+  {%- when 'hanko' -%}
+    <span class="hanko-stamp" title="Authenticated">
+      {{ badge_text | upcase | truncate: 12, '' }}
+    </span>
+
+  {%- when 'authentic' -%}
+    <span class="hanko-stamp hanko-stamp--square" title="100% Authentic">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
+      </svg>
+    </span>
+
+  {%- when 'psa' -%}
+    <span class="japan-import-badge japan-import-badge--psa">
+      <span class="japan-badge__text">PSA 9-10 Grade</span>
+    </span>
+
+{%- endcase -%}
+
+<style>
+  .japan-import-badge--compact {
+    padding: 0.25em;
+    min-width: auto;
+  }
+  
+  .japan-import-badge--psa {
+    background: linear-gradient(135deg, #1a1a1a 0%, #374151 100%);
+    color: #d4af37;
+    border-color: #d4af37;
+  }
+  
+  .japan-badge__icon {
+    flex-shrink: 0;
+  }
+  
+  .japan-badge__text {
+    white-space: nowrap;
+  }
+</style>
