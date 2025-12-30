@@ -55,7 +55,8 @@
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
-        "divider_width": "fixed"
+        "divider_width": "fixed",
+        "custom_class": ""
       }
     },
     "multicolumn_ff6GU6": {
@@ -64,7 +65,8 @@
         "column_rQGDAq": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "Basic",
             "heading_size": "h4",
@@ -79,7 +81,8 @@
         "column_fU7HgA": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "<strong>SR</strong>",
             "heading_size": "h4",
@@ -94,7 +97,8 @@
         "column_6i7UQk": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "<strong>SSR</strong>",
             "heading_size": "h4",
@@ -109,11 +113,12 @@
         "column_tjTTFP": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "<strong>Premium</strong>",
             "heading_size": "h4",
-            "text": "<h3><strong>(Coming Soon) - £28 per year</strong></h3><p>✅ 8 free raffle tickets for mystery packs every month<br/><br/>✅ 12% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
+            "text": "<h3><strong>(Coming Soon) - £58 per year</strong></h3><p>✅ 8 free raffle tickets for mystery packs every month<br/><br/>✅ 12% cashback to spend in our <strong>Shopify store</strong><br/><br/>✅ <strong>100 free toploaders and sleeves per year</strong></p>",
             "text_size": "text-base",
             "button_label": "Join Now",
             "button_style": "btn--primary",
@@ -144,7 +149,8 @@
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
-        "divider_width": "fixed"
+        "divider_width": "fixed",
+        "custom_class": ""
       }
     },
     "layered_images_with_text_CXWtQB": {
@@ -207,7 +213,8 @@
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
-        "divider_width": "fixed"
+        "divider_width": "fixed",
+        "custom_class": ""
       }
     },
     "image_with_text_HKi796": {
@@ -256,7 +263,8 @@
         "padding_top": 50,
         "padding_bottom": 50,
         "show_section_divider": false,
-        "divider_width": "fixed"
+        "divider_width": "fixed",
+        "custom_class": ""
       }
     },
     "membership_explore": {
@@ -265,7 +273,8 @@
         "explore_tradein": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "Trade-In Program",
             "heading_size": "h4",
@@ -280,7 +289,8 @@
         "explore_faq": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "FAQs",
             "heading_size": "h4",
@@ -295,7 +305,8 @@
         "explore_shop": {
           "type": "column",
           "settings": {
-            "show_image": true,
+            "show_image": false,
+            "icon_asset": "",
             "image_width": "large",
             "title": "Browse Cards",
             "heading_size": "h4",
@@ -329,7 +340,8 @@
         "padding_top": 60,
         "padding_bottom": 80,
         "show_section_divider": false,
-        "divider_width": "fixed"
+        "divider_width": "fixed",
+        "custom_class": ""
       }
     }
   },
