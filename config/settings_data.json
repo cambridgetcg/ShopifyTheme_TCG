@@ -95,6 +95,19 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "10836757519992038104": {
+        "type": "shopify://apps/rewards-pro/blocks/membership_widget/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+        "disabled": false,
+        "settings": {
+          "enable_api_calls": true,
+          "cache_duration": 120,
+          "guest_message": "Join our rewards program!",
+          "guest_cta_text": "Sign In",
+          "guest_cta_url": "/account/login"
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
