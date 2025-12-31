@@ -96,6 +96,11 @@
     },
     "content_for_index": [],
     "blocks": {
+      "6174324309569838175": {
+        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
+        "disabled": true,
+        "settings": {}
+      },
       "10836757519992038104": {
         "type": "shopify://apps/rewards-pro/blocks/membership_widget/0199e8b4-621e-7cd3-af1c-32293a9bc305",
         "disabled": false,
