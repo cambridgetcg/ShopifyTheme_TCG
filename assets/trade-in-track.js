@@ -91,10 +91,23 @@
     const url = new URL(CONFIG.apiBase + CONFIG.endpoints.track, window.location.origin);
     url.searchParams.set('number', number);
 
+    console.log('[Trade-In Track] Fetching:', url.toString());
+
     const response = await fetch(url.toString());
-    const data = await response.json();
+
+    console.log('[Trade-In Track] Response status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('[Trade-In Track] Response data:', data);
+    } catch (parseError) {
+      console.error('[Trade-In Track] Failed to parse response:', parseError);
+      throw new Error('Invalid response from server');
+    }
 
     if (!response.ok) {
+      console.error('[Trade-In Track] API error:', data);
       throw new Error(data.message || 'Failed to fetch tracking info');
     }
 
@@ -289,16 +302,26 @@
   // ============================================================================
 
   function init() {
+    // Verify all required elements exist
+    if (!elements.form || !elements.input) {
+      console.error('[Trade-In Track] Missing required form elements');
+      return;
+    }
+
     // Event listeners
     elements.form.addEventListener('submit', handleSubmit);
-    elements.printPackingSlip.addEventListener('click', handlePrintPackingSlip);
+    if (elements.printPackingSlip) {
+      elements.printPackingSlip.addEventListener('click', handlePrintPackingSlip);
+    }
 
     // Check for number in URL
     const urlParams = new URLSearchParams(window.location.search);
     const number = urlParams.get('number');
     if (number) {
+      console.log('[Trade-In Track] Auto-tracking submission:', number);
       elements.input.value = number;
-      elements.form.dispatchEvent(new Event('submit'));
+      // Call handleSubmit directly with a mock event instead of dispatching
+      handleSubmit({ preventDefault: () => {} });
     }
   }
 

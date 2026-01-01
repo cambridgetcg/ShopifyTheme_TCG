@@ -2129,6 +2129,176 @@ body.trade-in-modal-open {
    Utilities
    ============================================================================ */
 
+/* ============================================================================
+   Shipping Address Form
+   ============================================================================ */
+
+.trade-in-shipping-banner {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid #34d399;
+  border-radius: var(--ti-radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.trade-in-shipping-banner__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #047857;
+  line-height: 1.5;
+}
+
+.trade-in-shipping-skip {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ti-border);
+}
+
+.trade-in-shipping-skip__btn {
+  background: none;
+  border: none;
+  color: var(--ti-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  text-decoration: underline;
+  transition: color 0.15s ease;
+}
+
+.trade-in-shipping-skip__btn:hover {
+  color: var(--ti-text);
+}
+
+.trade-in-form__section-icon {
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.trade-in-form__label .required {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.trade-in-form__label .optional {
+  color: var(--ti-text-muted);
+  font-weight: normal;
+  font-size: 0.8125rem;
+}
+
+/* ============================================================================
+   Shipping Status Messages
+   ============================================================================ */
+
+.trade-in-success__shipping-status {
+  margin: 1rem 0;
+}
+
+.shipping-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--ti-radius);
+  text-align: center;
+}
+
+.shipping-status__icon {
+  font-size: 1.5rem;
+}
+
+.shipping-status__text {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ti-text);
+}
+
+.shipping-status__desc {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ti-text-muted);
+  max-width: 32ch;
+}
+
+/* Shipping method variants */
+.shipping-status--prepaid {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid #34d399;
+}
+
+.shipping-status--prepaid .shipping-status__text {
+  color: #047857;
+}
+
+.shipping-status--address-required {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #fbbf24;
+}
+
+.shipping-status--address-required .shipping-status__text {
+  color: #92400e;
+}
+
+.shipping-status--self-ship {
+  background: var(--ti-bg-muted);
+  border: 1px solid var(--ti-border);
+}
+
+/* Tracking display */
+.trade-in-success__tracking {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--ti-bg-muted);
+  border-radius: var(--ti-radius);
+  margin: 1rem 0;
+}
+
+.trade-in-success__tracking-label {
+  font-size: 0.8125rem;
+  color: var(--ti-text-muted);
+}
+
+.trade-in-success__tracking-number {
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ti-text);
+}
+
+/* Label download button */
+.trade-in-success__label-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: white;
+  border: none;
+  border-radius: var(--ti-radius);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.trade-in-success__label-download:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+  color: white;
+}
+
+.trade-in-success__label-download svg {
+  flex-shrink: 0;
+}
+
 [hidden] {
   display: none !important;
 }

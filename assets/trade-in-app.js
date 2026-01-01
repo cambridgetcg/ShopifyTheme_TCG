@@ -680,6 +680,7 @@
   function updateFormSections() {
     const customerSection = document.querySelector('[data-customer-section]');
     const payoutSection = document.querySelector('[data-payout-section]');
+    const shippingSection = document.querySelector('[data-shipping-section]');
     const submitSection = document.querySelector('[data-submit-section]');
 
     const hasItems = state.cart.length > 0;
@@ -687,6 +688,18 @@
     if (customerSection) customerSection.hidden = !hasItems;
     if (payoutSection) payoutSection.hidden = !hasItems;
     if (submitSection) submitSection.hidden = !hasItems;
+
+    // Show shipping section if cart qualifies for free shipping (£50+)
+    // and user hasn't skipped it
+    const FREE_SHIPPING_THRESHOLD = 5000; // £50 in pence
+    if (shippingSection && hasItems) {
+      const totals = getCartTotals();
+      const qualifiesForFreeShipping = totals.subtotal >= FREE_SHIPPING_THRESHOLD;
+      const hasSkipped = shippingSection.dataset.skipped === 'true';
+      shippingSection.hidden = !qualifiesForFreeShipping || hasSkipped;
+    } else if (shippingSection) {
+      shippingSection.hidden = true;
+    }
 
     // Update payout totals
     if (hasItems) {
@@ -836,6 +849,12 @@
     const phone = form.querySelector('[name="phone"]')?.value?.trim() || '';
     const contactChannel = form.querySelector('[name="contactChannel"]')?.value || '';
 
+    // Shipping address (optional - for prepaid label)
+    const shippingAddress1 = form.querySelector('[name="shippingAddress1"]')?.value?.trim() || '';
+    const shippingAddress2 = form.querySelector('[name="shippingAddress2"]')?.value?.trim() || '';
+    const shippingCity = form.querySelector('[name="shippingCity"]')?.value?.trim() || '';
+    const shippingPostalCode = form.querySelector('[name="shippingPostalCode"]')?.value?.trim() || '';
+
     // Validate email
     if (!email) {
       showError('Please enter your email address');
@@ -920,6 +939,15 @@
         submissionData.bankAccountNumber = bankAccountNumber;
       }
 
+      // Include shipping address if provided (for prepaid label)
+      if (shippingAddress1 && shippingCity && shippingPostalCode) {
+        submissionData.shippingAddress1 = shippingAddress1;
+        submissionData.shippingAddress2 = shippingAddress2;
+        submissionData.shippingCity = shippingCity;
+        submissionData.shippingPostalCode = shippingPostalCode;
+        submissionData.shippingCountry = 'GB';
+      }
+
       const result = await submitTradeIn(submissionData);
       const submission = result.submission;  // Extract nested submission object
       const totals = getCartTotals();
@@ -980,6 +1008,65 @@
           } catch (err) {
             console.error('Failed to fetch return address:', err);
             addressEl.textContent = 'See confirmation email for shipping address';
+          }
+        }
+
+        // Handle shipping method display
+        const shippingMethodEl = successEl.querySelector('[data-shipping-method]');
+        const shippingMessageEl = successEl.querySelector('[data-shipping-message]');
+        const labelDownloadEl = successEl.querySelector('[data-label-download]');
+
+        const shippingMethod = submission.shippingMethod || 'SELF_SHIP';
+
+        if (shippingMethodEl) {
+          shippingMethodEl.setAttribute('data-method', shippingMethod);
+        }
+
+        if (shippingMessageEl) {
+          switch (shippingMethod) {
+            case 'PREPAID':
+              shippingMessageEl.innerHTML = `
+                <div class="shipping-status shipping-status--prepaid">
+                  <span class="shipping-status__icon">📦</span>
+                  <span class="shipping-status__text">Prepaid shipping label ready!</span>
+                </div>
+              `;
+              // Show label download button
+              if (labelDownloadEl) {
+                labelDownloadEl.hidden = false;
+                labelDownloadEl.href = submission.labelUrl || `${CONFIG.apiBase}/submissions/${submission.id}/label`;
+              }
+              break;
+            case 'ADDRESS_REQUIRED':
+              shippingMessageEl.innerHTML = `
+                <div class="shipping-status shipping-status--address-required">
+                  <span class="shipping-status__icon">📬</span>
+                  <span class="shipping-status__text">You qualify for a free prepaid shipping label!</span>
+                  <p class="shipping-status__desc">Add your address in your confirmation email or contact us to receive your free label.</p>
+                </div>
+              `;
+              if (labelDownloadEl) labelDownloadEl.hidden = true;
+              break;
+            case 'SELF_SHIP':
+            default:
+              shippingMessageEl.innerHTML = `
+                <div class="shipping-status shipping-status--self-ship">
+                  <span class="shipping-status__icon">📮</span>
+                  <span class="shipping-status__text">Please ship your cards using the address above</span>
+                  <p class="shipping-status__desc">We recommend using tracked shipping for your protection.</p>
+                </div>
+              `;
+              if (labelDownloadEl) labelDownloadEl.hidden = true;
+              break;
+          }
+        }
+
+        // Show tracking number if available
+        if (submission.trackingNumber) {
+          const trackingDisplayEl = successEl.querySelector('[data-tracking-display]');
+          if (trackingDisplayEl) {
+            trackingDisplayEl.textContent = submission.trackingNumber;
+            trackingDisplayEl.parentElement.hidden = false;
           }
         }
 
@@ -1314,6 +1401,22 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.hidden) {
           closeModal();
+        }
+      });
+    }
+
+    // Skip shipping button
+    const skipShippingBtn = form.querySelector('[data-skip-shipping]');
+    if (skipShippingBtn) {
+      skipShippingBtn.addEventListener('click', () => {
+        const shippingSection = document.querySelector('[data-shipping-section]');
+        if (shippingSection) {
+          shippingSection.dataset.skipped = 'true';
+          shippingSection.hidden = true;
+          // Clear any entered address data
+          shippingSection.querySelectorAll('input').forEach(input => {
+            input.value = '';
+          });
         }
       });
     }

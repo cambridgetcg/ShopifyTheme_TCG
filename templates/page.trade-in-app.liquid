@@ -335,6 +335,83 @@
       </div>
     </div>
 
+    {% comment %} Shipping Address Section (shown when eligible for free label) {% endcomment %}
+    <div class="trade-in-form__section" data-shipping-section hidden>
+      <h3 class="trade-in-form__section-title">
+        <span class="trade-in-form__section-icon">📦</span>
+        Free Prepaid Shipping Label
+      </h3>
+
+      <div class="trade-in-shipping-banner">
+        <p class="trade-in-shipping-banner__text">
+          🎉 Your trade-in qualifies for a <strong>free prepaid shipping label</strong>!
+          Enter your address below to receive your label instantly.
+        </p>
+      </div>
+
+      <div class="trade-in-form__fields">
+        <div class="trade-in-form__field trade-in-form__field--full">
+          <label for="shipping-address1" class="trade-in-form__label">
+            Address Line 1 <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="shipping-address1"
+            name="shippingAddress1"
+            class="trade-in-form__input"
+            placeholder="123 High Street"
+            data-shipping-address1
+          >
+        </div>
+        <div class="trade-in-form__field trade-in-form__field--full">
+          <label for="shipping-address2" class="trade-in-form__label">
+            Address Line 2 <span class="optional">(optional)</span>
+          </label>
+          <input
+            type="text"
+            id="shipping-address2"
+            name="shippingAddress2"
+            class="trade-in-form__input"
+            placeholder="Flat 2"
+            data-shipping-address2
+          >
+        </div>
+        <div class="trade-in-form__field">
+          <label for="shipping-city" class="trade-in-form__label">
+            City / Town <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="shipping-city"
+            name="shippingCity"
+            class="trade-in-form__input"
+            placeholder="London"
+            data-shipping-city
+          >
+        </div>
+        <div class="trade-in-form__field">
+          <label for="shipping-postcode" class="trade-in-form__label">
+            Postcode <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="shipping-postcode"
+            name="shippingPostalCode"
+            class="trade-in-form__input"
+            placeholder="SW1A 1AA"
+            maxlength="10"
+            data-shipping-postcode
+          >
+        </div>
+      </div>
+
+      <div class="trade-in-shipping-skip">
+        <button type="button" class="trade-in-shipping-skip__btn" data-skip-shipping>
+          Skip - I'll arrange my own shipping
+        </button>
+      </div>
+    </div>
+
     {% comment %} Submit Section {% endcomment %}
     <div class="trade-in-form__section trade-in-form__submit-section" data-submit-section hidden>
       <p class="trade-in-form__minimum" data-minimum-notice hidden>
@@ -408,7 +485,7 @@
         </div>
 
         {% comment %} Ship To Address - Inline {% endcomment %}
-        <div class="trade-in-success__ship-to">
+        <div class="trade-in-success__ship-to" data-shipping-method>
           <div class="trade-in-success__ship-to-header">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
               <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -420,6 +497,27 @@
             Loading address...
           </address>
         </div>
+
+        {% comment %} Shipping Status Message - Updated by JS based on shipping method {% endcomment %}
+        <div class="trade-in-success__shipping-status" data-shipping-message>
+          {% comment %} Content injected by JavaScript based on shippingMethod {% endcomment %}
+        </div>
+
+        {% comment %} Tracking Number Display (hidden by default) {% endcomment %}
+        <div class="trade-in-success__tracking" hidden>
+          <span class="trade-in-success__tracking-label">Your Tracking Number:</span>
+          <span class="trade-in-success__tracking-number" data-tracking-display></span>
+        </div>
+
+        {% comment %} Label Download Button (shown only for PREPAID) {% endcomment %}
+        <a href="#" class="trade-in-success__label-download" data-label-download hidden target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Download Shipping Label</span>
+        </a>
 
         {% comment %} Action Cards Grid {% endcomment %}
         <div class="trade-in-success__actions-grid">
