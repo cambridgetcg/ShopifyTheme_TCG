@@ -921,6 +921,7 @@
       }
 
       const result = await submitTradeIn(submissionData);
+      const submission = result.submission;  // Extract nested submission object
       const totals = getCartTotals();
 
       // Success
@@ -930,7 +931,7 @@
 
         // Submission number
         const numberEl = successEl.querySelector('[data-submission-number]');
-        if (numberEl) numberEl.textContent = result.submissionNumber;
+        if (numberEl) numberEl.textContent = submission.submissionNumber;
 
         // Email display
         const emailEl = successEl.querySelector('[data-success-email]');
@@ -950,9 +951,9 @@
         const shippingLink = successEl.querySelector('[data-shipping-link]');
         const trackingLink = successEl.querySelector('[data-tracking-link]');
 
-        if (packingLink) packingLink.href = `${CONFIG.apiBase}/packing-slip/${result.submissionNumber}`;
-        if (shippingLink) shippingLink.href = `${CONFIG.apiBase}/shipping-instructions/${result.submissionNumber}`;
-        if (trackingLink) trackingLink.href = `/pages/trade-in-track?number=${result.submissionNumber}`;
+        if (packingLink) packingLink.href = `${CONFIG.apiBase}/packing-slip/${submission.submissionNumber}`;
+        if (shippingLink) shippingLink.href = `${CONFIG.apiBase}/shipping-instructions/${submission.submissionNumber}`;
+        if (trackingLink) trackingLink.href = `/pages/trade-in-track?number=${submission.submissionNumber}`;
 
         // Fetch and display ship-to address
         const addressEl = successEl.querySelector('[data-ship-to-address]');
@@ -987,13 +988,13 @@
         if (copyBtn) {
           copyBtn.addEventListener('click', async () => {
             try {
-              await navigator.clipboard.writeText(result.submissionNumber);
+              await navigator.clipboard.writeText(submission.submissionNumber);
               copyBtn.classList.add('copied');
               setTimeout(() => copyBtn.classList.remove('copied'), 2000);
             } catch (err) {
               // Fallback for older browsers
               const textArea = document.createElement('textarea');
-              textArea.value = result.submissionNumber;
+              textArea.value = submission.submissionNumber;
               textArea.style.position = 'fixed';
               textArea.style.left = '-9999px';
               document.body.appendChild(textArea);
