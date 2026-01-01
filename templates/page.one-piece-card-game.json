@@ -164,7 +164,7 @@
         "featured_collection_7qqjK9"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "layout": "standard",
         "subheading": "",
         "heading": "Collections",
@@ -193,7 +193,7 @@
     "featured_collection_bJ3Q3H": {
       "type": "featured-collection",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "header_layout": "vertical",
         "heading": "OP11 A Fist of Divine Speed",
         "heading_size": "h1",
@@ -225,7 +225,7 @@
     "featured_collection_pbzFk9": {
       "type": "featured-collection",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-4",
         "header_layout": "vertical",
         "heading": "OP10 Royal Blood",
         "heading_size": "h1",
@@ -286,7 +286,8 @@
         "button_poke"
       ],
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-8",
+        "custom_class": "cross-promo--to-pokemon",
         "content_alignment": "center",
         "padding_top": 60,
         "padding_bottom": 60,
@@ -327,7 +328,7 @@
         "button_VCTfgJ"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "content_alignment": "center",
         "padding_top": 40,
         "padding_bottom": 80,
@@ -367,7 +368,7 @@
         "button_tradein"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-inverse",
         "content_alignment": "center",
         "padding_top": 60,
         "padding_bottom": 60,

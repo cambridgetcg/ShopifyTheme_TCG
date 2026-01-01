@@ -1,12 +1,50 @@
 {% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
   {% liquid
     assign justify = section.settings.text_alignment | default: 'start'
+
+    # Zone Detection - Determine which brand zone we're in
+    assign current_zone = ''
+    assign zone_class = ''
+
+    # Check page handle for brand pages
+    if page.handle contains 'one-piece'
+      assign current_zone = 'onepiece'
+      assign zone_class = 'breadcrumb--onepiece'
+    elsif page.handle contains 'pokemon'
+      assign current_zone = 'pokemon'
+      assign zone_class = 'breadcrumb--pokemon'
+    endif
+
+    # Check collection handle for brand collections
+    if collection.handle contains 'op' or collection.handle contains 'eb0'
+      assign current_zone = 'onepiece'
+      assign zone_class = 'breadcrumb--onepiece'
+    elsif collection.handle contains 'sv' or collection.handle contains 'sm' or collection.handle contains 'swsh'
+      assign current_zone = 'pokemon'
+      assign zone_class = 'breadcrumb--pokemon'
+    endif
+
+    # Check product collections for brand detection
+    if product != blank
+      for col in product.collections
+        if col.handle contains 'op' or col.handle contains 'eb0'
+          assign current_zone = 'onepiece'
+          assign zone_class = 'breadcrumb--onepiece'
+          break
+        elsif col.handle contains 'sv' or col.handle contains 'sm'
+          assign current_zone = 'pokemon'
+          assign zone_class = 'breadcrumb--pokemon'
+          break
+        endif
+      endfor
+    endif
   %}
   <div
     id="{{ section.id }}"
-    class="section--breadcrumb"
+    class="section--breadcrumb {{ zone_class }}"
     data-section-type="breadcrumb"
     data-section-id="{{ section.id }}"
+    {% if current_zone != blank %}data-zone="{{ current_zone }}"{% endif %}
   >
     {% capture separator_icon %}
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="rtl-flip-x">

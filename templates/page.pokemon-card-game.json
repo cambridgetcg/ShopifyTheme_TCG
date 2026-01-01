@@ -110,7 +110,7 @@
         "featured_collection_7eJaUR"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-8",
         "layout": "standard",
         "subheading": "",
         "heading": "SV9a Heat Wave Arena",
@@ -139,7 +139,7 @@
     "featured_collection_C6p6eP": {
       "type": "featured-collection",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-8",
         "header_layout": "vertical",
         "heading": "SV9a Heat Wave Arena",
         "heading_size": "h1",
@@ -171,7 +171,7 @@
     "featured_collection_pPhxCq": {
       "type": "featured-collection",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-8",
         "header_layout": "vertical",
         "heading": "SV8a Terastal Festival EX",
         "heading_size": "h1",
@@ -232,7 +232,8 @@
         "button_cross"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-4",
+        "custom_class": "cross-promo--to-onepiece",
         "content_alignment": "center",
         "padding_top": 60,
         "padding_bottom": 60,
@@ -272,7 +273,7 @@
         "button_support"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "content_alignment": "center",
         "padding_top": 40,
         "padding_bottom": 80,
@@ -312,7 +313,7 @@
         "button_tradein"
       ],
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-8",
         "content_alignment": "center",
         "padding_top": 60,
         "padding_bottom": 60,
