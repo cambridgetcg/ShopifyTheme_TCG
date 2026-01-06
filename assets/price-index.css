@@ -1228,3 +1228,707 @@
 .price-index [hidden] {
   display: none !important;
 }
+
+/* ============================================================================
+   TCG-100 Index (NASDAQ-Style)
+   ============================================================================ */
+
+/* TCG-100 Section */
+.tcg100-section {
+  margin-top: 2rem;
+  background: var(--pi-surface);
+  border-radius: var(--pi-radius-lg);
+  overflow: hidden;
+}
+
+.tcg100-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--pi-border);
+}
+
+.tcg100-section__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tcg100-section__badge {
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tcg100-section__subtitle {
+  font-size: 0.85rem;
+  color: var(--pi-text-secondary);
+}
+
+/* TCG-100 Summary */
+.tcg100-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--pi-surface) 0%, rgba(139, 92, 246, 0.05) 100%);
+}
+
+.tcg100-summary__main {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.tcg100-summary__value-container {
+  flex: 1;
+}
+
+.tcg100-summary__label {
+  font-size: 0.85rem;
+  color: var(--pi-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.tcg100-summary__value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff, #e5e7eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tcg100-summary__change {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.tcg100-summary__change--up {
+  color: var(--pi-gain-strong);
+}
+
+.tcg100-summary__change--down {
+  color: var(--pi-loss-strong);
+}
+
+.tcg100-summary__change--neutral {
+  color: var(--pi-neutral);
+}
+
+.tcg100-summary__secondary {
+  font-size: 0.85rem;
+  color: var(--pi-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.tcg100-summary__chart {
+  width: 100px;
+}
+
+.tcg100-summary__stats {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.tcg100-summary__stat {
+  text-align: center;
+}
+
+.tcg100-summary__stat-label {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tcg100-summary__stat-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  margin-top: 0.25rem;
+}
+
+.tcg100-summary__schedule {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--pi-border);
+}
+
+.tcg100-summary__schedule-item {
+  font-size: 0.85rem;
+}
+
+.tcg100-summary__schedule-label {
+  color: var(--pi-text-secondary);
+  margin-right: 0.5rem;
+}
+
+/* TCG-100 Table */
+.tcg100-table-container {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.tcg100-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tcg100-table__header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--pi-border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tcg100-table__header--sortable {
+  cursor: pointer;
+  transition: color var(--pi-transition);
+}
+
+.tcg100-table__header--sortable:hover {
+  color: var(--pi-text);
+}
+
+.tcg100-table__header--right {
+  text-align: right;
+}
+
+.tcg100-table__row {
+  transition: background var(--pi-transition);
+}
+
+.tcg100-table__row:hover {
+  background: var(--pi-surface-hover);
+}
+
+.tcg100-table__row--buffer-zone {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.tcg100-table__row--buffer-zone:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.tcg100-table__cell {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--pi-border);
+  font-size: 0.9rem;
+}
+
+.tcg100-table__cell--rank {
+  width: 80px;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.tcg100-table__rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--pi-bg);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tcg100-table__row:nth-child(-n+5) .tcg100-table__rank {
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  color: #fff;
+}
+
+.tcg100-table__row:nth-child(-n+10):nth-child(n+6) .tcg100-table__rank {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.tcg100-table__rank-change {
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.tcg100-table__rank-change--up {
+  color: var(--pi-gain-strong);
+}
+
+.tcg100-table__rank-change--down {
+  color: var(--pi-loss-strong);
+}
+
+.tcg100-table__cell--card {
+  min-width: 200px;
+}
+
+.tcg100-table__card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tcg100-table__card-name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.tcg100-table__card-set {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  background: var(--pi-bg);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.tcg100-table__cell--price,
+.tcg100-table__cell--change,
+.tcg100-table__cell--weight,
+.tcg100-table__cell--marketcap {
+  text-align: right;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 0.85rem;
+}
+
+.tcg100-table__change--up {
+  color: var(--pi-gain-strong);
+}
+
+.tcg100-table__change--down {
+  color: var(--pi-loss-strong);
+}
+
+.tcg100-table__change--neutral {
+  color: var(--pi-neutral);
+}
+
+/* Weight visualization */
+.tcg100-table__weight-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  min-width: 120px;
+}
+
+.tcg100-table__weight-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--pi-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tcg100-table__weight-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+  transition: width var(--pi-transition);
+}
+
+.tcg100-table__weight-fill--capped {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+}
+
+.tcg100-table__weight-value {
+  font-size: 0.8rem;
+}
+
+.tcg100-table__weight-value--capped {
+  color: #f59e0b;
+}
+
+/* TCG-100 Legend */
+.tcg100-table__legend {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--pi-border);
+  margin-top: 1rem;
+}
+
+.tcg100-table__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--pi-text-secondary);
+}
+
+.tcg100-table__legend-buffer {
+  width: 16px;
+  height: 16px;
+  background: rgba(139, 92, 246, 0.2);
+  border-radius: 4px;
+}
+
+.tcg100-table__legend-capped {
+  width: 16px;
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  border-radius: 2px;
+}
+
+/* Responsive TCG-100 */
+@media (max-width: 768px) {
+  .tcg100-summary {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .tcg100-summary__main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tcg100-summary__value {
+    font-size: 2rem;
+  }
+
+  .tcg100-summary__stats {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .tcg100-summary__stat {
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+
+  .tcg100-table-container {
+    overflow-x: auto;
+  }
+
+  .tcg100-table {
+    min-width: 700px;
+  }
+
+  .tcg100-table__legend {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* ============================================================================
+   Language Comparison (EN vs JP)
+   ============================================================================ */
+
+.language-comparison {
+  padding: 1.5rem;
+  border-top: 1px solid var(--pi-border);
+}
+
+.language-comparison__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.language-comparison__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--pi-text);
+}
+
+.language-comparison__badges {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.language-comparison__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.language-comparison__badge--en {
+  background: rgba(30, 64, 175, 0.15);
+  color: #60a5fa;
+}
+
+.language-comparison__badge--jp {
+  background: rgba(220, 38, 38, 0.15);
+  color: #f87171;
+}
+
+.language-comparison__badge--tie {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--pi-neutral);
+}
+
+.language-comparison__badge--momentum-en {
+  background: rgba(30, 64, 175, 0.1);
+  color: #60a5fa;
+}
+
+.language-comparison__badge--momentum-jp {
+  background: rgba(220, 38, 38, 0.1);
+  color: #f87171;
+}
+
+.language-comparison__badge--momentum-tie {
+  background: rgba(148, 163, 184, 0.1);
+  color: var(--pi-neutral);
+}
+
+/* Index Cards Grid */
+.language-comparison__indices {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.language-comparison__index {
+  background: var(--pi-bg);
+  border-radius: var(--pi-radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all var(--pi-transition);
+}
+
+.language-comparison__index:hover {
+  transform: translateY(-2px);
+}
+
+.language-comparison__index--en {
+  border-color: rgba(30, 64, 175, 0.3);
+  background: linear-gradient(135deg, var(--pi-bg) 0%, rgba(30, 64, 175, 0.05) 100%);
+}
+
+.language-comparison__index--en:hover {
+  border-color: rgba(30, 64, 175, 0.5);
+}
+
+.language-comparison__index--jp {
+  border-color: rgba(220, 38, 38, 0.3);
+  background: linear-gradient(135deg, var(--pi-bg) 0%, rgba(220, 38, 38, 0.05) 100%);
+}
+
+.language-comparison__index--jp:hover {
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+.language-comparison__flag {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.language-comparison__index-label {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.language-comparison__index-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  color: var(--pi-text);
+  margin-bottom: 0.25rem;
+}
+
+.language-comparison__index-change {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.language-comparison__index-change--up {
+  color: var(--pi-gain-medium);
+}
+
+.language-comparison__index-change--down {
+  color: var(--pi-loss-medium);
+}
+
+.language-comparison__index-change--neutral {
+  color: var(--pi-neutral);
+}
+
+.language-comparison__index-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+}
+
+/* VS Divider */
+.language-comparison__vs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  min-width: 120px;
+}
+
+.language-comparison__vs-diff,
+.language-comparison__vs-correlation {
+  text-align: center;
+}
+
+.language-comparison__vs-label {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.language-comparison__vs-value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.language-comparison__vs-value--en {
+  color: #60a5fa;
+}
+
+.language-comparison__vs-value--jp {
+  color: #f87171;
+}
+
+/* Metrics Row */
+.language-comparison__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--pi-border);
+}
+
+.language-comparison__metric {
+  text-align: center;
+  padding: 0.75rem;
+  background: var(--pi-bg);
+  border-radius: var(--pi-radius);
+}
+
+.language-comparison__metric-label {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.375rem;
+}
+
+.language-comparison__metric-value {
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  color: var(--pi-text);
+}
+
+/* Empty State */
+.language-comparison__empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--pi-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Language Toggle for TCG-100 */
+.tcg100-language-toggle {
+  display: flex;
+  background: var(--pi-bg);
+  border-radius: var(--pi-radius);
+  padding: 3px;
+  gap: 2px;
+}
+
+.tcg100-language-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--pi-radius) - 2px);
+  color: var(--pi-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--pi-transition);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tcg100-language-btn:hover {
+  color: var(--pi-text);
+  background: var(--pi-surface-hover);
+}
+
+.tcg100-language-btn--active {
+  background: var(--pi-nucleus);
+  color: white;
+}
+
+.tcg100-language-btn--active:hover {
+  background: var(--pi-nucleus);
+  color: white;
+}
+
+/* Responsive Language Comparison */
+@media (max-width: 768px) {
+  .language-comparison__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .language-comparison__indices {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .language-comparison__vs {
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.75rem;
+  }
+
+  .language-comparison__metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .language-comparison__index-value {
+    font-size: 1.5rem;
+  }
+}

@@ -223,6 +223,57 @@
     </aside>
   </div>
 
+  {% comment %} TCG-100 Index (NASDAQ-Style) {% endcomment %}
+  <section class="tcg100-section">
+    <div class="tcg100-section__header">
+      <div>
+        <div class="tcg100-section__title">
+          TCG-100 Index
+          <span class="tcg100-section__badge">NASDAQ-Style</span>
+        </div>
+        <div class="tcg100-section__subtitle">
+          Market-cap weighted index with buffer zones and weight capping
+        </div>
+      </div>
+
+      {% comment %} Language Toggle {% endcomment %}
+      <div class="tcg100-language-toggle" data-tcg100-language-toggle>
+        <button type="button" class="tcg100-language-btn tcg100-language-btn--active" data-language="ALL">
+          All
+        </button>
+        <button type="button" class="tcg100-language-btn" data-language="EN">
+          EN
+        </button>
+        <button type="button" class="tcg100-language-btn" data-language="JP">
+          JP
+        </button>
+      </div>
+    </div>
+
+    {% comment %} EN vs JP Comparison - populated by JavaScript {% endcomment %}
+    <div data-language-comparison></div>
+
+    {% comment %} TCG-100 Summary - populated by JavaScript {% endcomment %}
+    <div data-tcg100-summary>
+      <div class="tcg100-summary">
+        <div class="tcg100-summary__main">
+          <div class="tcg100-summary__value-container">
+            <div class="tcg100-summary__label">TCG-100 Index</div>
+            <div class="tcg100-summary__value">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} TCG-100 Constituents Table - populated by JavaScript {% endcomment %}
+    <div class="tcg100-table-container" data-tcg100-table>
+      <div class="price-index__summary-loading">
+        <div class="price-index-spinner"></div>
+        <span>Loading index constituents...</span>
+      </div>
+    </div>
+  </section>
+
   {% comment %} Set Breakdown Table {% endcomment %}
   <section class="price-index__sets">
     <h2 class="price-index__sets-title">Set Performance</h2>

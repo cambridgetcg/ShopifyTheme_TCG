@@ -36,6 +36,11 @@
     exchangeRateChange: null,
     marketHealth: null,
     moversData: null,
+    tcg100: null, // NASDAQ-style TCG-100 index data
+    tcg100SortColumn: 'rank',
+    tcg100SortDirection: 'asc',
+    tcg100Language: 'ALL', // 'ALL', 'EN', 'JP'
+    languageComparison: null, // EN vs JP comparison data
   };
 
   // ============================================================================
@@ -207,10 +212,14 @@
   async function loadAllData() {
     showLoading();
 
-    const [indexData, moversData, healthData] = await Promise.all([
+    const languageParam = state.tcg100Language !== 'ALL' ? `&language=${state.tcg100Language}` : '';
+
+    const [indexData, moversData, healthData, tcg100Data, comparisonData] = await Promise.all([
       fetchAPI('/price-index'),
       fetchAPI('/price-index/movers?limit=10'),
       fetchAPI(`/price-index/health?game=${state.currentGame}`),
+      fetchAPI(`/price-index/tcg100?game=${state.currentGame}&includeConstituents=true${languageParam}`),
+      fetchAPI(`/price-index/tcg100/compare?game=${state.currentGame}`),
     ]);
 
     if (indexData) {
@@ -229,6 +238,17 @@
     if (healthData) {
       state.marketHealth = healthData;
       renderMarketHealth(healthData);
+    }
+
+    if (comparisonData) {
+      state.languageComparison = comparisonData;
+      renderLanguageComparison(comparisonData);
+    }
+
+    if (tcg100Data) {
+      state.tcg100 = tcg100Data;
+      renderTCG100Summary(tcg100Data);
+      renderTCG100Constituents(tcg100Data);
     }
 
     updateTimestamp();
@@ -861,6 +881,303 @@
   }
 
   // ============================================================================
+  // Language Comparison (EN vs JP)
+  // ============================================================================
+
+  function renderLanguageComparison(data) {
+    const container = document.querySelector('[data-language-comparison]');
+    if (!container) return;
+
+    const { en, jp, comparison } = data;
+
+    if (!en || !jp) {
+      container.innerHTML = `
+        <div class="language-comparison__empty">
+          Insufficient data for language comparison
+        </div>
+      `;
+      return;
+    }
+
+    const leaderIcon = comparison.leader === 'EN' ? '🇬🇧' : comparison.leader === 'JP' ? '🇯🇵' : '⚖️';
+    const momentumIcon = comparison.momentum === 'EN' ? '🇬🇧' : comparison.momentum === 'JP' ? '🇯🇵' : '⚖️';
+
+    container.innerHTML = `
+      <div class="language-comparison">
+        <div class="language-comparison__header">
+          <h3 class="language-comparison__title">EN vs JP Market Comparison</h3>
+          <div class="language-comparison__badges">
+            <span class="language-comparison__badge language-comparison__badge--${comparison.leader.toLowerCase()}">
+              Leader: ${leaderIcon} ${comparison.leader}
+            </span>
+            <span class="language-comparison__badge language-comparison__badge--momentum-${comparison.momentum.toLowerCase()}">
+              Momentum: ${momentumIcon} ${comparison.momentum}
+            </span>
+          </div>
+        </div>
+
+        <div class="language-comparison__indices">
+          <div class="language-comparison__index language-comparison__index--en">
+            <div class="language-comparison__flag">🇬🇧</div>
+            <div class="language-comparison__index-label">English TCG-100</div>
+            <div class="language-comparison__index-value">${formatCurrency(en.value)}</div>
+            <div class="language-comparison__index-change language-comparison__index-change--${getChangeClass(en.change24h)}">
+              ${formatPercent(en.change24h)}
+            </div>
+            <div class="language-comparison__index-stats">
+              <span>${en.constituentCount} cards</span>
+              <span>${formatCurrency(en.totalMarketCap)} cap</span>
+            </div>
+          </div>
+
+          <div class="language-comparison__vs">
+            <div class="language-comparison__vs-diff">
+              <span class="language-comparison__vs-label">Diff</span>
+              <span class="language-comparison__vs-value language-comparison__vs-value--${comparison.indexDiff > 0 ? 'en' : 'jp'}">
+                ${comparison.indexDiff > 0 ? '+' : ''}${formatPercent(comparison.indexDiffPercent)}
+              </span>
+            </div>
+            <div class="language-comparison__vs-correlation">
+              <span class="language-comparison__vs-label">7d Correlation</span>
+              <span class="language-comparison__vs-value">
+                ${comparison.correlation7d !== null ? comparison.correlation7d.toFixed(2) : '--'}
+              </span>
+            </div>
+          </div>
+
+          <div class="language-comparison__index language-comparison__index--jp">
+            <div class="language-comparison__flag">🇯🇵</div>
+            <div class="language-comparison__index-label">Japanese TCG-100</div>
+            <div class="language-comparison__index-value">${formatCurrency(jp.value)}</div>
+            <div class="language-comparison__index-change language-comparison__index-change--${getChangeClass(jp.change24h)}">
+              ${formatPercent(jp.change24h)}
+            </div>
+            <div class="language-comparison__index-stats">
+              <span>${jp.constituentCount} cards</span>
+              <span>${formatCurrency(jp.totalMarketCap)} cap</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="language-comparison__metrics">
+          <div class="language-comparison__metric">
+            <span class="language-comparison__metric-label">Price Ratio (EN:JP)</span>
+            <span class="language-comparison__metric-value">${comparison.avgPriceRatio.toFixed(2)}x</span>
+          </div>
+          <div class="language-comparison__metric">
+            <span class="language-comparison__metric-label">Market Cap Ratio</span>
+            <span class="language-comparison__metric-value">${comparison.marketCapRatio.toFixed(2)}x</span>
+          </div>
+          <div class="language-comparison__metric">
+            <span class="language-comparison__metric-label">Volatility Diff</span>
+            <span class="language-comparison__metric-value">${comparison.volatilityDiff > 0 ? '+' : ''}${comparison.volatilityDiff.toFixed(2)}%</span>
+          </div>
+          <div class="language-comparison__metric">
+            <span class="language-comparison__metric-label">24h Change Diff</span>
+            <span class="language-comparison__metric-value">${comparison.change24hDiff > 0 ? '+' : ''}${comparison.change24hDiff.toFixed(2)}%</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================================
+  // TCG-100 Index (NASDAQ-Style)
+  // ============================================================================
+
+  function renderTCG100Summary(data) {
+    const container = document.querySelector('[data-tcg100-summary]');
+    if (!container) return;
+
+    const { index, market, weights, schedule, language } = data;
+
+    const changeClass = getChangeClass(index.change24h);
+    const change7dClass = getChangeClass(index.change7d);
+
+    // Format next reconstitution date
+    const nextRecon = schedule.nextReconstitution
+      ? new Date(schedule.nextReconstitution).toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'short',
+        })
+      : '--';
+
+    // Language indicator
+    const languageLabel = language === 'EN' ? 'English TCG-100'
+      : language === 'JP' ? 'Japanese TCG-100'
+      : 'TCG-100 Index';
+    const languageFlag = language === 'EN' ? '🇬🇧 '
+      : language === 'JP' ? '🇯🇵 '
+      : '';
+
+    container.innerHTML = `
+      <div class="tcg100-summary">
+        <div class="tcg100-summary__main">
+          <div class="tcg100-summary__value-container">
+            <div class="tcg100-summary__label">${languageFlag}${languageLabel}</div>
+            <div class="tcg100-summary__value">${formatCurrency(index.value)}</div>
+            <div class="tcg100-summary__change tcg100-summary__change--${changeClass}">
+              ${index.change24h > 0 ? '▲' : index.change24h < 0 ? '▼' : '●'}
+              ${formatPercent(index.change24h)} (24h)
+            </div>
+            <div class="tcg100-summary__secondary">
+              <span class="tcg100-summary__change--${change7dClass}">
+                ${formatPercent(index.change7d)} (7d)
+              </span>
+            </div>
+          </div>
+          <div class="tcg100-summary__chart">
+            ${generateSparkline([index.previousValue, index.value], 80, 40)}
+          </div>
+        </div>
+
+        <div class="tcg100-summary__stats">
+          <div class="tcg100-summary__stat">
+            <div class="tcg100-summary__stat-label">Market Cap</div>
+            <div class="tcg100-summary__stat-value">${formatCurrency(market.totalMarketCap)}</div>
+          </div>
+          <div class="tcg100-summary__stat">
+            <div class="tcg100-summary__stat-label">Avg Price</div>
+            <div class="tcg100-summary__stat-value">${formatCurrency(market.avgPrice)}</div>
+          </div>
+          <div class="tcg100-summary__stat">
+            <div class="tcg100-summary__stat-label">Top 5 Weight</div>
+            <div class="tcg100-summary__stat-value">${(weights.top5Weight * 100).toFixed(1)}%</div>
+          </div>
+          <div class="tcg100-summary__stat">
+            <div class="tcg100-summary__stat-label">Constituents</div>
+            <div class="tcg100-summary__stat-value">${market.constituentCount}</div>
+          </div>
+        </div>
+
+        <div class="tcg100-summary__schedule">
+          <div class="tcg100-summary__schedule-item">
+            <span class="tcg100-summary__schedule-label">Next Rebalance:</span>
+            <span>${nextRecon}</span>
+          </div>
+          <div class="tcg100-summary__schedule-item">
+            <span class="tcg100-summary__schedule-label">Volatility:</span>
+            <span>${weights.volatilityIndex.toFixed(2)}%</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderTCG100Constituents(data) {
+    const container = document.querySelector('[data-tcg100-table]');
+    if (!container || !data.constituents?.data) return;
+
+    const constituents = data.constituents.data;
+
+    // Sort constituents
+    const sorted = [...constituents].sort((a, b) => {
+      const aVal = a[state.tcg100SortColumn] ?? 0;
+      const bVal = b[state.tcg100SortColumn] ?? 0;
+
+      if (state.tcg100SortColumn === 'name') {
+        return state.tcg100SortDirection === 'asc'
+          ? String(aVal).localeCompare(String(bVal))
+          : String(bVal).localeCompare(String(aVal));
+      }
+
+      return state.tcg100SortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+    });
+
+    // Calculate max weight for bar visualization
+    const maxWeight = Math.max(...constituents.map((c) => c.cappedWeight));
+
+    const rows = sorted.map((c) => {
+      const rankChangeIcon = c.rankChange > 0 ? '↑' : c.rankChange < 0 ? '↓' : '';
+      const rankChangeClass = c.rankChange > 0 ? 'up' : c.rankChange < 0 ? 'down' : '';
+      const changeClass = getChangeClass(c.change24h);
+      const weightPercent = (c.cappedWeight / maxWeight) * 100;
+      const isCapped = c.rawWeight > c.cappedWeight;
+      const bufferZoneClass = c.inBufferZone ? 'tcg100-table__row--buffer-zone' : '';
+
+      return `
+        <tr class="tcg100-table__row ${bufferZoneClass}">
+          <td class="tcg100-table__cell tcg100-table__cell--rank">
+            <span class="tcg100-table__rank">${c.rank}</span>
+            ${c.rankChange !== 0 ? `
+              <span class="tcg100-table__rank-change tcg100-table__rank-change--${rankChangeClass}">
+                ${rankChangeIcon}${Math.abs(c.rankChange)}
+              </span>
+            ` : ''}
+          </td>
+          <td class="tcg100-table__cell tcg100-table__cell--card">
+            <div class="tcg100-table__card-info">
+              <span class="tcg100-table__card-name">${escapeHtml(c.name)}</span>
+              ${c.setCode ? `<span class="tcg100-table__card-set">${c.setCode}</span>` : ''}
+            </div>
+          </td>
+          <td class="tcg100-table__cell tcg100-table__cell--price">${formatCurrency(c.priceGbp)}</td>
+          <td class="tcg100-table__cell tcg100-table__cell--change">
+            <span class="tcg100-table__change tcg100-table__change--${changeClass}">
+              ${formatPercent(c.change24h)}
+            </span>
+          </td>
+          <td class="tcg100-table__cell tcg100-table__cell--weight">
+            <div class="tcg100-table__weight-container">
+              <div class="tcg100-table__weight-bar">
+                <div class="tcg100-table__weight-fill ${isCapped ? 'tcg100-table__weight-fill--capped' : ''}"
+                     style="width: ${weightPercent}%"></div>
+              </div>
+              <span class="tcg100-table__weight-value ${isCapped ? 'tcg100-table__weight-value--capped' : ''}">
+                ${c.weightPercent.toFixed(2)}%
+                ${isCapped ? '⚠' : ''}
+              </span>
+            </div>
+          </td>
+          <td class="tcg100-table__cell tcg100-table__cell--marketcap">${formatCurrency(c.marketCap)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    container.innerHTML = `
+      <table class="tcg100-table">
+        <thead>
+          <tr>
+            <th class="tcg100-table__header tcg100-table__header--sortable" data-tcg100-sort="rank">Rank</th>
+            <th class="tcg100-table__header tcg100-table__header--sortable" data-tcg100-sort="name">Card</th>
+            <th class="tcg100-table__header tcg100-table__header--sortable tcg100-table__header--right" data-tcg100-sort="priceGbp">Price</th>
+            <th class="tcg100-table__header tcg100-table__header--sortable tcg100-table__header--right" data-tcg100-sort="change24h">24h</th>
+            <th class="tcg100-table__header tcg100-table__header--sortable tcg100-table__header--right" data-tcg100-sort="cappedWeight">Weight</th>
+            <th class="tcg100-table__header tcg100-table__header--sortable tcg100-table__header--right" data-tcg100-sort="marketCap">Market Cap</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+      <div class="tcg100-table__legend">
+        <div class="tcg100-table__legend-item">
+          <span class="tcg100-table__legend-buffer"></span>
+          <span>Buffer Zone (Ranks 76-100)</span>
+        </div>
+        <div class="tcg100-table__legend-item">
+          <span class="tcg100-table__legend-capped"></span>
+          <span>Weight Capped (NASDAQ-100 style)</span>
+        </div>
+      </div>
+    `;
+
+    // Set up sorting event listeners
+    container.querySelectorAll('[data-tcg100-sort]').forEach((header) => {
+      header.addEventListener('click', () => {
+        const column = header.dataset.tcg100Sort;
+        if (column === state.tcg100SortColumn) {
+          state.tcg100SortDirection = state.tcg100SortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+          state.tcg100SortColumn = column;
+          state.tcg100SortDirection = column === 'name' ? 'asc' : 'desc';
+        }
+        renderTCG100Constituents(data);
+      });
+    });
+  }
+
+  // ============================================================================
   // Sets Table
   // ============================================================================
 
@@ -1068,6 +1385,35 @@
         }
         renderSetsTable();
       });
+    });
+
+    // TCG-100 language toggle
+    const languageToggle = document.querySelector('[data-tcg100-language-toggle]');
+    languageToggle?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-language]');
+      if (!btn) return;
+
+      const language = btn.dataset.language;
+      if (language === state.tcg100Language) return;
+
+      // Update buttons
+      languageToggle.querySelectorAll('[data-language]').forEach((b) => {
+        b.classList.toggle('tcg100-language-btn--active', b.dataset.language === language);
+      });
+
+      // Update state
+      state.tcg100Language = language;
+
+      // Reload TCG-100 data with new language filter
+      const languageParam = language !== 'ALL' ? `&language=${language}` : '';
+      fetchAPI(`/price-index/tcg100?game=${state.currentGame}&includeConstituents=true${languageParam}`)
+        .then((tcg100Data) => {
+          if (tcg100Data) {
+            state.tcg100 = tcg100Data;
+            renderTCG100Summary(tcg100Data);
+            renderTCG100Constituents(tcg100Data);
+          }
+        });
     });
 
     // Window resize for crystal
