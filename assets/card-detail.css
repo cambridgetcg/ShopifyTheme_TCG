@@ -1,0 +1,792 @@
+/**
+ * Card Detail Page Styles
+ * PRISM - Individual Card Price History
+ */
+
+/* ============================================================================
+   CSS Variables
+   ============================================================================ */
+
+.card-detail {
+  --cd-bg: #0f1419;
+  --cd-surface: #1a1f26;
+  --cd-surface-hover: #252b33;
+  --cd-border: #2d3640;
+  --cd-text: #e5e7eb;
+  --cd-text-secondary: #9ca3af;
+
+  --cd-gain: #4ade80;
+  --cd-loss: #f87171;
+  --cd-neutral: #94a3b8;
+
+  --cd-accent: #8b5cf6;
+  --cd-accent-light: #a78bfa;
+
+  --cd-radius: 8px;
+  --cd-radius-lg: 12px;
+  --cd-transition: 200ms ease;
+}
+
+/* ============================================================================
+   Layout
+   ============================================================================ */
+
+.card-detail {
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+  background: var(--cd-bg);
+  color: var(--cd-text);
+}
+
+/* ============================================================================
+   Loading State
+   ============================================================================ */
+
+.card-detail__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: var(--cd-text-secondary);
+}
+
+.card-detail__loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--cd-border);
+  border-top-color: var(--cd-accent);
+  border-radius: 50%;
+  animation: cd-spin 0.8s linear infinite;
+}
+
+@keyframes cd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================================
+   Error State
+   ============================================================================ */
+
+.card-detail__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.card-detail__error-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cd-loss);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 50%;
+}
+
+.card-detail__error-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-detail__error-message {
+  color: var(--cd-text-secondary);
+  margin: 0;
+}
+
+.card-detail__error-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--cd-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--cd-radius);
+  font-weight: 500;
+  transition: background var(--cd-transition);
+}
+
+.card-detail__error-link:hover {
+  background: var(--cd-accent-light);
+}
+
+/* ============================================================================
+   Breadcrumb
+   ============================================================================ */
+
+.card-detail__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--cd-text-secondary);
+}
+
+.card-detail__breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--cd-accent);
+  text-decoration: none;
+  transition: color var(--cd-transition);
+}
+
+.card-detail__breadcrumb-link:hover {
+  color: var(--cd-accent-light);
+}
+
+.card-detail__breadcrumb-sep {
+  color: var(--cd-border);
+}
+
+/* ============================================================================
+   Hero Section
+   ============================================================================ */
+
+.card-detail__hero {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .card-detail__hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+/* Card Image */
+.card-detail__image-wrapper {
+  position: relative;
+}
+
+.card-detail__image-container {
+  position: relative;
+  width: 320px;
+  aspect-ratio: 5/7;
+  background: var(--cd-surface);
+  border-radius: var(--cd-radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(139, 92, 246, 0.1);
+  cursor: zoom-in;
+  transition: transform var(--cd-transition);
+}
+
+.card-detail__image-container:hover {
+  transform: scale(1.02);
+}
+
+.card-detail__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-detail__image-zoom {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  color: white;
+  opacity: 0;
+  transition: opacity var(--cd-transition);
+}
+
+.card-detail__image-container:hover .card-detail__image-zoom {
+  opacity: 1;
+}
+
+.card-detail__variant-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, var(--cd-accent), #3b82f6);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+}
+
+@media (max-width: 900px) {
+  .card-detail__image-container {
+    width: 280px;
+  }
+}
+
+/* Card Info */
+.card-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .card-detail__info {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.card-detail__name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.card-detail__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  color: var(--cd-text-secondary);
+  font-size: 0.9rem;
+}
+
+.card-detail__meta-sep {
+  color: var(--cd-border);
+}
+
+/* ============================================================================
+   Price Display
+   ============================================================================ */
+
+.card-detail__prices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 500px) {
+  .card-detail__prices {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-detail__price-block {
+  padding: 1.25rem;
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius-lg);
+}
+
+.card-detail__price-block--market {
+  border-color: var(--cd-accent);
+  background: linear-gradient(135deg, var(--cd-surface) 0%, rgba(139, 92, 246, 0.05) 100%);
+}
+
+.card-detail__price-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cd-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.card-detail__price-value {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  line-height: 1;
+}
+
+.card-detail__price-usd,
+.card-detail__price-percent {
+  font-size: 0.85rem;
+  color: var(--cd-text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* ============================================================================
+   Change Indicators
+   ============================================================================ */
+
+.card-detail__change {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.card-detail__change-value {
+  font-weight: 600;
+}
+
+.card-detail__change-value--up {
+  color: var(--cd-gain);
+}
+
+.card-detail__change-value--down {
+  color: var(--cd-loss);
+}
+
+.card-detail__change-value--neutral {
+  color: var(--cd-neutral);
+}
+
+.card-detail__change-sep {
+  color: var(--cd-border);
+}
+
+/* ============================================================================
+   Stats Grid
+   ============================================================================ */
+
+.card-detail__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .card-detail__stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .card-detail__stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card-detail__stat {
+  padding: 0.75rem;
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  text-align: center;
+}
+
+.card-detail__stat-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cd-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.card-detail__stat-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+/* ============================================================================
+   Chart Section
+   ============================================================================ */
+
+.card-detail__chart-section {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-detail__chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card-detail__section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-detail__range-toggle {
+  display: flex;
+  background: var(--cd-bg);
+  border-radius: var(--cd-radius);
+  padding: 4px;
+  gap: 4px;
+}
+
+.card-detail__range-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--cd-radius) - 2px);
+  color: var(--cd-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--cd-transition);
+}
+
+.card-detail__range-btn:hover {
+  color: var(--cd-text);
+  background: var(--cd-surface-hover);
+}
+
+.card-detail__range-btn--active {
+  background: var(--cd-accent);
+  color: white;
+}
+
+.card-detail__range-btn--active:hover {
+  background: var(--cd-accent);
+  color: white;
+}
+
+.card-detail__chart-container {
+  height: 300px;
+  margin-bottom: 0.5rem;
+}
+
+.card-detail__chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--cd-border);
+}
+
+.card-detail__chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--cd-text-secondary);
+}
+
+.card-detail__chart-legend-line {
+  width: 20px;
+  height: 3px;
+  background: var(--cd-accent);
+  border-radius: 2px;
+}
+
+/* ============================================================================
+   History Table
+   ============================================================================ */
+
+.card-detail__history-section {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card-detail__history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-detail__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: var(--cd-bg);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  color: var(--cd-text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--cd-transition);
+}
+
+.card-detail__export-btn:hover {
+  background: var(--cd-surface-hover);
+  color: var(--cd-text);
+  border-color: var(--cd-accent);
+}
+
+.card-detail__history-table-wrapper {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.card-detail__history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.card-detail__th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--cd-text-secondary);
+  border-bottom: 1px solid var(--cd-border);
+  position: sticky;
+  top: 0;
+  background: var(--cd-surface);
+}
+
+.card-detail__th--right {
+  text-align: right;
+}
+
+.card-detail__td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--cd-border);
+}
+
+.card-detail__td--right {
+  text-align: right;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.card-detail__td--loading {
+  text-align: center;
+  color: var(--cd-text-secondary);
+  padding: 2rem;
+}
+
+.card-detail__td--up {
+  color: var(--cd-gain);
+}
+
+.card-detail__td--down {
+  color: var(--cd-loss);
+}
+
+.card-detail__history-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cd-border);
+}
+
+.card-detail__page-btn {
+  padding: 0.5rem 1rem;
+  background: var(--cd-bg);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  color: var(--cd-text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--cd-transition);
+}
+
+.card-detail__page-btn:hover:not(:disabled) {
+  background: var(--cd-surface-hover);
+  color: var(--cd-text);
+}
+
+.card-detail__page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card-detail__page-info {
+  font-size: 0.8rem;
+  color: var(--cd-text-secondary);
+}
+
+/* ============================================================================
+   Related Cards
+   ============================================================================ */
+
+.card-detail__related-section {
+  margin-bottom: 2rem;
+}
+
+.card-detail__related-section .card-detail__section-title {
+  margin-bottom: 1rem;
+}
+
+.card-detail__related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.card-detail__related-card {
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--cd-transition);
+}
+
+.card-detail__related-card:hover {
+  border-color: var(--cd-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-detail__related-image {
+  width: 100%;
+  aspect-ratio: 5/7;
+  object-fit: cover;
+  background: var(--cd-bg);
+}
+
+.card-detail__related-info {
+  padding: 0.75rem;
+}
+
+.card-detail__related-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
+}
+
+.card-detail__related-variant {
+  font-size: 0.65rem;
+  color: var(--cd-text-secondary);
+  text-transform: capitalize;
+  margin-bottom: 0.375rem;
+}
+
+.card-detail__related-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.card-detail__related-price-value {
+  font-weight: 600;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.card-detail__related-change {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.card-detail__related-change--up {
+  color: var(--cd-gain);
+}
+
+.card-detail__related-change--down {
+  color: var(--cd-loss);
+}
+
+/* ============================================================================
+   Zoom Modal
+   ============================================================================ */
+
+.card-detail__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-detail__modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  cursor: zoom-out;
+}
+
+.card-detail__modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.card-detail__modal-image {
+  max-width: 100%;
+  max-height: 90vh;
+  border-radius: var(--cd-radius-lg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.card-detail__modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--cd-transition);
+}
+
+.card-detail__modal-close:hover {
+  opacity: 1;
+}
+
+/* ============================================================================
+   Responsive
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .card-detail {
+    padding: 1rem;
+  }
+
+  .card-detail__name {
+    font-size: 1.5rem;
+  }
+
+  .card-detail__price-value {
+    font-size: 1.5rem;
+  }
+
+  .card-detail__chart-container {
+    height: 220px;
+  }
+
+  .card-detail__chart-section,
+  .card-detail__history-section {
+    padding: 1rem;
+  }
+}
+
+/* ============================================================================
+   Utilities
+   ============================================================================ */
+
+.card-detail [hidden] {
+  display: none !important;
+}

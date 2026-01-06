@@ -684,6 +684,17 @@
     container.addEventListener('mouseleave', () => {
       tooltip.hidden = true;
     });
+
+    // Click-through to card detail page
+    container.addEventListener('click', (e) => {
+      const card = e.target.closest('.treemap__card');
+      if (!card) return;
+
+      const cardId = card.dataset.cardId;
+      if (cardId) {
+        window.location.href = `/pages/card-detail?id=${encodeURIComponent(cardId)}`;
+      }
+    });
   }
 
   // Legacy crystal functions kept for backwards compatibility

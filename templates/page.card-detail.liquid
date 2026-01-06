@@ -1,0 +1,222 @@
+{% comment %}
+  Card Detail Page Template
+  PRISM - Individual Card Price History & Details
+
+  Displays comprehensive card information including:
+  - Card image with zoom
+  - Current market and trade-in prices
+  - Interactive price history chart
+  - Statistics and related cards
+
+  URL: /pages/card-detail?id={cardId}
+{% endcomment %}
+
+{% layout 'theme' %}
+
+{{ 'card-detail.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width card-detail" data-card-detail>
+  {% comment %} Loading State {% endcomment %}
+  <div class="card-detail__loading" data-loading>
+    <div class="card-detail__loading-spinner"></div>
+    <span>Loading card data...</span>
+  </div>
+
+  {% comment %} Error State {% endcomment %}
+  <div class="card-detail__error" data-error hidden>
+    <div class="card-detail__error-icon">!</div>
+    <h2 class="card-detail__error-title">Card Not Found</h2>
+    <p class="card-detail__error-message" data-error-message>The requested card could not be found.</p>
+    <a href="/pages/price-index" class="card-detail__error-link">Back to Price Index</a>
+  </div>
+
+  {% comment %} Main Content (hidden until loaded) {% endcomment %}
+  <div class="card-detail__content" data-content hidden>
+    {% comment %} Breadcrumb Navigation {% endcomment %}
+    <nav class="card-detail__breadcrumb" data-breadcrumb>
+      <a href="/pages/price-index" class="card-detail__breadcrumb-link">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+        </svg>
+        Price Index
+      </a>
+      <span class="card-detail__breadcrumb-sep">/</span>
+      <span class="card-detail__breadcrumb-set" data-breadcrumb-set>--</span>
+      <span class="card-detail__breadcrumb-sep">/</span>
+      <span class="card-detail__breadcrumb-card" data-breadcrumb-card>--</span>
+    </nav>
+
+    {% comment %} Hero Section: Image + Info {% endcomment %}
+    <div class="card-detail__hero">
+      {% comment %} Card Image {% endcomment %}
+      <div class="card-detail__image-wrapper">
+        <div class="card-detail__image-container" data-image-container>
+          <img
+            class="card-detail__image"
+            data-card-image
+            src=""
+            alt=""
+            loading="lazy"
+          />
+          <div class="card-detail__image-zoom" data-zoom-trigger>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+              <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+              <path d="M8 6a1 1 0 011 1v1h1a1 1 0 110 2H9v1a1 1 0 11-2 0v-1H6a1 1 0 110-2h1V7a1 1 0 011-1z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-detail__variant-badge" data-variant-badge hidden></div>
+      </div>
+
+      {% comment %} Card Info {% endcomment %}
+      <div class="card-detail__info">
+        <h1 class="card-detail__name" data-card-name>Loading...</h1>
+        <div class="card-detail__meta">
+          <span class="card-detail__meta-item" data-card-number>--</span>
+          <span class="card-detail__meta-sep">|</span>
+          <span class="card-detail__meta-item" data-card-variant>--</span>
+          <span class="card-detail__meta-sep">|</span>
+          <span class="card-detail__meta-item" data-card-rarity>--</span>
+          <span class="card-detail__meta-sep">|</span>
+          <span class="card-detail__meta-item" data-card-language>--</span>
+        </div>
+
+        {% comment %} Price Display {% endcomment %}
+        <div class="card-detail__prices">
+          <div class="card-detail__price-block card-detail__price-block--market">
+            <div class="card-detail__price-label">Market Price</div>
+            <div class="card-detail__price-value" data-price-gbp>--</div>
+            <div class="card-detail__price-usd" data-price-usd>--</div>
+          </div>
+          <div class="card-detail__price-block card-detail__price-block--tradein">
+            <div class="card-detail__price-label">Trade-In Value</div>
+            <div class="card-detail__price-value" data-tradein-gbp>--</div>
+            <div class="card-detail__price-percent" data-tradein-percent>(-- of market)</div>
+          </div>
+        </div>
+
+        {% comment %} Change Indicator {% endcomment %}
+        <div class="card-detail__change" data-change-indicator>
+          <span class="card-detail__change-value card-detail__change-value--neutral" data-change-24h>-- (24h)</span>
+          <span class="card-detail__change-sep">|</span>
+          <span class="card-detail__change-value card-detail__change-value--neutral" data-change-7d>-- (7d)</span>
+          <span class="card-detail__change-sep">|</span>
+          <span class="card-detail__change-value card-detail__change-value--neutral" data-change-30d>-- (30d)</span>
+        </div>
+
+        {% comment %} Quick Stats {% endcomment %}
+        <div class="card-detail__stats-grid">
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">High</div>
+            <div class="card-detail__stat-value" data-stat-high>--</div>
+          </div>
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">Low</div>
+            <div class="card-detail__stat-value" data-stat-low>--</div>
+          </div>
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">Average</div>
+            <div class="card-detail__stat-value" data-stat-avg>--</div>
+          </div>
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">Volatility</div>
+            <div class="card-detail__stat-value" data-stat-volatility>--</div>
+          </div>
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">Days Tracked</div>
+            <div class="card-detail__stat-value" data-stat-days>--</div>
+          </div>
+          <div class="card-detail__stat">
+            <div class="card-detail__stat-label">Updated</div>
+            <div class="card-detail__stat-value" data-stat-updated>--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Price Chart Section {% endcomment %}
+    <section class="card-detail__chart-section">
+      <div class="card-detail__chart-header">
+        <h2 class="card-detail__section-title">Price History</h2>
+        <div class="card-detail__chart-controls">
+          <div class="card-detail__range-toggle" data-range-toggle>
+            <button type="button" class="card-detail__range-btn" data-range="7">7D</button>
+            <button type="button" class="card-detail__range-btn card-detail__range-btn--active" data-range="30">30D</button>
+            <button type="button" class="card-detail__range-btn" data-range="90">90D</button>
+            <button type="button" class="card-detail__range-btn" data-range="365">1Y</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-detail__chart-container">
+        <canvas data-price-chart></canvas>
+      </div>
+      <div class="card-detail__chart-legend">
+        <span class="card-detail__chart-legend-item">
+          <span class="card-detail__chart-legend-line"></span>
+          Price (GBP)
+        </span>
+      </div>
+    </section>
+
+    {% comment %} Price History Table {% endcomment %}
+    <section class="card-detail__history-section">
+      <div class="card-detail__history-header">
+        <h2 class="card-detail__section-title">Price History</h2>
+        <button type="button" class="card-detail__export-btn" data-export-csv>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          Export CSV
+        </button>
+      </div>
+      <div class="card-detail__history-table-wrapper">
+        <table class="card-detail__history-table">
+          <thead>
+            <tr>
+              <th class="card-detail__th">Date</th>
+              <th class="card-detail__th card-detail__th--right">Price (GBP)</th>
+              <th class="card-detail__th card-detail__th--right">Change</th>
+            </tr>
+          </thead>
+          <tbody data-history-body>
+            <tr>
+              <td colspan="3" class="card-detail__td card-detail__td--loading">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-detail__history-pagination" data-pagination hidden>
+        <button type="button" class="card-detail__page-btn" data-page-prev disabled>Previous</button>
+        <span class="card-detail__page-info" data-page-info>Page 1 of 1</span>
+        <button type="button" class="card-detail__page-btn" data-page-next disabled>Next</button>
+      </div>
+    </section>
+
+    {% comment %} Related Cards {% endcomment %}
+    <section class="card-detail__related-section" data-related-section hidden>
+      <h2 class="card-detail__section-title">Related Cards</h2>
+      <div class="card-detail__related-grid" data-related-grid>
+        {% comment %} Populated by JavaScript {% endcomment %}
+      </div>
+    </section>
+  </div>
+
+  {% comment %} Image Zoom Modal {% endcomment %}
+  <div class="card-detail__modal" data-zoom-modal hidden>
+    <div class="card-detail__modal-backdrop" data-modal-close></div>
+    <div class="card-detail__modal-content">
+      <img class="card-detail__modal-image" data-modal-image src="" alt="" />
+      <button type="button" class="card-detail__modal-close" data-modal-close>
+        <svg viewBox="0 0 20 20" fill="currentColor" width="24" height="24">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% comment %} Load Chart.js {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+
+{% comment %} Load page JavaScript {% endcomment %}
+<script src="{{ 'card-detail.js' | asset_url }}" defer></script>
