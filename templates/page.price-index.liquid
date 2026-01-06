@@ -17,6 +17,21 @@
       <p class="price-index__subtitle">Real-time market intelligence for trading card games</p>
     </div>
     <div class="price-index__header-meta">
+      {% comment %} Currency Toggle {% endcomment %}
+      <div class="price-index__currency-toggle" data-currency-toggle>
+        <span class="price-index__currency-label">Currency</span>
+        <div class="price-index__currency-switch">
+          <button type="button" class="price-index__currency-btn price-index__currency-btn--active" data-currency="GBP">£ GBP</button>
+          <button type="button" class="price-index__currency-btn" data-currency="JPY">¥ JPY</button>
+        </div>
+      </div>
+
+      {% comment %} Exchange Rate Display {% endcomment %}
+      <div class="price-index__fx-rate" data-fx-rate>
+        <span>FX:</span>
+        <span class="price-index__fx-rate-value">--</span>
+      </div>
+
       <span class="price-index__updated" data-last-updated>Loading...</span>
       <button type="button" class="price-index__refresh" data-refresh-btn title="Refresh data">
         <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
@@ -76,6 +91,7 @@
             <div class="price-index__tooltip-name" data-tooltip-name></div>
             <div class="price-index__tooltip-set" data-tooltip-set></div>
             <div class="price-index__tooltip-price" data-tooltip-price></div>
+            <div class="price-index__tooltip-secondary" data-tooltip-secondary hidden></div>
             <div class="price-index__tooltip-change" data-tooltip-change></div>
           </div>
         </div>
@@ -140,6 +156,19 @@
 
     {% comment %} Right: Control Panel {% endcomment %}
     <aside class="price-index__panel">
+      {% comment %} Market Health Widget {% endcomment %}
+      <div class="price-index__market-health" data-market-health>
+        <div class="price-index__health-header">
+          <h3 class="price-index__health-title">Market Health</h3>
+          <span class="price-index__health-sentiment price-index__health-sentiment--neutral">
+            ● Loading...
+          </span>
+        </div>
+        <div class="price-index__movers-loading">
+          <div class="price-index-spinner"></div>
+        </div>
+      </div>
+
       {% comment %} Game Filter {% endcomment %}
       <div class="price-index__filter-group">
         <label class="price-index__filter-label">Game</label>
@@ -168,6 +197,9 @@
           <button type="button" class="price-index__movers-tab" data-movers-tab="losers">
             Losers
           </button>
+          <button type="button" class="price-index__movers-tab" data-movers-tab="volume">
+            Volume
+          </button>
         </div>
 
         <div class="price-index__movers-list" data-movers-gainers>
@@ -177,6 +209,12 @@
         </div>
 
         <div class="price-index__movers-list" data-movers-losers hidden>
+          <div class="price-index__movers-loading">
+            <div class="price-index-spinner"></div>
+          </div>
+        </div>
+
+        <div class="price-index__movers-list" data-movers-volume hidden>
           <div class="price-index__movers-loading">
             <div class="price-index-spinner"></div>
           </div>

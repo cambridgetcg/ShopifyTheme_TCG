@@ -39,7 +39,7 @@
    ============================================================================ */
 
 .price-index {
-  padding: 2rem 0;
+  padding: 2rem 1.5rem;
   min-height: 100vh;
   background: var(--pi-bg);
   color: var(--pi-text);
@@ -199,6 +199,90 @@
    View Toggle
    ============================================================================ */
 
+/* ============================================================================
+   Currency Toggle
+   ============================================================================ */
+
+.price-index__currency-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.price-index__currency-label {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.price-index__currency-switch {
+  display: flex;
+  background: var(--pi-surface);
+  border-radius: var(--pi-radius);
+  padding: 3px;
+  gap: 2px;
+}
+
+.price-index__currency-btn {
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--pi-radius) - 2px);
+  color: var(--pi-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--pi-transition);
+}
+
+.price-index__currency-btn:hover {
+  color: var(--pi-text);
+}
+
+.price-index__currency-btn--active {
+  background: var(--pi-nucleus);
+  color: white;
+}
+
+.price-index__currency-btn--active:hover {
+  background: var(--pi-nucleus);
+  color: white;
+}
+
+.price-index__fx-rate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  padding: 0.375rem 0.75rem;
+  background: var(--pi-surface);
+  border-radius: var(--pi-radius);
+}
+
+.price-index__fx-rate-value {
+  color: var(--pi-text);
+  font-weight: 500;
+}
+
+.price-index__fx-rate-change {
+  font-size: 0.6875rem;
+}
+
+.price-index__fx-rate-change--up {
+  color: var(--pi-gain-medium);
+}
+
+.price-index__fx-rate-change--down {
+  color: var(--pi-loss-medium);
+}
+
+/* ============================================================================
+   View Toggle
+   ============================================================================ */
+
 .price-index__view-toggle {
   display: flex;
   background: var(--pi-surface);
@@ -304,6 +388,12 @@
 
 .price-index__tooltip-change {
   font-size: 0.875rem;
+}
+
+.price-index__tooltip-secondary {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  margin-top: 0.125rem;
 }
 
 .price-index__crystal-legend {
@@ -596,6 +686,391 @@
 }
 
 /* ============================================================================
+   Enhanced Movers (MTGGoldfish-inspired)
+   ============================================================================ */
+
+.price-index__mover-item--enhanced {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-left: 3px solid transparent;
+  background: var(--pi-surface);
+  border-radius: var(--pi-radius);
+  margin-bottom: 0.5rem;
+  transition: all var(--pi-transition);
+}
+
+.price-index__mover-item--enhanced:hover {
+  background: var(--pi-surface-hover);
+  transform: translateX(2px);
+}
+
+.price-index__mover-item--gainer {
+  border-left-color: var(--pi-gain-medium);
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.05) 0%, transparent 50%);
+}
+
+.price-index__mover-item--loser {
+  border-left-color: var(--pi-loss-medium);
+  background: linear-gradient(90deg, rgba(248, 113, 113, 0.05) 0%, transparent 50%);
+}
+
+.price-index__mover-rank-badge {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pi-bg);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pi-text-secondary);
+}
+
+.price-index__mover-item--gainer .price-index__mover-rank-badge {
+  color: var(--pi-gain-medium);
+}
+
+.price-index__mover-item--loser .price-index__mover-rank-badge {
+  color: var(--pi-loss-medium);
+}
+
+.price-index__mover-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.price-index__mover-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-index__mover-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price-index__mover-set-badge {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+  background: var(--pi-bg);
+  border-radius: 4px;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.price-index__mover-prices {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+}
+
+.price-index__mover-previous {
+  color: var(--pi-text-secondary);
+  text-decoration: line-through;
+}
+
+.price-index__mover-arrow {
+  color: var(--pi-text-secondary);
+}
+
+.price-index__mover-current {
+  font-weight: 600;
+  color: var(--pi-text);
+}
+
+.price-index__mover-volume-bar {
+  height: 3px;
+  background: var(--pi-bg);
+  border-radius: 2px;
+  margin-top: 0.25rem;
+  overflow: hidden;
+}
+
+.price-index__mover-volume-fill {
+  height: 100%;
+  background: var(--pi-cluster);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.price-index__mover-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.125rem;
+}
+
+.price-index__mover-change-amount {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.price-index__mover-change-percent {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+/* ============================================================================
+   Volatility Indicator
+   ============================================================================ */
+
+.price-index__volatility {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.price-index__volatility-label {
+  font-size: 0.75rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 60px;
+}
+
+.price-index__volatility-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--pi-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.price-index__volatility-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+.price-index__volatility-fill--stable {
+  background: linear-gradient(90deg, var(--pi-gain-medium) 0%, var(--pi-gain-light) 100%);
+}
+
+.price-index__volatility-fill--moderate {
+  background: linear-gradient(90deg, #eab308 0%, #fbbf24 100%);
+}
+
+.price-index__volatility-fill--volatile {
+  background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);
+}
+
+.price-index__volatility-fill--extreme {
+  background: linear-gradient(90deg, var(--pi-loss-medium) 0%, var(--pi-loss-light) 100%);
+}
+
+.price-index__volatility-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  min-width: 80px;
+  text-align: right;
+}
+
+.price-index__volatility-text--stable {
+  color: var(--pi-gain-medium);
+}
+
+.price-index__volatility-text--moderate {
+  color: #eab308;
+}
+
+.price-index__volatility-text--volatile {
+  color: #f97316;
+}
+
+.price-index__volatility-text--extreme {
+  color: var(--pi-loss-medium);
+}
+
+/* ============================================================================
+   Market Health Indicator
+   ============================================================================ */
+
+.price-index__market-health {
+  background: var(--pi-surface);
+  border: 1px solid var(--pi-border);
+  border-radius: var(--pi-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.price-index__health-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.price-index__health-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.price-index__health-sentiment {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.625rem;
+  border-radius: 12px;
+}
+
+.price-index__health-sentiment--bullish {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--pi-gain-medium);
+}
+
+.price-index__health-sentiment--bearish {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--pi-loss-medium);
+}
+
+.price-index__health-sentiment--neutral {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--pi-neutral);
+}
+
+.price-index__health-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.price-index__health-stat {
+  text-align: center;
+}
+
+.price-index__health-stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.price-index__health-stat-value--up {
+  color: var(--pi-gain-medium);
+}
+
+.price-index__health-stat-value--down {
+  color: var(--pi-loss-medium);
+}
+
+.price-index__health-stat-label {
+  font-size: 0.625rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.price-index__health-sparkline {
+  height: 32px;
+  margin-top: 0.5rem;
+}
+
+.price-index__health-sparkline svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================================
+   Summary Card Sparklines
+   ============================================================================ */
+
+.price-index__summary-card--with-sparkline {
+  position: relative;
+}
+
+.price-index__summary-sparkline {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 60px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.price-index__summary-sparkline svg {
+  width: 100%;
+  height: 100%;
+}
+
+.price-index__summary-sparkline polyline {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.price-index__summary-sparkline--up polyline {
+  stroke: var(--pi-gain-medium);
+}
+
+.price-index__summary-sparkline--down polyline {
+  stroke: var(--pi-loss-medium);
+}
+
+.price-index__summary-sparkline--neutral polyline {
+  stroke: var(--pi-neutral);
+}
+
+/* ============================================================================
+   Hot Sets Display
+   ============================================================================ */
+
+.price-index__hot-sets {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--pi-border);
+}
+
+.price-index__hot-sets-title {
+  font-size: 0.6875rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.price-index__hot-set {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.375rem 0;
+  font-size: 0.75rem;
+}
+
+.price-index__hot-set-code {
+  font-weight: 600;
+}
+
+.price-index__hot-set-change {
+  font-weight: 600;
+}
+
+.price-index__hot-set-change--up {
+  color: var(--pi-gain-medium);
+}
+
+.price-index__hot-set-change--down {
+  color: var(--pi-loss-medium);
+}
+
+/* ============================================================================
    Set Breakdown Table
    ============================================================================ */
 
@@ -721,7 +1196,7 @@
 
 @media (max-width: 768px) {
   .price-index {
-    padding: 1rem 0;
+    padding: 1rem 1rem;
   }
 
   .price-index__title {

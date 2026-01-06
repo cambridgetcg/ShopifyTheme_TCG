@@ -26,10 +26,16 @@
     indices: null,
     setIndices: [],
     crystalData: null,
+    networkData: null,
     chart: null,
     moversTab: 'gainers',
     sortColumn: 'totalMarketCap',
     sortDirection: 'desc',
+    currency: 'GBP', // 'GBP' or 'JPY'
+    exchangeRate: null,
+    exchangeRateChange: null,
+    marketHealth: null,
+    moversData: null,
   };
 
   // ============================================================================
@@ -40,6 +46,10 @@
     // Header
     lastUpdated: document.querySelector('[data-last-updated]'),
     refreshBtn: document.querySelector('[data-refresh-btn]'),
+
+    // Currency Toggle
+    currencyToggle: document.querySelector('[data-currency-toggle]'),
+    fxRateDisplay: document.querySelector('[data-fx-rate]'),
 
     // Summary
     summaryBar: document.querySelector('[data-summary-bar]'),
@@ -80,14 +90,86 @@
   // Utilities
   // ============================================================================
 
-  function formatCurrency(value) {
-    if (typeof value !== 'number' || isNaN(value)) return '£--';
+  function formatCurrency(value, currency = state.currency) {
+    if (typeof value !== 'number' || isNaN(value)) return currency === 'JPY' ? '¥--' : '£--';
+
+    if (currency === 'JPY') {
+      return new Intl.NumberFormat('ja-JP', {
+        style: 'currency',
+        currency: 'JPY',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(value);
+    }
+
     return new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: 'GBP',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
+  }
+
+  function formatCurrencyGBP(value) {
+    return formatCurrency(value, 'GBP');
+  }
+
+  function formatCurrencyJPY(value) {
+    return formatCurrency(value, 'JPY');
+  }
+
+  function getPrice(item, field = 'price') {
+    if (state.currency === 'JPY') {
+      return item[`${field}Jpy`] ?? item[field] ?? 0;
+    }
+    return item[`${field}Gbp`] ?? item[field] ?? 0;
+  }
+
+  function getChange(item, field = 'change') {
+    if (state.currency === 'JPY') {
+      return item[`${field}Jpy`] ?? item[field] ?? 0;
+    }
+    return item[`${field}Gbp`] ?? item[field] ?? 0;
+  }
+
+  /**
+   * Generate SVG sparkline from data array
+   */
+  function generateSparkline(data, width = 60, height = 24) {
+    if (!data || data.length < 2) return '';
+
+    const values = data.slice(-7); // Last 7 data points
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = max - min || 1;
+
+    const points = values.map((v, i) => {
+      const x = (i / (values.length - 1)) * width;
+      const y = height - ((v - min) / range) * (height - 4) - 2;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+
+    const trend = values[values.length - 1] > values[0] ? 'up' :
+                  values[values.length - 1] < values[0] ? 'down' : 'neutral';
+
+    return `<div class="price-index__summary-sparkline price-index__summary-sparkline--${trend}">
+      <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+        <polyline points="${points}" />
+      </svg>
+    </div>`;
+  }
+
+  /**
+   * Get volatility class from label
+   */
+  function getVolatilityClass(label) {
+    switch (label) {
+      case 'Stable': return 'stable';
+      case 'Moderate': return 'moderate';
+      case 'Volatile': return 'volatile';
+      case 'Highly Volatile': return 'extreme';
+      default: return 'moderate';
+    }
   }
 
   function formatPercent(value) {
@@ -125,9 +207,10 @@
   async function loadAllData() {
     showLoading();
 
-    const [indexData, moversData] = await Promise.all([
+    const [indexData, moversData, healthData] = await Promise.all([
       fetchAPI('/price-index'),
       fetchAPI('/price-index/movers?limit=10'),
+      fetchAPI(`/price-index/health?game=${state.currentGame}`),
     ]);
 
     if (indexData) {
@@ -139,14 +222,21 @@
     }
 
     if (moversData) {
-      renderMovers(moversData.gainers, moversData.losers);
+      state.moversData = moversData;
+      renderMoversEnhanced(moversData.gainers, moversData.losers, moversData.mostVolume);
+    }
+
+    if (healthData) {
+      state.marketHealth = healthData;
+      renderMarketHealth(healthData);
     }
 
     updateTimestamp();
     hideLoading();
 
-    // Load crystal data for current game
+    // Load crystal and network data for current game
     loadCrystalData();
+    loadNetworkData();
   }
 
   async function loadCrystalData() {
@@ -157,6 +247,51 @@
         renderCrystal();
       }
     }
+  }
+
+  async function loadNetworkData() {
+    const data = await fetchAPI(`/price-index/network?game=${state.currentGame}&minCorrelation=0.3&limit=150`);
+    if (data) {
+      state.networkData = data;
+      // Update exchange rate from network data
+      if (data.marketForces?.exchangeRate) {
+        state.exchangeRate = data.marketForces.exchangeRate.current;
+        state.exchangeRateChange = data.marketForces.exchangeRate.change24h;
+        updateFxRateDisplay();
+      }
+      if (state.currentView === 'crystal') {
+        renderCrystal();
+      }
+    }
+  }
+
+  function updateFxRateDisplay() {
+    if (!elements.fxRateDisplay) return;
+
+    const rate = state.exchangeRate;
+    const change = state.exchangeRateChange;
+
+    if (!rate) {
+      elements.fxRateDisplay.innerHTML = `
+        <span>FX:</span>
+        <span class="price-index__fx-rate-value">--</span>
+      `;
+      return;
+    }
+
+    const changeClass = change > 0 ? 'up' : change < 0 ? 'down' : '';
+    const changeSign = change > 0 ? '+' : '';
+    const changeDisplay = change ? `
+      <span class="price-index__fx-rate-change price-index__fx-rate-change--${changeClass}">
+        ${changeSign}${change.toFixed(2)}%
+      </span>
+    ` : '';
+
+    elements.fxRateDisplay.innerHTML = `
+      <span>¥/£:</span>
+      <span class="price-index__fx-rate-value">${(1 / rate).toFixed(1)}</span>
+      ${changeDisplay}
+    `;
   }
 
   async function loadChartData() {
@@ -394,8 +529,14 @@
       const pos = positions.get(node.id);
       if (!pos) return;
 
-      const change = node.change || 0;
-      const size = Math.max(4, Math.min(12, Math.sqrt(node.price) * 2));
+      // Get change based on selected currency
+      const change = state.currency === 'JPY'
+        ? (node.changeJpy ?? node.change ?? 0)
+        : (node.changeGbp ?? node.change ?? 0);
+
+      // Get price for size calculation (use GBP for consistency)
+      const price = node.priceGbp ?? node.price ?? 1;
+      const size = Math.max(4, Math.min(12, Math.sqrt(price) * 2));
 
       // Node color based on price change
       let color;
@@ -449,13 +590,37 @@
         tooltip.style.left = `${x + 15}px`;
         tooltip.style.top = `${y - 10}px`;
 
+        // Get prices for both currencies
+        const priceGbp = nearest.priceGbp ?? nearest.price ?? 0;
+        const priceJpy = nearest.priceJpy ?? null;
+        const changeGbp = nearest.changeGbp ?? nearest.change ?? 0;
+        const changeJpy = nearest.changeJpy ?? null;
+
+        // Show price based on selected currency
+        const displayPrice = state.currency === 'JPY' && priceJpy !== null ? priceJpy : priceGbp;
+        const displayChange = state.currency === 'JPY' && changeJpy !== null ? changeJpy : changeGbp;
+
         tooltip.querySelector('[data-tooltip-name]').textContent = nearest.name;
         tooltip.querySelector('[data-tooltip-set]').textContent = nearest.setCode || '';
-        tooltip.querySelector('[data-tooltip-price]').textContent = formatCurrency(nearest.price);
+        tooltip.querySelector('[data-tooltip-price]').textContent = formatCurrency(displayPrice);
+
+        // Show secondary price in other currency if available
+        const secondaryEl = tooltip.querySelector('[data-tooltip-secondary]');
+        if (secondaryEl) {
+          if (state.currency === 'JPY' && priceJpy !== null) {
+            secondaryEl.textContent = formatCurrencyGBP(priceGbp);
+            secondaryEl.hidden = false;
+          } else if (state.currency === 'GBP' && priceJpy !== null) {
+            secondaryEl.textContent = formatCurrencyJPY(priceJpy);
+            secondaryEl.hidden = false;
+          } else {
+            secondaryEl.hidden = true;
+          }
+        }
 
         const changeEl = tooltip.querySelector('[data-tooltip-change]');
-        changeEl.textContent = formatPercent(nearest.change);
-        changeEl.className = `price-index__tooltip-change price-index__mover-change--${getChangeClass(nearest.change)}`;
+        changeEl.textContent = formatPercent(displayChange);
+        changeEl.className = `price-index__tooltip-change price-index__mover-change--${getChangeClass(displayChange)}`;
       } else {
         tooltip.hidden = true;
       }
@@ -559,40 +724,140 @@
   }
 
   // ============================================================================
-  // Movers
+  // Movers (Enhanced MTGGoldfish-inspired)
   // ============================================================================
 
-  function renderMovers(gainers, losers) {
-    renderMoversList(elements.moversGainers, gainers, true);
-    renderMoversList(elements.moversLosers, losers, false);
+  function renderMoversEnhanced(gainers, losers, mostVolume) {
+    renderEnhancedMoversList(elements.moversGainers, gainers, 'gainer');
+    renderEnhancedMoversList(elements.moversLosers, losers, 'loser');
+
+    // Render most volume if container exists
+    const volumeContainer = document.querySelector('[data-movers-volume]');
+    if (volumeContainer) {
+      renderEnhancedMoversList(volumeContainer, mostVolume, 'volume');
+    }
   }
 
-  function renderMoversList(container, movers, isGainers) {
+  function renderEnhancedMoversList(container, movers, type) {
     if (!container) return;
 
     if (!movers || movers.length === 0) {
       container.innerHTML = `
         <div class="price-index__movers-empty">
-          No ${isGainers ? 'gainers' : 'losers'} today
+          No ${type === 'gainer' ? 'gainers' : type === 'loser' ? 'losers' : 'volume data'} today
         </div>
       `;
       return;
     }
 
-    const html = movers.map((mover, index) => `
-      <div class="price-index__mover-item">
-        <span class="price-index__mover-rank">${index + 1}</span>
-        <div class="price-index__mover-info">
-          <div class="price-index__mover-name">${escapeHtml(mover.name)}</div>
-          <div class="price-index__mover-set">${mover.setCode || ''}</div>
+    const html = movers.map((mover) => {
+      const isGainer = type === 'gainer' || (type === 'volume' && mover.changePercent > 0);
+      const typeClass = type === 'volume' ? (mover.changePercent > 0 ? 'gainer' : 'loser') : type;
+
+      // Get prices based on currency
+      const currentPrice = state.currency === 'JPY' && mover.priceJpy
+        ? mover.priceJpy
+        : mover.price;
+      const previousPrice = state.currency === 'JPY' && mover.previousPriceJpy
+        ? mover.previousPriceJpy
+        : mover.previousPrice;
+      const changeAmount = currentPrice - previousPrice;
+      const changePercent = state.currency === 'JPY' && mover.changeJpy !== null
+        ? mover.changeJpy
+        : mover.changePercent;
+
+      return `
+        <div class="price-index__mover-item--enhanced price-index__mover-item--${typeClass}">
+          <div class="price-index__mover-rank-badge">${mover.rank}</div>
+          <div class="price-index__mover-details">
+            <div class="price-index__mover-name-row">
+              <span class="price-index__mover-name">${escapeHtml(mover.name)}</span>
+              ${mover.setCode ? `<span class="price-index__mover-set-badge">${mover.setCode}</span>` : ''}
+            </div>
+            <div class="price-index__mover-prices">
+              <span class="price-index__mover-previous">${formatCurrency(previousPrice)}</span>
+              <span class="price-index__mover-arrow">→</span>
+              <span class="price-index__mover-current">${formatCurrency(currentPrice)}</span>
+            </div>
+            ${mover.volumeRelative > 0 ? `
+              <div class="price-index__mover-volume-bar">
+                <div class="price-index__mover-volume-fill" style="width: ${mover.volumeRelative * 100}%"></div>
+              </div>
+            ` : ''}
+          </div>
+          <div class="price-index__mover-stats">
+            <span class="price-index__mover-change-amount price-index__mover-change--${isGainer ? 'up' : 'down'}">
+              ${isGainer ? '+' : ''}${formatCurrency(changeAmount)}
+            </span>
+            <span class="price-index__mover-change-percent price-index__mover-change--${isGainer ? 'up' : 'down'}">
+              ${formatPercent(changePercent)}
+            </span>
+          </div>
         </div>
-        <span class="price-index__mover-change price-index__mover-change--${isGainers ? 'up' : 'down'}">
-          ${formatPercent(mover.changePercent)}
-        </span>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     container.innerHTML = html;
+  }
+
+  // Keep original function for backwards compatibility
+  function renderMovers(gainers, losers) {
+    renderMoversEnhanced(gainers, losers, []);
+  }
+
+  // ============================================================================
+  // Market Health
+  // ============================================================================
+
+  function renderMarketHealth(health) {
+    const container = document.querySelector('[data-market-health]');
+    if (!container) return;
+
+    const sentimentIcon = health.sentiment === 'bullish' ? '▲' :
+                          health.sentiment === 'bearish' ? '▼' : '●';
+    const sentimentLabel = health.sentiment.charAt(0).toUpperCase() + health.sentiment.slice(1);
+
+    const sparklineHtml = health.sparkline && health.sparkline.length > 1
+      ? generateSparkline(health.sparkline, 100, 32)
+          .replace('price-index__summary-sparkline', 'price-index__health-sparkline')
+      : '';
+
+    container.innerHTML = `
+      <div class="price-index__health-header">
+        <h3 class="price-index__health-title">Market Health</h3>
+        <span class="price-index__health-sentiment price-index__health-sentiment--${health.sentiment}">
+          ${sentimentIcon} ${sentimentLabel}
+        </span>
+      </div>
+      <div class="price-index__health-stats">
+        <div class="price-index__health-stat">
+          <div class="price-index__health-stat-value price-index__health-stat-value--up">${health.gainersCount}</div>
+          <div class="price-index__health-stat-label">Gainers</div>
+        </div>
+        <div class="price-index__health-stat">
+          <div class="price-index__health-stat-value price-index__health-stat-value--down">${health.losersCount}</div>
+          <div class="price-index__health-stat-label">Losers</div>
+        </div>
+        <div class="price-index__health-stat">
+          <div class="price-index__health-stat-value">${health.unchangedCount}</div>
+          <div class="price-index__health-stat-label">Unchanged</div>
+        </div>
+      </div>
+      ${sparklineHtml ? `<div class="price-index__health-sparkline">${sparklineHtml}</div>` : ''}
+      ${health.hotSets && health.hotSets.length > 0 ? `
+        <div class="price-index__hot-sets">
+          <div class="price-index__hot-sets-title">Hot Sets</div>
+          ${health.hotSets.slice(0, 3).map(set => `
+            <div class="price-index__hot-set">
+              <span class="price-index__hot-set-code">${set.setCode}</span>
+              <span class="price-index__hot-set-change price-index__hot-set-change--${set.change > 0 ? 'up' : 'down'}">
+                ${formatPercent(set.change)}
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    `;
   }
 
   // ============================================================================
@@ -684,6 +949,36 @@
     // Refresh button
     elements.refreshBtn?.addEventListener('click', loadAllData);
 
+    // Currency toggle
+    elements.currencyToggle?.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-currency]');
+      if (!btn) return;
+
+      const currency = btn.dataset.currency;
+      if (currency === state.currency) return;
+
+      // Update buttons
+      elements.currencyToggle.querySelectorAll('[data-currency]').forEach((b) => {
+        b.classList.toggle('price-index__currency-btn--active', b.dataset.currency === currency);
+      });
+
+      // Update state and re-render
+      state.currency = currency;
+      renderSummary();
+      renderSetsTable();
+      if (state.currentView === 'crystal') {
+        renderCrystal();
+      }
+      if (state.moversTab) {
+        // Re-fetch movers to update display
+        fetchAPI('/price-index/movers?limit=10').then((moversData) => {
+          if (moversData) {
+            renderMovers(moversData.gainers, moversData.losers);
+          }
+        });
+      }
+    });
+
     // View toggle
     elements.viewToggle?.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-view]');
@@ -752,6 +1047,12 @@
         state.moversTab = tabName;
         elements.moversGainers.hidden = tabName !== 'gainers';
         elements.moversLosers.hidden = tabName !== 'losers';
+
+        // Handle volume tab
+        const volumeContainer = document.querySelector('[data-movers-volume]');
+        if (volumeContainer) {
+          volumeContainer.hidden = tabName !== 'volume';
+        }
       });
     });
 
