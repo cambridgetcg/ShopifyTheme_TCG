@@ -1,0 +1,221 @@
+{% comment %}
+  TCG Price Index Page Template
+  PRISM - Price Index System for Market Intelligence
+
+  Displays market indices, trends, and crystal neural network visualization
+{% endcomment %}
+
+{% layout 'theme' %}
+
+{{ 'price-index.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width price-index">
+  {% comment %} Page Header {% endcomment %}
+  <header class="price-index__header">
+    <div class="price-index__header-content">
+      <h1 class="price-index__title">{{ page.title | default: 'TCG Price Index' }}</h1>
+      <p class="price-index__subtitle">Real-time market intelligence for trading card games</p>
+    </div>
+    <div class="price-index__header-meta">
+      <span class="price-index__updated" data-last-updated>Loading...</span>
+      <button type="button" class="price-index__refresh" data-refresh-btn title="Refresh data">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  {% comment %} Index Summary Bar {% endcomment %}
+  <section class="price-index__summary" data-summary-bar>
+    <div class="price-index__summary-loading">
+      <div class="price-index-spinner"></div>
+      <span>Loading market data...</span>
+    </div>
+
+    <div class="price-index__summary-cards" data-summary-cards hidden>
+      {% comment %} Cards populated by JavaScript {% endcomment %}
+    </div>
+  </section>
+
+  {% comment %} Main Content Grid {% endcomment %}
+  <div class="price-index__main">
+    {% comment %} Left: Visualization / Chart {% endcomment %}
+    <div class="price-index__visualization">
+      {% comment %} View Toggle {% endcomment %}
+      <div class="price-index__view-toggle" data-view-toggle>
+        <button type="button" class="price-index__view-btn price-index__view-btn--active" data-view="crystal">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path d="M10 2L2 7l8 5 8-5-8-5zM2 17l8 5 8-5M2 12l8 5 8-5"/>
+          </svg>
+          Crystal
+        </button>
+        <button type="button" class="price-index__view-btn" data-view="chart">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+          </svg>
+          Chart
+        </button>
+        <button type="button" class="price-index__view-btn" data-view="table">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"/>
+          </svg>
+          Table
+        </button>
+      </div>
+
+      {% comment %} Crystal Visualization Container {% endcomment %}
+      <div class="price-index__crystal-view" data-crystal-view>
+        <div class="price-index__crystal-container" data-crystal-container>
+          <canvas data-crystal-canvas></canvas>
+          <div class="price-index__crystal-loading">
+            <div class="price-index-spinner price-index-spinner--large"></div>
+            <span>Generating crystal lattice...</span>
+          </div>
+          <div class="price-index__crystal-tooltip" data-crystal-tooltip hidden>
+            <div class="price-index__tooltip-name" data-tooltip-name></div>
+            <div class="price-index__tooltip-set" data-tooltip-set></div>
+            <div class="price-index__tooltip-price" data-tooltip-price></div>
+            <div class="price-index__tooltip-change" data-tooltip-change></div>
+          </div>
+        </div>
+        <div class="price-index__crystal-legend">
+          <div class="price-index__legend-item">
+            <span class="price-index__legend-color price-index__legend-color--gain"></span>
+            <span>Price Up</span>
+          </div>
+          <div class="price-index__legend-item">
+            <span class="price-index__legend-color price-index__legend-color--loss"></span>
+            <span>Price Down</span>
+          </div>
+          <div class="price-index__legend-item">
+            <span class="price-index__legend-color price-index__legend-color--neutral"></span>
+            <span>Stable</span>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Chart View Container {% endcomment %}
+      <div class="price-index__chart-view" data-chart-view hidden>
+        <div class="price-index__chart-header">
+          <select class="price-index__chart-select" data-chart-index>
+            <option value="GAME_onepiece">One Piece Index</option>
+            <option value="TOP_100">Top 100 Index</option>
+          </select>
+          <div class="price-index__chart-range" data-chart-range>
+            <button type="button" class="price-index__range-btn" data-range="7">7D</button>
+            <button type="button" class="price-index__range-btn price-index__range-btn--active" data-range="30">30D</button>
+            <button type="button" class="price-index__range-btn" data-range="90">90D</button>
+            <button type="button" class="price-index__range-btn" data-range="365">1Y</button>
+          </div>
+        </div>
+        <div class="price-index__chart-container" data-chart-container>
+          <canvas data-chart-canvas></canvas>
+        </div>
+        <div class="price-index__chart-stats" data-chart-stats>
+          <div class="price-index__stat">
+            <span class="price-index__stat-label">High</span>
+            <span class="price-index__stat-value" data-stat-high>--</span>
+          </div>
+          <div class="price-index__stat">
+            <span class="price-index__stat-label">Low</span>
+            <span class="price-index__stat-value" data-stat-low>--</span>
+          </div>
+          <div class="price-index__stat">
+            <span class="price-index__stat-label">Average</span>
+            <span class="price-index__stat-value" data-stat-avg>--</span>
+          </div>
+          <div class="price-index__stat">
+            <span class="price-index__stat-label">Volatility</span>
+            <span class="price-index__stat-value" data-stat-volatility>--</span>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Table View Container {% endcomment %}
+      <div class="price-index__table-view" data-table-view hidden>
+        {% comment %} Table populated by JavaScript {% endcomment %}
+      </div>
+    </div>
+
+    {% comment %} Right: Control Panel {% endcomment %}
+    <aside class="price-index__panel">
+      {% comment %} Game Filter {% endcomment %}
+      <div class="price-index__filter-group">
+        <label class="price-index__filter-label">Game</label>
+        <select class="price-index__filter-select" data-game-filter>
+          <option value="onepiece" selected>One Piece</option>
+          <option value="pokemon" disabled>Pokemon (Coming Soon)</option>
+        </select>
+      </div>
+
+      {% comment %} Set Filter {% endcomment %}
+      <div class="price-index__filter-group">
+        <label class="price-index__filter-label">Set</label>
+        <select class="price-index__filter-select" data-set-filter>
+          <option value="">All Sets</option>
+        </select>
+      </div>
+
+      {% comment %} Top Movers Section {% endcomment %}
+      <div class="price-index__movers">
+        <h3 class="price-index__movers-title">Top Movers (24h)</h3>
+
+        <div class="price-index__movers-tabs">
+          <button type="button" class="price-index__movers-tab price-index__movers-tab--active" data-movers-tab="gainers">
+            Gainers
+          </button>
+          <button type="button" class="price-index__movers-tab" data-movers-tab="losers">
+            Losers
+          </button>
+        </div>
+
+        <div class="price-index__movers-list" data-movers-gainers>
+          <div class="price-index__movers-loading">
+            <div class="price-index-spinner"></div>
+          </div>
+        </div>
+
+        <div class="price-index__movers-list" data-movers-losers hidden>
+          <div class="price-index__movers-loading">
+            <div class="price-index-spinner"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  {% comment %} Set Breakdown Table {% endcomment %}
+  <section class="price-index__sets">
+    <h2 class="price-index__sets-title">Set Performance</h2>
+    <div class="price-index__sets-table-wrapper">
+      <table class="price-index__sets-table">
+        <thead>
+          <tr>
+            <th class="price-index__sets-th price-index__sets-th--sortable" data-sort="key">Set</th>
+            <th class="price-index__sets-th price-index__sets-th--sortable price-index__sets-th--right" data-sort="cardCount">Cards</th>
+            <th class="price-index__sets-th price-index__sets-th--sortable price-index__sets-th--right" data-sort="avgPrice">Avg Price</th>
+            <th class="price-index__sets-th price-index__sets-th--sortable price-index__sets-th--right" data-sort="change24h">24h</th>
+            <th class="price-index__sets-th price-index__sets-th--sortable price-index__sets-th--right" data-sort="change7d">7d</th>
+            <th class="price-index__sets-th price-index__sets-th--sortable price-index__sets-th--right" data-sort="totalMarketCap">Market Cap</th>
+            <th class="price-index__sets-th price-index__sets-th--right">Trend</th>
+          </tr>
+        </thead>
+        <tbody data-sets-body>
+          <tr>
+            <td colspan="7" class="price-index__sets-loading">
+              <div class="price-index-spinner"></div>
+              <span>Loading set data...</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+{% comment %} Load Chart.js for charting {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+
+{% comment %} Load the price index JavaScript {% endcomment %}
+<script src="{{ 'price-index.js' | asset_url }}" defer></script>
