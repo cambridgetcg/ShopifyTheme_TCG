@@ -85,6 +85,9 @@
     dom.cardLanguage = document.querySelector('[data-card-language]');
     dom.variantBadge = document.querySelector('[data-variant-badge]');
 
+    // Share button
+    dom.shareBtn = document.querySelector('[data-share-btn]');
+
     // Prices
     dom.pricePrimary = document.querySelector('[data-price-primary]');
     dom.priceSecondary = document.querySelector('[data-price-secondary]');
@@ -145,6 +148,11 @@
 
         setCurrency(currency);
       });
+    }
+
+    // Share button
+    if (dom.shareBtn) {
+      dom.shareBtn.addEventListener('click', handleShare);
     }
 
     // Range toggle buttons
@@ -777,6 +785,51 @@
     if (dom.zoomModal) {
       dom.zoomModal.hidden = true;
       document.body.style.overflow = '';
+    }
+  }
+
+  /**
+   * Handle share button click - copy URL to clipboard
+   */
+  async function handleShare() {
+    if (!dom.shareBtn) return;
+
+    const url = window.location.href;
+    const shareText = dom.shareBtn.querySelector('.card-detail__share-text');
+
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+
+      // Show success feedback
+      dom.shareBtn.classList.add('card-detail__share-btn--copied');
+      if (shareText) shareText.textContent = 'Copied!';
+
+      // Reset after delay
+      setTimeout(() => {
+        dom.shareBtn.classList.remove('card-detail__share-btn--copied');
+        if (shareText) shareText.textContent = 'Share';
+      }, 2000);
+
+    } catch (err) {
+      console.error('Failed to copy URL:', err);
+      // Show error feedback briefly
+      if (shareText) shareText.textContent = 'Failed';
+      setTimeout(() => {
+        if (shareText) shareText.textContent = 'Share';
+      }, 2000);
     }
   }
 

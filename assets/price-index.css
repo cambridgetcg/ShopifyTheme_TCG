@@ -867,6 +867,14 @@
   transform: translateX(2px);
 }
 
+.price-index__mover-item--clickable {
+  cursor: pointer;
+}
+
+.price-index__mover-item--clickable:active {
+  transform: translateX(4px);
+}
+
 .price-index__mover-item--gainer {
   border-left-color: var(--pi-gain-medium);
   background: linear-gradient(90deg, rgba(74, 222, 128, 0.05) 0%, transparent 50%);
@@ -1580,6 +1588,18 @@
 
 .tcg100-table__row:hover {
   background: var(--pi-surface-hover);
+}
+
+.tcg100-table__row--clickable {
+  cursor: pointer;
+}
+
+.tcg100-table__row--clickable:hover {
+  background: var(--pi-surface-hover);
+}
+
+.tcg100-table__row--clickable:active {
+  background: rgba(59, 130, 246, 0.15);
 }
 
 .tcg100-table__row--buffer-zone {

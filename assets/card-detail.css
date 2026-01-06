@@ -339,11 +339,65 @@
   }
 }
 
+.card-detail__name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .card-detail__name {
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
+  flex: 1;
+}
+
+.card-detail__share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  color: var(--cd-text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--cd-transition);
+  flex-shrink: 0;
+}
+
+.card-detail__share-btn:hover {
+  background: var(--cd-surface-hover);
+  color: var(--cd-text);
+  border-color: var(--cd-accent);
+}
+
+.card-detail__share-btn--copied {
+  background: var(--cd-gain);
+  border-color: var(--cd-gain);
+  color: white;
+}
+
+.card-detail__share-btn--copied:hover {
+  background: var(--cd-gain);
+  color: white;
+}
+
+.card-detail__share-text {
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .card-detail__share-text {
+    display: none;
+  }
+
+  .card-detail__share-btn {
+    padding: 0.5rem;
+  }
 }
 
 .card-detail__meta {

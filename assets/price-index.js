@@ -936,7 +936,8 @@
         : mover.changePercent;
 
       return `
-        <div class="price-index__mover-item--enhanced price-index__mover-item--${typeClass}">
+        <div class="price-index__mover-item--enhanced price-index__mover-item--${typeClass} price-index__mover-item--clickable"
+             data-card-id="${escapeHtml(mover.cardId || '')}">
           <div class="price-index__mover-rank-badge">${mover.rank}</div>
           <div class="price-index__mover-details">
             <div class="price-index__mover-name-row">
@@ -967,6 +968,16 @@
     }).join('');
 
     container.innerHTML = html;
+
+    // Set up click-through to card detail
+    container.querySelectorAll('[data-card-id]').forEach((item) => {
+      item.addEventListener('click', () => {
+        const cardId = item.dataset.cardId;
+        if (cardId) {
+          window.location.href = `/pages/card-detail?id=${encodeURIComponent(cardId)}`;
+        }
+      });
+    });
   }
 
   // Keep original function for backwards compatibility
@@ -1245,7 +1256,7 @@
       const bufferZoneClass = c.inBufferZone ? 'tcg100-table__row--buffer-zone' : '';
 
       return `
-        <tr class="tcg100-table__row ${bufferZoneClass}">
+        <tr class="tcg100-table__row tcg100-table__row--clickable ${bufferZoneClass}" data-card-id="${escapeHtml(c.cardId)}">
           <td class="tcg100-table__cell tcg100-table__cell--rank">
             <span class="tcg100-table__rank">${c.rank}</span>
             ${c.rankChange !== 0 ? `
@@ -1322,6 +1333,18 @@
           state.tcg100SortDirection = column === 'name' ? 'asc' : 'desc';
         }
         renderTCG100Constituents(data);
+      });
+    });
+
+    // Set up click-through to card detail
+    container.querySelectorAll('[data-card-id]').forEach((row) => {
+      row.addEventListener('click', (e) => {
+        // Don't navigate if clicking on a sortable header
+        if (e.target.closest('[data-tcg100-sort]')) return;
+        const cardId = row.dataset.cardId;
+        if (cardId) {
+          window.location.href = `/pages/card-detail?id=${encodeURIComponent(cardId)}`;
+        }
       });
     });
   }
