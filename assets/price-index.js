@@ -424,58 +424,275 @@
   // Crystal Visualization
   // ============================================================================
 
+  /**
+   * Render treemap heatmap visualization (familiar price tracker format)
+   * Similar to finviz stock heatmap - rectangles sized by market cap, colored by change
+   */
   function renderCrystal() {
-    if (!elements.crystalCanvas || !state.crystalData) return;
-
-    const canvas = elements.crystalCanvas;
-    const ctx = canvas.getContext('2d');
     const container = elements.crystalContainer;
+    if (!container || !state.crystalData) return;
 
-    // Set canvas size
-    const rect = container.getBoundingClientRect();
-    canvas.width = rect.width * window.devicePixelRatio;
-    canvas.height = rect.height * window.devicePixelRatio;
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-    const width = rect.width;
-    const height = rect.height;
     const nodes = state.crystalData.nodes || [];
+    if (nodes.length === 0) return;
 
     // Hide loading
     const loading = container.querySelector('.price-index__crystal-loading');
     if (loading) loading.hidden = true;
 
-    // Calculate positions using simple force layout
-    const positions = calculateNodePositions(nodes, width, height);
-
-    // Clear canvas
-    ctx.fillStyle = '#0f1419';
-    ctx.fillRect(0, 0, width, height);
-
-    // Draw background lattice
-    drawLattice(ctx, width, height);
-
-    // Draw edges (correlations)
-    if (state.crystalData.edges) {
-      drawEdges(ctx, state.crystalData.edges, positions);
+    // Hide canvas, use DOM-based treemap instead
+    if (elements.crystalCanvas) {
+      elements.crystalCanvas.style.display = 'none';
     }
 
-    // Draw nodes
-    drawNodes(ctx, nodes, positions);
+    // Get or create treemap container
+    let treemapEl = container.querySelector('.treemap');
+    if (!treemapEl) {
+      treemapEl = document.createElement('div');
+      treemapEl.className = 'treemap';
+      container.appendChild(treemapEl);
+    }
 
-    // Set up hover handling
-    setupCrystalHover(canvas, nodes, positions);
+    // Group by set for hierarchical treemap
+    const setGroups = new Map();
+    let totalValue = 0;
+
+    nodes.forEach((node) => {
+      const set = node.setCode || 'Other';
+      if (!setGroups.has(set)) {
+        setGroups.set(set, { cards: [], totalValue: 0 });
+      }
+      const group = setGroups.get(set);
+      const value = node.priceGbp ?? node.price ?? 1;
+      group.cards.push({ ...node, value });
+      group.totalValue += value;
+      totalValue += value;
+    });
+
+    // Sort sets by total value
+    const sortedSets = Array.from(setGroups.entries())
+      .sort((a, b) => b[1].totalValue - a[1].totalValue);
+
+    // Calculate treemap layout
+    const rect = container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    // Build treemap HTML
+    let html = '';
+    const setRects = squarify(
+      sortedSets.map(([name, data]) => ({ name, value: data.totalValue, cards: data.cards })),
+      { x: 0, y: 0, width, height }
+    );
+
+    setRects.forEach((setRect) => {
+      // Calculate card positions within set
+      const cardRects = squarify(
+        setRect.data.cards.map((c) => ({ ...c, value: c.value })),
+        { x: 0, y: 0, width: setRect.width, height: setRect.height }
+      );
+
+      html += `<div class="treemap__set" style="left:${setRect.x}px;top:${setRect.y}px;width:${setRect.width}px;height:${setRect.height}px;">`;
+      html += `<div class="treemap__set-label">${escapeHtml(setRect.data.name)}</div>`;
+
+      cardRects.forEach((cardRect) => {
+        const card = cardRect.data;
+        const change = state.currency === 'JPY'
+          ? (card.changeJpy ?? card.change ?? 0)
+          : (card.changeGbp ?? card.change ?? 0);
+        const price = state.currency === 'JPY'
+          ? (card.priceJpy ?? card.priceGbp ?? card.price ?? 0)
+          : (card.priceGbp ?? card.price ?? 0);
+
+        const colorClass = getHeatmapColorClass(change);
+        const showLabel = cardRect.width > 50 && cardRect.height > 40;
+        const showPrice = cardRect.width > 40 && cardRect.height > 30;
+
+        html += `
+          <div class="treemap__card treemap__card--${colorClass}"
+               style="left:${cardRect.x}px;top:${cardRect.y}px;width:${cardRect.width}px;height:${cardRect.height}px;"
+               data-card-id="${escapeHtml(card.id)}"
+               data-card-name="${escapeHtml(card.name || card.id)}"
+               data-card-set="${escapeHtml(card.setCode || '')}"
+               data-card-price="${price}"
+               data-card-change="${change}">
+            ${showLabel ? `<div class="treemap__card-name">${escapeHtml(truncateName(card.name || card.id, cardRect.width))}</div>` : ''}
+            ${showPrice ? `<div class="treemap__card-change">${formatPercent(change)}</div>` : ''}
+          </div>
+        `;
+      });
+
+      html += '</div>';
+    });
+
+    treemapEl.innerHTML = html;
+
+    // Set up hover tooltips
+    setupTreemapHover(treemapEl);
   }
 
+  /**
+   * Squarified treemap algorithm
+   * Creates aesthetically pleasing rectangles with aspect ratios close to 1
+   */
+  function squarify(items, rect) {
+    if (items.length === 0) return [];
+
+    const totalValue = items.reduce((sum, item) => sum + item.value, 0);
+    if (totalValue === 0) return items.map((item) => ({
+      ...rect,
+      width: rect.width / items.length,
+      data: item,
+    }));
+
+    const results = [];
+    let remaining = [...items].sort((a, b) => b.value - a.value);
+    let currentRect = { ...rect };
+
+    while (remaining.length > 0) {
+      const isWide = currentRect.width >= currentRect.height;
+      const side = isWide ? currentRect.height : currentRect.width;
+
+      // Find best row
+      let row = [remaining[0]];
+      let rowValue = remaining[0].value;
+      let remainingValue = totalValue - rowValue;
+
+      for (let i = 1; i < remaining.length; i++) {
+        const newRow = [...row, remaining[i]];
+        const newRowValue = rowValue + remaining[i].value;
+
+        if (worstRatio(row, side, totalValue) >= worstRatio(newRow, side, totalValue)) {
+          row = newRow;
+          rowValue = newRowValue;
+        } else {
+          break;
+        }
+      }
+
+      // Layout row
+      const rowSize = (rowValue / totalValue) * (isWide ? currentRect.width : currentRect.height);
+      let offset = 0;
+
+      row.forEach((item) => {
+        const itemSize = (item.value / rowValue) * side;
+        if (isWide) {
+          results.push({
+            x: currentRect.x,
+            y: currentRect.y + offset,
+            width: rowSize,
+            height: itemSize,
+            data: item,
+          });
+        } else {
+          results.push({
+            x: currentRect.x + offset,
+            y: currentRect.y,
+            width: itemSize,
+            height: rowSize,
+            data: item,
+          });
+        }
+        offset += itemSize;
+      });
+
+      // Update remaining rect
+      if (isWide) {
+        currentRect.x += rowSize;
+        currentRect.width -= rowSize;
+      } else {
+        currentRect.y += rowSize;
+        currentRect.height -= rowSize;
+      }
+
+      remaining = remaining.slice(row.length);
+    }
+
+    return results;
+  }
+
+  function worstRatio(row, side, totalValue) {
+    const rowValue = row.reduce((sum, item) => sum + item.value, 0);
+    const rowSize = (rowValue / totalValue) * side;
+
+    let worst = 0;
+    row.forEach((item) => {
+      const itemSize = (item.value / rowValue) * side;
+      const ratio = Math.max(rowSize / itemSize, itemSize / rowSize);
+      worst = Math.max(worst, ratio);
+    });
+
+    return worst;
+  }
+
+  function getHeatmapColorClass(change) {
+    if (change >= 10) return 'gain-5';
+    if (change >= 5) return 'gain-4';
+    if (change >= 2) return 'gain-3';
+    if (change >= 0.5) return 'gain-2';
+    if (change > 0) return 'gain-1';
+    if (change > -0.5) return 'neutral';
+    if (change > -2) return 'loss-1';
+    if (change > -5) return 'loss-2';
+    if (change > -10) return 'loss-3';
+    return 'loss-4';
+  }
+
+  function truncateName(name, width) {
+    const maxChars = Math.floor(width / 7);
+    if (name.length <= maxChars) return name;
+    return name.substring(0, maxChars - 1) + '…';
+  }
+
+  function setupTreemapHover(container) {
+    const tooltip = elements.crystalTooltip;
+    if (!tooltip) return;
+
+    container.addEventListener('mousemove', (e) => {
+      const card = e.target.closest('.treemap__card');
+      if (!card) {
+        tooltip.hidden = true;
+        return;
+      }
+
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      tooltip.hidden = false;
+      tooltip.style.left = `${Math.min(x + 15, rect.width - 180)}px`;
+      tooltip.style.top = `${Math.min(y - 10, rect.height - 100)}px`;
+
+      const name = card.dataset.cardName;
+      const set = card.dataset.cardSet;
+      const price = parseFloat(card.dataset.cardPrice);
+      const change = parseFloat(card.dataset.cardChange);
+
+      const nameEl = tooltip.querySelector('[data-tooltip-name]');
+      const setEl = tooltip.querySelector('[data-tooltip-set]');
+      const priceEl = tooltip.querySelector('[data-tooltip-price]');
+      const changeEl = tooltip.querySelector('[data-tooltip-change]');
+
+      if (nameEl) nameEl.textContent = name;
+      if (setEl) setEl.textContent = set;
+      if (priceEl) priceEl.textContent = formatCurrency(price);
+      if (changeEl) {
+        changeEl.textContent = formatPercent(change);
+        changeEl.className = `price-index__tooltip-change price-index__summary-change--${getChangeClass(change)}`;
+      }
+    });
+
+    container.addEventListener('mouseleave', () => {
+      tooltip.hidden = true;
+    });
+  }
+
+  // Legacy crystal functions kept for backwards compatibility
   function calculateNodePositions(nodes, width, height) {
     const positions = new Map();
     const centerX = width / 2;
     const centerY = height / 2;
     const maxRadius = Math.min(width, height) * 0.4;
 
-    // Group nodes by set
     const setGroups = new Map();
     nodes.forEach((node) => {
       const set = node.setCode || 'unknown';
@@ -483,7 +700,6 @@
       setGroups.get(set).push(node);
     });
 
-    // Position sets in a circle, cards within each set in smaller circles
     const sets = Array.from(setGroups.keys());
     const setAngleStep = (2 * Math.PI) / sets.length;
 
@@ -507,83 +723,6 @@
     return positions;
   }
 
-  function drawLattice(ctx, width, height) {
-    ctx.strokeStyle = 'rgba(148, 163, 184, 0.05)';
-    ctx.lineWidth = 1;
-
-    // Hexagonal grid
-    const spacing = 40;
-    for (let y = 0; y < height + spacing; y += spacing * Math.sqrt(3) / 2) {
-      const offset = (Math.floor(y / (spacing * Math.sqrt(3) / 2)) % 2) * spacing / 2;
-      for (let x = offset; x < width + spacing; x += spacing) {
-        ctx.beginPath();
-        ctx.arc(x, y, 1, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-    }
-  }
-
-  function drawEdges(ctx, edges, positions) {
-    edges.forEach((edge) => {
-      const source = positions.get(edge.source);
-      const target = positions.get(edge.target);
-      if (!source || !target) return;
-
-      const correlation = edge.correlation || 0;
-      const alpha = Math.abs(correlation) * 0.5;
-      const color = correlation > 0
-        ? `rgba(0, 255, 136, ${alpha})`
-        : `rgba(255, 68, 68, ${alpha})`;
-
-      ctx.strokeStyle = color;
-      ctx.lineWidth = Math.abs(correlation) * 2;
-      ctx.beginPath();
-      ctx.moveTo(source.x, source.y);
-      ctx.lineTo(target.x, target.y);
-      ctx.stroke();
-    });
-  }
-
-  function drawNodes(ctx, nodes, positions) {
-    nodes.forEach((node) => {
-      const pos = positions.get(node.id);
-      if (!pos) return;
-
-      // Get change based on selected currency
-      const change = state.currency === 'JPY'
-        ? (node.changeJpy ?? node.change ?? 0)
-        : (node.changeGbp ?? node.change ?? 0);
-
-      // Get price for size calculation (use GBP for consistency)
-      const price = node.priceGbp ?? node.price ?? 1;
-      const size = Math.max(4, Math.min(12, Math.sqrt(price) * 2));
-
-      // Node color based on price change
-      let color;
-      if (change > 5) color = '#00ff88';
-      else if (change > 0) color = '#4ade80';
-      else if (change > -5) color = '#94a3b8';
-      else if (change > -10) color = '#f87171';
-      else color = '#ff4444';
-
-      // Glow effect
-      const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, size * 2);
-      gradient.addColorStop(0, color);
-      gradient.addColorStop(1, 'transparent');
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(pos.x, pos.y, size * 2, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Core node
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
-      ctx.fill();
-    });
-  }
-
   function setupCrystalHover(canvas, nodes, positions) {
     const tooltip = elements.crystalTooltip;
     if (!tooltip) return;
@@ -593,9 +732,8 @@
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Find nearest node
       let nearest = null;
-      let nearestDist = 20; // Max hover distance
+      let nearestDist = 20;
 
       positions.forEach((pos) => {
         const dist = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));

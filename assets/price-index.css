@@ -434,6 +434,167 @@
 }
 
 /* ============================================================================
+   Treemap Heatmap (Price Tracker Style)
+   ============================================================================ */
+
+.treemap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.treemap__set {
+  position: absolute;
+  border: 1px solid var(--pi-border);
+  overflow: hidden;
+}
+
+.treemap__set-label {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.treemap__card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.treemap__card:hover {
+  z-index: 100;
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.treemap__card-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.treemap__card-change {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  margin-top: 2px;
+}
+
+/* Gain Colors - Green gradient (like finviz) */
+.treemap__card--gain-5 {
+  background: linear-gradient(135deg, #00a651 0%, #008c44 100%);
+}
+
+.treemap__card--gain-4 {
+  background: linear-gradient(135deg, #00bf5f 0%, #00a651 100%);
+}
+
+.treemap__card--gain-3 {
+  background: linear-gradient(135deg, #2dd36f 0%, #00bf5f 100%);
+}
+
+.treemap__card--gain-2 {
+  background: linear-gradient(135deg, #4ade80 0%, #2dd36f 100%);
+}
+
+.treemap__card--gain-1 {
+  background: linear-gradient(135deg, #6ee7a0 0%, #4ade80 100%);
+}
+
+/* Neutral */
+.treemap__card--neutral {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+}
+
+/* Loss Colors - Red gradient (like finviz) */
+.treemap__card--loss-1 {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+}
+
+.treemap__card--loss-2 {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.treemap__card--loss-3 {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.treemap__card--loss-4 {
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+}
+
+/* Heatmap Legend */
+.price-index__heatmap-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--pi-surface-hover);
+  border-top: 1px solid var(--pi-border);
+}
+
+.price-index__heatmap-legend-label {
+  font-size: 0.65rem;
+  color: var(--pi-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.price-index__heatmap-scale {
+  display: flex;
+  height: 12px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.price-index__heatmap-scale-segment {
+  width: 24px;
+  height: 100%;
+}
+
+.price-index__heatmap-scale-segment--loss-4 { background: #991b1b; }
+.price-index__heatmap-scale-segment--loss-3 { background: #b91c1c; }
+.price-index__heatmap-scale-segment--loss-2 { background: #dc2626; }
+.price-index__heatmap-scale-segment--loss-1 { background: #ef4444; }
+.price-index__heatmap-scale-segment--neutral { background: #374151; }
+.price-index__heatmap-scale-segment--gain-1 { background: #4ade80; }
+.price-index__heatmap-scale-segment--gain-2 { background: #2dd36f; }
+.price-index__heatmap-scale-segment--gain-3 { background: #00bf5f; }
+.price-index__heatmap-scale-segment--gain-4 { background: #00a651; }
+
+.price-index__heatmap-legend-value {
+  font-size: 0.625rem;
+  color: var(--pi-text-secondary);
+  font-weight: 600;
+}
+
+/* ============================================================================
    Chart View
    ============================================================================ */
 

@@ -61,9 +61,9 @@
       <div class="price-index__view-toggle" data-view-toggle>
         <button type="button" class="price-index__view-btn price-index__view-btn--active" data-view="crystal">
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-            <path d="M10 2L2 7l8 5 8-5-8-5zM2 17l8 5 8-5M2 12l8 5 8-5"/>
+            <path d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm9 0a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4zM3 12a1 1 0 011-1h3a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm9-1a1 1 0 00-1 1v4a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 00-1-1h-3z"/>
           </svg>
-          Crystal
+          Heatmap
         </button>
         <button type="button" class="price-index__view-btn" data-view="chart">
           <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
@@ -95,19 +95,21 @@
             <div class="price-index__tooltip-change" data-tooltip-change></div>
           </div>
         </div>
-        <div class="price-index__crystal-legend">
-          <div class="price-index__legend-item">
-            <span class="price-index__legend-color price-index__legend-color--gain"></span>
-            <span>Price Up</span>
+        <div class="price-index__heatmap-legend">
+          <span class="price-index__heatmap-legend-value">-10%</span>
+          <div class="price-index__heatmap-scale">
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--loss-4"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--loss-3"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--loss-2"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--loss-1"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--neutral"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--gain-1"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--gain-2"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--gain-3"></div>
+            <div class="price-index__heatmap-scale-segment price-index__heatmap-scale-segment--gain-4"></div>
           </div>
-          <div class="price-index__legend-item">
-            <span class="price-index__legend-color price-index__legend-color--loss"></span>
-            <span>Price Down</span>
-          </div>
-          <div class="price-index__legend-item">
-            <span class="price-index__legend-color price-index__legend-color--neutral"></span>
-            <span>Stable</span>
-          </div>
+          <span class="price-index__heatmap-legend-value">+10%</span>
+          <span class="price-index__heatmap-legend-label">24h Change</span>
         </div>
       </div>
 
