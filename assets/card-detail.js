@@ -27,7 +27,8 @@
     chart: null,
     currentRange: 30,
     historyPage: 1,
-    isLoading: true
+    isLoading: true,
+    currency: 'GBP' // 'GBP' or 'JPY'
   };
 
   // DOM Elements
@@ -66,6 +67,11 @@
     dom.errorMessage = document.querySelector('[data-error-message]');
     dom.content = document.querySelector('[data-content]');
 
+    // Currency toggle
+    dom.currencyToggle = document.querySelector('[data-currency-toggle]');
+    dom.fxValue = document.querySelector('[data-fx-value]');
+    dom.fxChange = document.querySelector('[data-fx-change]');
+
     // Breadcrumb
     dom.breadcrumbSet = document.querySelector('[data-breadcrumb-set]');
     dom.breadcrumbCard = document.querySelector('[data-breadcrumb-card]');
@@ -80,10 +86,11 @@
     dom.variantBadge = document.querySelector('[data-variant-badge]');
 
     // Prices
-    dom.priceGbp = document.querySelector('[data-price-gbp]');
-    dom.priceUsd = document.querySelector('[data-price-usd]');
-    dom.tradeinGbp = document.querySelector('[data-tradein-gbp]');
+    dom.pricePrimary = document.querySelector('[data-price-primary]');
+    dom.priceSecondary = document.querySelector('[data-price-secondary]');
+    dom.tradeinValue = document.querySelector('[data-tradein-value]');
     dom.tradeinPercent = document.querySelector('[data-tradein-percent]');
+    dom.tradeinBtn = document.querySelector('[data-tradein-btn]');
 
     // Change indicators
     dom.change24h = document.querySelector('[data-change-24h]');
@@ -101,9 +108,11 @@
     // Chart
     dom.chartCanvas = document.querySelector('[data-price-chart]');
     dom.rangeToggle = document.querySelector('[data-range-toggle]');
+    dom.chartLegendLabel = document.querySelector('[data-chart-legend-label]');
 
     // History table
     dom.historyBody = document.querySelector('[data-history-body]');
+    dom.priceHeader = document.querySelector('[data-price-header]');
     dom.pagination = document.querySelector('[data-pagination]');
     dom.pageInfo = document.querySelector('[data-page-info]');
     dom.pagePrev = document.querySelector('[data-page-prev]');
@@ -125,6 +134,19 @@
    * Set up event listeners
    */
   function setupEventListeners() {
+    // Currency toggle
+    if (dom.currencyToggle) {
+      dom.currencyToggle.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-currency]');
+        if (!btn) return;
+
+        const currency = btn.dataset.currency;
+        if (currency === state.currency) return;
+
+        setCurrency(currency);
+      });
+    }
+
     // Range toggle buttons
     if (dom.rangeToggle) {
       dom.rangeToggle.addEventListener('click', (e) => {
@@ -182,6 +204,46 @@
   }
 
   /**
+   * Set currency and re-render
+   */
+  function setCurrency(currency) {
+    state.currency = currency;
+
+    // Update toggle buttons
+    if (dom.currencyToggle) {
+      dom.currencyToggle.querySelectorAll('[data-currency]').forEach(btn => {
+        btn.classList.toggle('card-detail__currency-btn--active', btn.dataset.currency === currency);
+      });
+    }
+
+    // Re-render price-dependent elements
+    if (state.cardData) {
+      renderPricing(state.cardData.pricing);
+      renderStats(state.cardData.stats, state.cardData.pricing);
+      renderChart(state.cardData.history);
+      renderHistoryTable();
+      renderRelatedCards(state.cardData.related);
+      updateLabels();
+    }
+  }
+
+  /**
+   * Update labels based on currency
+   */
+  function updateLabels() {
+    const currencyLabel = state.currency === 'JPY' ? 'JPY' : 'GBP';
+    const currencySymbol = state.currency === 'JPY' ? '¥' : '£';
+
+    if (dom.chartLegendLabel) {
+      dom.chartLegendLabel.textContent = `Price (${currencyLabel})`;
+    }
+
+    if (dom.priceHeader) {
+      dom.priceHeader.textContent = `Price (${currencyLabel})`;
+    }
+  }
+
+  /**
    * Load card data from API
    */
   async function loadCardData(days = CONFIG.defaultDays) {
@@ -216,7 +278,7 @@
    * Render all card data
    */
   function renderCardData() {
-    const { card, pricing, stats, history, related } = state.cardData;
+    const { card, pricing, stats, history, related, exchangeRate } = state.cardData;
 
     // Breadcrumb
     if (dom.breadcrumbSet) {
@@ -226,6 +288,9 @@
       dom.breadcrumbCard.textContent = card.fullCardNumber || card.cardId;
     }
 
+    // Exchange rate display
+    renderExchangeRate(exchangeRate);
+
     // Card info
     renderCardInfo(card);
     renderPricing(pricing);
@@ -233,6 +298,30 @@
     renderChart(history);
     renderHistoryTable();
     renderRelatedCards(related);
+    updateLabels();
+  }
+
+  /**
+   * Render exchange rate display
+   */
+  function renderExchangeRate(exchangeRate) {
+    if (!exchangeRate) return;
+
+    if (dom.fxValue && exchangeRate.current) {
+      dom.fxValue.textContent = (1 / exchangeRate.current).toFixed(1);
+    }
+
+    if (dom.fxChange && exchangeRate.change24h !== null) {
+      const change = exchangeRate.change24h;
+      const sign = change > 0 ? '+' : '';
+      dom.fxChange.textContent = `${sign}${change.toFixed(2)}%`;
+      dom.fxChange.className = 'card-detail__fx-change';
+      if (change > 0) {
+        dom.fxChange.classList.add('card-detail__fx-change--up');
+      } else if (change < 0) {
+        dom.fxChange.classList.add('card-detail__fx-change--down');
+      }
+    }
   }
 
   /**
@@ -291,20 +380,30 @@
    * Render pricing information
    */
   function renderPricing(pricing) {
-    // Market price
-    if (dom.priceGbp) {
-      dom.priceGbp.textContent = formatCurrency(pricing.currentGbp, 'GBP');
+    const isJpy = state.currency === 'JPY';
+
+    // Primary price (selected currency)
+    const primaryPrice = isJpy ? pricing.currentJpy : pricing.currentGbp;
+    const secondaryPrice = isJpy ? pricing.currentGbp : pricing.currentJpy;
+
+    if (dom.pricePrimary) {
+      dom.pricePrimary.textContent = primaryPrice !== null
+        ? formatCurrency(primaryPrice, state.currency)
+        : '--';
     }
 
-    if (dom.priceUsd) {
-      dom.priceUsd.textContent = pricing.currentUsd
-        ? formatCurrency(pricing.currentUsd, 'USD')
-        : '';
+    if (dom.priceSecondary) {
+      if (secondaryPrice !== null) {
+        const secondaryCurrency = isJpy ? 'GBP' : 'JPY';
+        dom.priceSecondary.textContent = formatCurrency(secondaryPrice, secondaryCurrency);
+      } else {
+        dom.priceSecondary.textContent = '';
+      }
     }
 
-    // Trade-in price
-    if (dom.tradeinGbp) {
-      dom.tradeinGbp.textContent = formatCurrency(pricing.tradeinGbp, 'GBP');
+    // Trade-in price (always in GBP for trade-in purposes)
+    if (dom.tradeinValue) {
+      dom.tradeinValue.textContent = formatCurrency(pricing.tradeinGbp, 'GBP');
     }
 
     if (dom.tradeinPercent) {
@@ -343,16 +442,21 @@
    * Render statistics
    */
   function renderStats(stats, pricing) {
+    const isJpy = state.currency === 'JPY';
+
     if (dom.statHigh) {
-      dom.statHigh.textContent = formatCurrency(stats.highGbp, 'GBP');
+      const high = isJpy && stats.highJpy !== null ? stats.highJpy : stats.highGbp;
+      dom.statHigh.textContent = formatCurrency(high, isJpy && stats.highJpy !== null ? 'JPY' : 'GBP');
     }
 
     if (dom.statLow) {
-      dom.statLow.textContent = formatCurrency(stats.lowGbp, 'GBP');
+      const low = isJpy && stats.lowJpy !== null ? stats.lowJpy : stats.lowGbp;
+      dom.statLow.textContent = formatCurrency(low, isJpy && stats.lowJpy !== null ? 'JPY' : 'GBP');
     }
 
     if (dom.statAvg) {
-      dom.statAvg.textContent = formatCurrency(stats.avgGbp, 'GBP');
+      const avg = isJpy && stats.avgJpy !== null ? stats.avgJpy : stats.avgGbp;
+      dom.statAvg.textContent = formatCurrency(avg, isJpy && stats.avgJpy !== null ? 'JPY' : 'GBP');
     }
 
     if (dom.statVolatility) {
@@ -388,6 +492,7 @@
     }
 
     const ctx = dom.chartCanvas.getContext('2d');
+    const isJpy = state.currency === 'JPY';
 
     // Prepare data
     const labels = history.map(h => {
@@ -395,19 +500,26 @@
       return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     });
 
-    const prices = history.map(h => h.priceGbp);
+    const prices = history.map(h => {
+      if (isJpy && h.priceJpy !== null) {
+        return h.priceJpy;
+      }
+      return h.priceGbp;
+    });
 
     // Create gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, 'rgba(0, 212, 170, 0.3)');
     gradient.addColorStop(1, 'rgba(0, 212, 170, 0)');
 
+    const currencySymbol = isJpy ? '¥' : '£';
+
     state.chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels,
         datasets: [{
-          label: 'Price (GBP)',
+          label: `Price (${state.currency})`,
           data: prices,
           borderColor: CONFIG.chartColors.line,
           backgroundColor: gradient,
@@ -442,6 +554,9 @@
             displayColors: false,
             callbacks: {
               label: (context) => {
+                if (isJpy) {
+                  return `¥${Math.round(context.parsed.y).toLocaleString()}`;
+                }
                 return `£${context.parsed.y.toFixed(2)}`;
               }
             }
@@ -465,7 +580,12 @@
             },
             ticks: {
               color: CONFIG.chartColors.text,
-              callback: (value) => `£${value.toFixed(0)}`
+              callback: (value) => {
+                if (isJpy) {
+                  return `¥${Math.round(value).toLocaleString()}`;
+                }
+                return `£${value.toFixed(0)}`;
+              }
             }
           }
         }
@@ -484,6 +604,7 @@
     const startIndex = (state.historyPage - 1) * CONFIG.historyPageSize;
     const endIndex = startIndex + CONFIG.historyPageSize;
     const pageData = history.slice().reverse().slice(startIndex, endIndex);
+    const isJpy = state.currency === 'JPY';
 
     if (pageData.length === 0) {
       dom.historyBody.innerHTML = `
@@ -503,20 +624,27 @@
         year: 'numeric'
       });
 
-      const changeClass = item.change > 0
+      const price = isJpy && item.priceJpy !== null ? item.priceJpy : item.priceGbp;
+      const change = isJpy && item.changeJpy !== null ? item.changeJpy : item.change;
+
+      const changeClass = change > 0
         ? 'card-detail__change--positive'
-        : item.change < 0
+        : change < 0
           ? 'card-detail__change--negative'
           : '';
 
-      const changeText = item.change >= 0
-        ? `+${item.change.toFixed(2)}%`
-        : `${item.change.toFixed(2)}%`;
+      const changeText = change >= 0
+        ? `+${change.toFixed(2)}%`
+        : `${change.toFixed(2)}%`;
+
+      const priceText = isJpy
+        ? `¥${Math.round(price).toLocaleString()}`
+        : `£${price.toFixed(2)}`;
 
       return `
         <tr>
           <td class="card-detail__td">${formattedDate}</td>
-          <td class="card-detail__td card-detail__td--right">£${item.priceGbp.toFixed(2)}</td>
+          <td class="card-detail__td card-detail__td--right">${priceText}</td>
           <td class="card-detail__td card-detail__td--right ${changeClass}">${changeText}</td>
         </tr>
       `;
@@ -566,6 +694,9 @@
         ? `+${card.change24h.toFixed(1)}%`
         : `${card.change24h.toFixed(1)}%`;
 
+      // Always show GBP for related cards (for consistency)
+      const priceText = `£${card.priceGbp.toFixed(2)}`;
+
       return `
         <a href="/pages/card-detail?id=${encodeURIComponent(card.cardId)}" class="card-detail__related-card">
           <div class="card-detail__related-image-wrapper">
@@ -574,7 +705,7 @@
           </div>
           <div class="card-detail__related-info">
             <div class="card-detail__related-name">${card.name}</div>
-            <div class="card-detail__related-price">£${card.priceGbp.toFixed(2)}</div>
+            <div class="card-detail__related-price">${priceText}</div>
             <div class="card-detail__related-change ${changeClass}">${changeText}</div>
           </div>
         </a>
@@ -591,7 +722,7 @@
     const { card, history } = state.cardData;
     const filename = `${card.cardId}_price_history.csv`;
 
-    const headers = ['Date', 'Price (GBP)', 'Price (JPY)', 'Change (%)', 'Change JPY (%)'];
+    const headers = ['Date', 'Price (GBP)', 'Price (JPY)', 'Change GBP (%)', 'Change JPY (%)'];
     const rows = history.map(h => [
       h.date,
       h.priceGbp.toFixed(2),
@@ -683,14 +814,21 @@
   function formatCurrency(value, currency = 'GBP') {
     if (value === null || value === undefined) return '--';
 
-    const formatter = new Intl.NumberFormat('en-GB', {
+    if (currency === 'JPY') {
+      return new Intl.NumberFormat('ja-JP', {
+        style: 'currency',
+        currency: 'JPY',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    return new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: currency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    });
-
-    return formatter.format(value);
+    }).format(value);
   }
 
   /**

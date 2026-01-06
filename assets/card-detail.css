@@ -124,11 +124,98 @@
    Breadcrumb
    ============================================================================ */
 
+/* ============================================================================
+   Header
+   ============================================================================ */
+
+.card-detail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-detail__header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Currency Toggle */
+.card-detail__currency-toggle {
+  display: flex;
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  overflow: hidden;
+}
+
+.card-detail__currency-btn {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  color: var(--cd-text-secondary);
+  cursor: pointer;
+  transition: all var(--cd-transition);
+}
+
+.card-detail__currency-btn:hover {
+  color: var(--cd-text);
+  background: var(--cd-surface-hover);
+}
+
+.card-detail__currency-btn--active {
+  background: var(--cd-accent);
+  color: white;
+}
+
+.card-detail__currency-btn--active:hover {
+  background: var(--cd-accent-light);
+  color: white;
+}
+
+/* Exchange Rate Display */
+.card-detail__fx-rate {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--cd-surface);
+  border: 1px solid var(--cd-border);
+  border-radius: var(--cd-radius);
+  font-size: 0.75rem;
+}
+
+.card-detail__fx-label {
+  color: var(--cd-text-secondary);
+}
+
+.card-detail__fx-value {
+  color: var(--cd-text);
+  font-weight: 500;
+}
+
+.card-detail__fx-change {
+  font-size: 0.7rem;
+}
+
+.card-detail__fx-change--up {
+  color: var(--cd-gain);
+}
+
+.card-detail__fx-change--down {
+  color: var(--cd-loss);
+}
+
+/* Breadcrumb */
 .card-detail__breadcrumb {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
   font-size: 0.875rem;
   color: var(--cd-text-secondary);
 }
@@ -321,6 +408,42 @@
   font-size: 0.85rem;
   color: var(--cd-text-secondary);
   margin-top: 0.25rem;
+}
+
+.card-detail__price-secondary {
+  font-size: 0.9rem;
+  color: var(--cd-text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Trade-In Button */
+.card-detail__tradein-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  margin-top: 1.25rem;
+  background: linear-gradient(135deg, var(--cd-accent) 0%, #6d28d9 100%);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--cd-radius);
+  transition: all var(--cd-transition);
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+}
+
+.card-detail__tradein-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+.card-detail__tradein-btn:active {
+  transform: translateY(0);
+}
+
+.card-detail__tradein-btn svg {
+  flex-shrink: 0;
 }
 
 /* ============================================================================

@@ -32,19 +32,36 @@
 
   {% comment %} Main Content (hidden until loaded) {% endcomment %}
   <div class="card-detail__content" data-content hidden>
-    {% comment %} Breadcrumb Navigation {% endcomment %}
-    <nav class="card-detail__breadcrumb" data-breadcrumb>
-      <a href="/pages/price-index" class="card-detail__breadcrumb-link">
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
-        </svg>
-        Price Index
-      </a>
-      <span class="card-detail__breadcrumb-sep">/</span>
-      <span class="card-detail__breadcrumb-set" data-breadcrumb-set>--</span>
-      <span class="card-detail__breadcrumb-sep">/</span>
-      <span class="card-detail__breadcrumb-card" data-breadcrumb-card>--</span>
-    </nav>
+    {% comment %} Header with Breadcrumb and Controls {% endcomment %}
+    <header class="card-detail__header">
+      <nav class="card-detail__breadcrumb" data-breadcrumb>
+        <a href="/pages/price-index" class="card-detail__breadcrumb-link">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+          </svg>
+          Price Index
+        </a>
+        <span class="card-detail__breadcrumb-sep">/</span>
+        <span class="card-detail__breadcrumb-set" data-breadcrumb-set>--</span>
+        <span class="card-detail__breadcrumb-sep">/</span>
+        <span class="card-detail__breadcrumb-card" data-breadcrumb-card>--</span>
+      </nav>
+
+      <div class="card-detail__header-controls">
+        {% comment %} Currency Toggle {% endcomment %}
+        <div class="card-detail__currency-toggle" data-currency-toggle>
+          <button type="button" class="card-detail__currency-btn card-detail__currency-btn--active" data-currency="GBP">£ GBP</button>
+          <button type="button" class="card-detail__currency-btn" data-currency="JPY">¥ JPY</button>
+        </div>
+
+        {% comment %} Exchange Rate {% endcomment %}
+        <div class="card-detail__fx-rate" data-fx-rate>
+          <span class="card-detail__fx-label">¥/£:</span>
+          <span class="card-detail__fx-value" data-fx-value>--</span>
+          <span class="card-detail__fx-change" data-fx-change></span>
+        </div>
+      </div>
+    </header>
 
     {% comment %} Hero Section: Image + Info {% endcomment %}
     <div class="card-detail__hero">
@@ -85,15 +102,23 @@
         <div class="card-detail__prices">
           <div class="card-detail__price-block card-detail__price-block--market">
             <div class="card-detail__price-label">Market Price</div>
-            <div class="card-detail__price-value" data-price-gbp>--</div>
-            <div class="card-detail__price-usd" data-price-usd>--</div>
+            <div class="card-detail__price-value" data-price-primary>--</div>
+            <div class="card-detail__price-secondary" data-price-secondary>--</div>
           </div>
           <div class="card-detail__price-block card-detail__price-block--tradein">
             <div class="card-detail__price-label">Trade-In Value</div>
-            <div class="card-detail__price-value" data-tradein-gbp>--</div>
+            <div class="card-detail__price-value" data-tradein-value>--</div>
             <div class="card-detail__price-percent" data-tradein-percent>(-- of market)</div>
           </div>
         </div>
+
+        {% comment %} Trade-In CTA {% endcomment %}
+        <a href="/pages/trade-in-app" class="card-detail__tradein-btn" data-tradein-btn>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
+          </svg>
+          Trade In This Card
+        </a>
 
         {% comment %} Change Indicator {% endcomment %}
         <div class="card-detail__change" data-change-indicator>
@@ -153,7 +178,7 @@
       <div class="card-detail__chart-legend">
         <span class="card-detail__chart-legend-item">
           <span class="card-detail__chart-legend-line"></span>
-          Price (GBP)
+          <span data-chart-legend-label>Price (GBP)</span>
         </span>
       </div>
     </section>
@@ -174,7 +199,7 @@
           <thead>
             <tr>
               <th class="card-detail__th">Date</th>
-              <th class="card-detail__th card-detail__th--right">Price (GBP)</th>
+              <th class="card-detail__th card-detail__th--right" data-price-header>Price (GBP)</th>
               <th class="card-detail__th card-detail__th--right">Change</th>
             </tr>
           </thead>
