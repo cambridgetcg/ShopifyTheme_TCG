@@ -77,6 +77,13 @@
           </svg>
           Table
         </button>
+        <button type="button" class="price-index__view-btn" data-view="network">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+            <path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm10 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM5 14a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm10 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm-5-2a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+            <path d="M10 5.5l-4 3M10 5.5l4 3M5 10l5 3m5-3l-5 3M5 14l5-1.5m5 1.5l-5-1.5" stroke="currentColor" stroke-width="1" fill="none"/>
+          </svg>
+          Network
+        </button>
       </div>
 
       {% comment %} Crystal Visualization Container {% endcomment %}
@@ -154,6 +161,59 @@
       <div class="price-index__table-view" data-table-view hidden>
         {% comment %} Table populated by JavaScript {% endcomment %}
       </div>
+
+      {% comment %} Network View Container {% endcomment %}
+      <div class="price-index__network-view" data-network-view hidden>
+        <div class="price-index__network-container" data-network-container>
+          <canvas data-network-canvas></canvas>
+          <div class="price-index__network-loading">
+            <div class="price-index-spinner price-index-spinner--large"></div>
+            <span>Building correlation network...</span>
+          </div>
+          <div class="price-index__network-tooltip" data-network-tooltip hidden>
+            <div class="price-index__tooltip-name" data-network-tooltip-name></div>
+            <div class="price-index__tooltip-connections" data-network-tooltip-connections></div>
+            <div class="price-index__tooltip-correlation" data-network-tooltip-correlation></div>
+          </div>
+        </div>
+        <div class="price-index__network-legend">
+          <div class="price-index__network-legend-title">Network Legend</div>
+          <div class="price-index__network-legend-item">
+            <span class="price-index__network-legend-node price-index__network-legend-node--large"></span>
+            <span>High Market Cap</span>
+          </div>
+          <div class="price-index__network-legend-item">
+            <span class="price-index__network-legend-node price-index__network-legend-node--small"></span>
+            <span>Low Market Cap</span>
+          </div>
+          <div class="price-index__network-legend-item">
+            <span class="price-index__network-legend-edge price-index__network-legend-edge--strong"></span>
+            <span>Strong Correlation (>0.7)</span>
+          </div>
+          <div class="price-index__network-legend-item">
+            <span class="price-index__network-legend-edge price-index__network-legend-edge--weak"></span>
+            <span>Weak Correlation (0.3-0.7)</span>
+          </div>
+        </div>
+        <div class="price-index__network-stats" data-network-stats>
+          <div class="price-index__network-stat">
+            <span class="price-index__network-stat-label">Total Nodes</span>
+            <span class="price-index__network-stat-value" data-network-nodes>--</span>
+          </div>
+          <div class="price-index__network-stat">
+            <span class="price-index__network-stat-label">Connections</span>
+            <span class="price-index__network-stat-value" data-network-edges>--</span>
+          </div>
+          <div class="price-index__network-stat">
+            <span class="price-index__network-stat-label">Avg Correlation</span>
+            <span class="price-index__network-stat-value" data-network-avg-correlation>--</span>
+          </div>
+          <div class="price-index__network-stat">
+            <span class="price-index__network-stat-label">Clusters</span>
+            <span class="price-index__network-stat-value" data-network-clusters>--</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     {% comment %} Right: Control Panel {% endcomment %}
@@ -186,6 +246,47 @@
         <select class="price-index__filter-select" data-set-filter>
           <option value="">All Sets</option>
         </select>
+      </div>
+
+      {% comment %} Rarity Filter {% endcomment %}
+      <div class="price-index__filter-group">
+        <label class="price-index__filter-label">Rarity</label>
+        <select class="price-index__filter-select" data-rarity-filter>
+          <option value="">All Rarities</option>
+          <option value="L">Leader (L)</option>
+          <option value="SEC">Secret Rare (SEC)</option>
+          <option value="SR">Super Rare (SR)</option>
+          <option value="R">Rare (R)</option>
+          <option value="UC">Uncommon (UC)</option>
+          <option value="C">Common (C)</option>
+          <option value="SP">Special (SP)</option>
+          <option value="P">Promo (P)</option>
+        </select>
+      </div>
+
+      {% comment %} Volatility Index Widget {% endcomment %}
+      <div class="price-index__volatility-widget" data-volatility-widget>
+        <h3 class="price-index__widget-title">Volatility Index</h3>
+        <div class="price-index__volatility-meter">
+          <div class="price-index__volatility-gauge" data-volatility-gauge>
+            <div class="price-index__volatility-fill" data-volatility-fill style="width: 0%"></div>
+          </div>
+          <div class="price-index__volatility-labels">
+            <span>Stable</span>
+            <span>Volatile</span>
+          </div>
+        </div>
+        <div class="price-index__volatility-value" data-volatility-value>--</div>
+        <div class="price-index__volatility-breakdown" data-volatility-breakdown>
+          <div class="price-index__volatility-stat">
+            <span class="price-index__volatility-stat-label">High Vol Cards</span>
+            <span class="price-index__volatility-stat-value" data-high-vol-count>--</span>
+          </div>
+          <div class="price-index__volatility-stat">
+            <span class="price-index__volatility-stat-label">Avg Movement</span>
+            <span class="price-index__volatility-stat-value" data-avg-movement>--</span>
+          </div>
+        </div>
       </div>
 
       {% comment %} Top Movers Section {% endcomment %}
@@ -222,7 +323,82 @@
           </div>
         </div>
       </div>
+
+      {% comment %} Price Alerts Section {% endcomment %}
+      <div class="price-index__alerts" data-alerts-section>
+        <div class="price-index__alerts-header">
+          <h3 class="price-index__alerts-title">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zm0 16a3 3 0 01-3-3h6a3 3 0 01-3 3z"/>
+            </svg>
+            Price Alerts
+          </h3>
+          <button type="button" class="price-index__alerts-add-btn" data-add-alert-btn title="Add Alert">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+        <div class="price-index__alerts-list" data-alerts-list>
+          <div class="price-index__alerts-empty" data-alerts-empty>
+            <p>No price alerts set</p>
+            <p class="price-index__alerts-hint">Click + to add an alert for any card</p>
+          </div>
+        </div>
+        <div class="price-index__alerts-triggered" data-alerts-triggered hidden>
+          <div class="price-index__alerts-triggered-header">
+            <span>Triggered Alerts</span>
+            <button type="button" class="price-index__alerts-clear-btn" data-clear-triggered>Clear All</button>
+          </div>
+          <div class="price-index__alerts-triggered-list" data-triggered-list></div>
+        </div>
+      </div>
     </aside>
+  </div>
+
+  {% comment %} Add Alert Modal {% endcomment %}
+  <div class="price-index__modal" data-alert-modal hidden>
+    <div class="price-index__modal-backdrop" data-modal-close></div>
+    <div class="price-index__modal-content">
+      <div class="price-index__modal-header">
+        <h3>Add Price Alert</h3>
+        <button type="button" class="price-index__modal-close" data-modal-close>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+      <div class="price-index__modal-body">
+        <div class="price-index__form-group">
+          <label class="price-index__form-label">Search Card</label>
+          <input type="text" class="price-index__form-input" data-alert-search placeholder="Type card name..." autocomplete="off" />
+          <div class="price-index__search-results" data-alert-search-results hidden></div>
+        </div>
+        <div class="price-index__form-group" data-selected-card-info hidden>
+          <label class="price-index__form-label">Selected Card</label>
+          <div class="price-index__selected-card" data-selected-card></div>
+        </div>
+        <div class="price-index__form-group">
+          <label class="price-index__form-label">Alert Type</label>
+          <select class="price-index__form-select" data-alert-type>
+            <option value="above">Price goes above</option>
+            <option value="below">Price goes below</option>
+            <option value="change">Price changes by %</option>
+          </select>
+        </div>
+        <div class="price-index__form-group">
+          <label class="price-index__form-label">Target Value</label>
+          <div class="price-index__form-input-group">
+            <span class="price-index__form-prefix" data-alert-prefix>£</span>
+            <input type="number" class="price-index__form-input" data-alert-value step="0.01" placeholder="0.00" />
+          </div>
+        </div>
+      </div>
+      <div class="price-index__modal-footer">
+        <button type="button" class="price-index__modal-btn price-index__modal-btn--secondary" data-modal-close>Cancel</button>
+        <button type="button" class="price-index__modal-btn price-index__modal-btn--primary" data-save-alert>Save Alert</button>
+      </div>
+    </div>
   </div>
 
   {% comment %} TCG-100 Index (NASDAQ-Style) {% endcomment %}

@@ -21,6 +21,7 @@
     currentView: 'crystal',
     currentGame: 'onepiece',
     currentSet: '',
+    currentRarity: '', // Rarity filter
     chartRange: 30,
     chartIndex: 'GAME_onepiece',
     indices: null,
@@ -41,6 +42,9 @@
     tcg100SortDirection: 'asc',
     tcg100Language: 'ALL', // 'ALL', 'EN', 'JP'
     languageComparison: null, // EN vs JP comparison data
+    priceAlerts: [], // User's price alerts (stored in localStorage)
+    triggeredAlerts: [], // Alerts that have been triggered
+    selectedAlertCard: null, // Currently selected card for alert modal
   };
 
   // ============================================================================
@@ -89,6 +93,46 @@
 
     // Sets Table
     setsBody: document.querySelector('[data-sets-body]'),
+
+    // Network View
+    networkView: document.querySelector('[data-network-view]'),
+    networkContainer: document.querySelector('[data-network-container]'),
+    networkCanvas: document.querySelector('[data-network-canvas]'),
+    networkTooltip: document.querySelector('[data-network-tooltip]'),
+    networkNodes: document.querySelector('[data-network-nodes]'),
+    networkEdges: document.querySelector('[data-network-edges]'),
+    networkAvgCorrelation: document.querySelector('[data-network-avg-correlation]'),
+    networkClusters: document.querySelector('[data-network-clusters]'),
+
+    // Rarity Filter
+    rarityFilter: document.querySelector('[data-rarity-filter]'),
+
+    // Volatility Widget
+    volatilityWidget: document.querySelector('[data-volatility-widget]'),
+    volatilityFill: document.querySelector('[data-volatility-fill]'),
+    volatilityValue: document.querySelector('[data-volatility-value]'),
+    highVolCount: document.querySelector('[data-high-vol-count]'),
+    avgMovement: document.querySelector('[data-avg-movement]'),
+
+    // Price Alerts
+    alertsSection: document.querySelector('[data-alerts-section]'),
+    alertsList: document.querySelector('[data-alerts-list]'),
+    alertsEmpty: document.querySelector('[data-alerts-empty]'),
+    addAlertBtn: document.querySelector('[data-add-alert-btn]'),
+    alertsTriggered: document.querySelector('[data-alerts-triggered]'),
+    triggeredList: document.querySelector('[data-triggered-list]'),
+    clearTriggeredBtn: document.querySelector('[data-clear-triggered]'),
+
+    // Alert Modal
+    alertModal: document.querySelector('[data-alert-modal]'),
+    alertSearch: document.querySelector('[data-alert-search]'),
+    alertSearchResults: document.querySelector('[data-alert-search-results]'),
+    selectedCardInfo: document.querySelector('[data-selected-card-info]'),
+    selectedCard: document.querySelector('[data-selected-card]'),
+    alertType: document.querySelector('[data-alert-type]'),
+    alertPrefix: document.querySelector('[data-alert-prefix]'),
+    alertValue: document.querySelector('[data-alert-value]'),
+    saveAlertBtn: document.querySelector('[data-save-alert]'),
   };
 
   // ============================================================================
@@ -260,16 +304,35 @@
   }
 
   async function loadCrystalData() {
-    const data = await fetchAPI(`/price-index/crystal?game=${state.currentGame}&limit=150`);
+    let url = `/price-index/crystal?game=${state.currentGame}&limit=150`;
+    if (state.currentSet) {
+      url += `&set=${encodeURIComponent(state.currentSet)}`;
+    }
+    if (state.currentRarity) {
+      url += `&rarity=${encodeURIComponent(state.currentRarity)}`;
+    }
+
+    const data = await fetchAPI(url);
     if (data) {
       state.crystalData = data;
       if (state.currentView === 'crystal') {
         renderCrystal();
       }
+      // Check price alerts against current data
+      if (data.cards) {
+        checkAlerts(data.cards);
+      }
+      // Update volatility widget
+      if (data.statistics) {
+        renderVolatilityWidget(data.statistics);
+      }
     }
   }
 
   async function loadNetworkData() {
+    const loading = elements.networkContainer?.querySelector('.price-index__network-loading');
+    if (loading && state.currentView === 'network') loading.style.display = 'flex';
+
     const data = await fetchAPI(`/price-index/network?game=${state.currentGame}&minCorrelation=0.3&limit=150`);
     if (data) {
       state.networkData = data;
@@ -282,7 +345,12 @@
       if (state.currentView === 'crystal') {
         renderCrystal();
       }
+      if (state.currentView === 'network') {
+        renderNetwork();
+      }
     }
+
+    if (loading) loading.style.display = 'none';
   }
 
   function updateFxRateDisplay() {
@@ -1486,12 +1554,15 @@
       elements.crystalView.hidden = view !== 'crystal';
       elements.chartView.hidden = view !== 'chart';
       elements.tableView.hidden = view !== 'table';
+      if (elements.networkView) elements.networkView.hidden = view !== 'network';
 
       // Load data if needed
       if (view === 'chart') {
         loadChartData();
       } else if (view === 'crystal' && state.crystalData) {
         renderCrystal();
+      } else if (view === 'network') {
+        loadNetworkData();
       }
     });
 
@@ -1596,8 +1667,53 @@
         if (state.currentView === 'crystal' && state.crystalData) {
           renderCrystal();
         }
+        if (state.currentView === 'network' && state.networkData) {
+          renderNetwork();
+        }
       }, 250);
     });
+
+    // Rarity filter
+    elements.rarityFilter?.addEventListener('change', (e) => {
+      state.currentRarity = e.target.value;
+      loadCrystalData();
+    });
+
+    // Set filter (update to include rarity)
+    elements.setFilter?.addEventListener('change', (e) => {
+      state.currentSet = e.target.value;
+      loadCrystalData();
+    });
+
+    // Price Alerts - Add alert button
+    elements.addAlertBtn?.addEventListener('click', () => {
+      openAlertModal();
+    });
+
+    // Price Alerts - Modal close handlers
+    elements.alertModal?.querySelectorAll('[data-modal-close]').forEach((el) => {
+      el.addEventListener('click', closeAlertModal);
+    });
+
+    // Price Alerts - Save alert
+    elements.saveAlertBtn?.addEventListener('click', saveAlert);
+
+    // Price Alerts - Clear triggered
+    elements.clearTriggeredBtn?.addEventListener('click', clearTriggeredAlerts);
+
+    // Price Alerts - Search input
+    elements.alertSearch?.addEventListener('input', debounce(handleAlertSearch, 300));
+
+    // Price Alerts - Alert type change (update prefix)
+    elements.alertType?.addEventListener('change', (e) => {
+      const prefix = elements.alertPrefix;
+      if (prefix) {
+        prefix.textContent = e.target.value === 'change' ? '%' : '£';
+      }
+    });
+
+    // Load alerts from localStorage
+    loadAlertsFromStorage();
   }
 
   // ============================================================================
@@ -1608,6 +1724,421 @@
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // ============================================================================
+  // Network Visualization
+  // ============================================================================
+
+  function renderNetwork() {
+    const canvas = elements.networkCanvas;
+    const container = elements.networkContainer;
+    if (!canvas || !container || !state.networkData) return;
+
+    const ctx = canvas.getContext('2d');
+    const rect = container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height - 150; // Account for legend and stats
+
+    canvas.width = width * window.devicePixelRatio;
+    canvas.height = height * window.devicePixelRatio;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    // Clear canvas
+    ctx.fillStyle = '#0f1419';
+    ctx.fillRect(0, 0, width, height);
+
+    const { nodes, edges } = state.networkData;
+    if (!nodes || !edges) return;
+
+    // Position nodes using force-directed layout simulation
+    const positions = calculateNetworkPositions(nodes, edges, width, height);
+
+    // Draw edges
+    ctx.globalAlpha = 0.3;
+    edges.forEach((edge) => {
+      const source = positions[edge.source];
+      const target = positions[edge.target];
+      if (!source || !target) return;
+
+      const strength = Math.abs(edge.correlation || 0.5);
+      ctx.beginPath();
+      ctx.moveTo(source.x, source.y);
+      ctx.lineTo(target.x, target.y);
+      ctx.strokeStyle = strength > 0.7 ? '#4ade80' : '#94a3b8';
+      ctx.lineWidth = strength * 2;
+      ctx.stroke();
+    });
+
+    // Draw nodes
+    ctx.globalAlpha = 1;
+    nodes.forEach((node) => {
+      const pos = positions[node.id];
+      if (!pos) return;
+
+      const radius = Math.max(8, Math.min(20, (node.marketCap || 100) / 500));
+      const change = node.change24h || 0;
+
+      // Node color based on 24h change
+      if (change > 0) {
+        ctx.fillStyle = '#4ade80';
+      } else if (change < 0) {
+        ctx.fillStyle = '#f87171';
+      } else {
+        ctx.fillStyle = '#3b82f6';
+      }
+
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Node border
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Update stats
+    if (elements.networkNodes) elements.networkNodes.textContent = nodes.length;
+    if (elements.networkEdges) elements.networkEdges.textContent = edges.length;
+    if (elements.networkAvgCorrelation) {
+      const avgCorr = edges.reduce((sum, e) => sum + (e.correlation || 0), 0) / (edges.length || 1);
+      elements.networkAvgCorrelation.textContent = avgCorr.toFixed(2);
+    }
+    if (elements.networkClusters) {
+      // Simple cluster estimation
+      elements.networkClusters.textContent = Math.ceil(nodes.length / 10);
+    }
+  }
+
+  function calculateNetworkPositions(nodes, edges, width, height) {
+    const positions = {};
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = Math.min(width, height) * 0.35;
+
+    // Simple circular layout with some randomization
+    nodes.forEach((node, i) => {
+      const angle = (2 * Math.PI * i) / nodes.length;
+      const r = radius * (0.7 + Math.random() * 0.3);
+      positions[node.id] = {
+        x: centerX + r * Math.cos(angle),
+        y: centerY + r * Math.sin(angle),
+      };
+    });
+
+    return positions;
+  }
+
+  // ============================================================================
+  // Volatility Widget
+  // ============================================================================
+
+  function renderVolatilityWidget(data) {
+    if (!elements.volatilityWidget) return;
+
+    const volatility = data?.volatility || 0;
+    const highVolCards = data?.highVolatilityCards || 0;
+    const avgMovement = data?.averageMovement || 0;
+
+    // Update gauge fill (0-100%)
+    const fillPercent = Math.min(100, Math.max(0, volatility * 10));
+    if (elements.volatilityFill) {
+      elements.volatilityFill.style.width = `${fillPercent}%`;
+    }
+
+    // Update value
+    if (elements.volatilityValue) {
+      elements.volatilityValue.textContent = `${volatility.toFixed(1)}%`;
+    }
+
+    // Update breakdown
+    if (elements.highVolCount) {
+      elements.highVolCount.textContent = highVolCards;
+    }
+    if (elements.avgMovement) {
+      elements.avgMovement.textContent = `${avgMovement > 0 ? '+' : ''}${avgMovement.toFixed(2)}%`;
+    }
+  }
+
+  // ============================================================================
+  // Price Alerts
+  // ============================================================================
+
+  const ALERTS_STORAGE_KEY = 'prism_price_alerts';
+  const TRIGGERED_STORAGE_KEY = 'prism_triggered_alerts';
+
+  function loadAlertsFromStorage() {
+    try {
+      const alertsJson = localStorage.getItem(ALERTS_STORAGE_KEY);
+      const triggeredJson = localStorage.getItem(TRIGGERED_STORAGE_KEY);
+      state.priceAlerts = alertsJson ? JSON.parse(alertsJson) : [];
+      state.triggeredAlerts = triggeredJson ? JSON.parse(triggeredJson) : [];
+      renderAlerts();
+    } catch (err) {
+      console.error('Failed to load alerts:', err);
+      state.priceAlerts = [];
+      state.triggeredAlerts = [];
+    }
+  }
+
+  function saveAlertsToStorage() {
+    try {
+      localStorage.setItem(ALERTS_STORAGE_KEY, JSON.stringify(state.priceAlerts));
+      localStorage.setItem(TRIGGERED_STORAGE_KEY, JSON.stringify(state.triggeredAlerts));
+    } catch (err) {
+      console.error('Failed to save alerts:', err);
+    }
+  }
+
+  function renderAlerts() {
+    if (!elements.alertsList) return;
+
+    // Show/hide empty state
+    if (elements.alertsEmpty) {
+      elements.alertsEmpty.hidden = state.priceAlerts.length > 0;
+    }
+
+    // Render active alerts
+    if (state.priceAlerts.length > 0) {
+      const alertsHtml = state.priceAlerts.map((alert, index) => `
+        <div class="price-index__alert-item">
+          <div class="price-index__alert-info">
+            <div class="price-index__alert-name">${escapeHtml(alert.cardName)}</div>
+            <div class="price-index__alert-condition">
+              ${alert.type === 'above' ? 'Above' : alert.type === 'below' ? 'Below' : 'Change'}
+              ${alert.type === 'change' ? alert.value + '%' : '£' + alert.value.toFixed(2)}
+            </div>
+          </div>
+          <button type="button" class="price-index__alert-delete" data-delete-alert="${index}">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+
+      // Replace empty state with alerts
+      const container = elements.alertsList;
+      container.innerHTML = alertsHtml + (elements.alertsEmpty?.outerHTML || '');
+
+      // Add delete handlers
+      container.querySelectorAll('[data-delete-alert]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.deleteAlert, 10);
+          deleteAlert(index);
+        });
+      });
+    }
+
+    // Render triggered alerts
+    if (elements.alertsTriggered && elements.triggeredList) {
+      elements.alertsTriggered.hidden = state.triggeredAlerts.length === 0;
+
+      if (state.triggeredAlerts.length > 0) {
+        elements.triggeredList.innerHTML = state.triggeredAlerts.map((alert) => `
+          <div class="price-index__triggered-item">
+            <span class="price-index__triggered-icon">🔔</span>
+            <span>${escapeHtml(alert.cardName)}: ${alert.message}</span>
+          </div>
+        `).join('');
+      }
+    }
+  }
+
+  function openAlertModal() {
+    if (!elements.alertModal) return;
+
+    // Reset form
+    state.selectedAlertCard = null;
+    if (elements.alertSearch) elements.alertSearch.value = '';
+    if (elements.alertSearchResults) elements.alertSearchResults.hidden = true;
+    if (elements.selectedCardInfo) elements.selectedCardInfo.hidden = true;
+    if (elements.alertValue) elements.alertValue.value = '';
+    if (elements.alertType) elements.alertType.value = 'above';
+    if (elements.alertPrefix) elements.alertPrefix.textContent = '£';
+
+    elements.alertModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    elements.alertSearch?.focus();
+  }
+
+  function closeAlertModal() {
+    if (!elements.alertModal) return;
+    elements.alertModal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  async function handleAlertSearch(e) {
+    const query = e.target.value.trim();
+    if (query.length < 2) {
+      if (elements.alertSearchResults) elements.alertSearchResults.hidden = true;
+      return;
+    }
+
+    try {
+      const results = await fetchAPI(`/price-index/crystal?game=${state.currentGame}&limit=100`);
+      if (!results || !results.cards) return;
+
+      // Filter cards by search query
+      const filtered = results.cards
+        .filter((card) => card.name.toLowerCase().includes(query.toLowerCase()))
+        .slice(0, 5);
+
+      if (filtered.length === 0) {
+        if (elements.alertSearchResults) elements.alertSearchResults.hidden = true;
+        return;
+      }
+
+      // Render search results
+      if (elements.alertSearchResults) {
+        elements.alertSearchResults.innerHTML = filtered.map((card) => `
+          <div class="price-index__search-result" data-card-id="${escapeHtml(card.cardId)}">
+            <div class="price-index__search-result-name">${escapeHtml(card.name)}</div>
+            <div class="price-index__search-result-info">
+              ${escapeHtml(card.setCode || '')} • ${formatCurrencyGBP(card.priceGbp || card.price || 0)}
+            </div>
+          </div>
+        `).join('');
+
+        elements.alertSearchResults.hidden = false;
+
+        // Add click handlers
+        elements.alertSearchResults.querySelectorAll('.price-index__search-result').forEach((el) => {
+          el.addEventListener('click', () => {
+            const cardId = el.dataset.cardId;
+            const card = filtered.find((c) => c.cardId === cardId);
+            if (card) {
+              selectAlertCard(card);
+            }
+          });
+        });
+      }
+    } catch (err) {
+      console.error('Alert search failed:', err);
+    }
+  }
+
+  function selectAlertCard(card) {
+    state.selectedAlertCard = card;
+
+    if (elements.alertSearchResults) elements.alertSearchResults.hidden = true;
+    if (elements.alertSearch) elements.alertSearch.value = '';
+
+    if (elements.selectedCardInfo && elements.selectedCard) {
+      elements.selectedCard.innerHTML = `
+        <div class="price-index__selected-card-info">
+          <div class="price-index__selected-card-name">${escapeHtml(card.name)}</div>
+          <div class="price-index__selected-card-price">
+            Current: ${formatCurrencyGBP(card.priceGbp || card.price || 0)}
+          </div>
+        </div>
+      `;
+      elements.selectedCardInfo.hidden = false;
+    }
+  }
+
+  function saveAlert() {
+    if (!state.selectedAlertCard) {
+      alert('Please select a card first');
+      return;
+    }
+
+    const type = elements.alertType?.value || 'above';
+    const value = parseFloat(elements.alertValue?.value || '0');
+
+    if (isNaN(value) || value <= 0) {
+      alert('Please enter a valid target value');
+      return;
+    }
+
+    const newAlert = {
+      id: Date.now().toString(),
+      cardId: state.selectedAlertCard.cardId,
+      cardName: state.selectedAlertCard.name,
+      type,
+      value,
+      currentPrice: state.selectedAlertCard.priceGbp || state.selectedAlertCard.price || 0,
+      createdAt: new Date().toISOString(),
+    };
+
+    state.priceAlerts.push(newAlert);
+    saveAlertsToStorage();
+    renderAlerts();
+    closeAlertModal();
+  }
+
+  function deleteAlert(index) {
+    state.priceAlerts.splice(index, 1);
+    saveAlertsToStorage();
+    renderAlerts();
+  }
+
+  function clearTriggeredAlerts() {
+    state.triggeredAlerts = [];
+    saveAlertsToStorage();
+    renderAlerts();
+  }
+
+  function checkAlerts(cards) {
+    if (!cards || state.priceAlerts.length === 0) return;
+
+    const cardMap = new Map(cards.map((c) => [c.cardId, c]));
+
+    state.priceAlerts.forEach((alert, index) => {
+      const card = cardMap.get(alert.cardId);
+      if (!card) return;
+
+      const currentPrice = card.priceGbp || card.price || 0;
+      let triggered = false;
+      let message = '';
+
+      switch (alert.type) {
+        case 'above':
+          if (currentPrice >= alert.value) {
+            triggered = true;
+            message = `Price is now ${formatCurrencyGBP(currentPrice)} (above ${formatCurrencyGBP(alert.value)})`;
+          }
+          break;
+        case 'below':
+          if (currentPrice <= alert.value) {
+            triggered = true;
+            message = `Price is now ${formatCurrencyGBP(currentPrice)} (below ${formatCurrencyGBP(alert.value)})`;
+          }
+          break;
+        case 'change':
+          const changePercent = ((currentPrice - alert.currentPrice) / alert.currentPrice) * 100;
+          if (Math.abs(changePercent) >= alert.value) {
+            triggered = true;
+            message = `Price changed ${changePercent > 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
+          }
+          break;
+      }
+
+      if (triggered) {
+        state.triggeredAlerts.push({
+          ...alert,
+          message,
+          triggeredAt: new Date().toISOString(),
+        });
+        state.priceAlerts.splice(index, 1);
+      }
+    });
+
+    if (state.triggeredAlerts.length > 0) {
+      saveAlertsToStorage();
+      renderAlerts();
+    }
   }
 
   // ============================================================================
