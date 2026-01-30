@@ -72,29 +72,6 @@
     },
     "17697855473f5e1453": {
       "type": "apps",
-      "blocks": {
-        "rewards_pro_raffle_teaser_FqWFXE": {
-          "type": "shopify://apps/rewards-pro/blocks/raffle_teaser/0199e8b4-621e-7cd3-af1c-32293a9bc305",
-          "settings": {
-            "display_mode": "featured",
-            "max_display": 1,
-            "show_entry_count": true,
-            "show_countdown": true,
-            "cta_text": "Enter Now",
-            "cta_url": "",
-            "guest_cta_text": "Sign In to Enter",
-            "guest_cta_url": "",
-            "empty_icon": "🎟️",
-            "empty_message": "No active raffles right now",
-            "background_color": "",
-            "text_color": "",
-            "accent_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "rewards_pro_raffle_teaser_FqWFXE"
-      ],
       "settings": {
         "include_margins": true,
         "padding_top": 0,
