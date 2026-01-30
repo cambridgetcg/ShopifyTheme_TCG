@@ -78,21 +78,11 @@
         "padding_bottom": 0,
         "custom_class": ""
       }
-    },
-    "17697855536e8c90d2": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "custom_class": ""
-      }
     }
   },
   "order": [
     "scrolling_promotion_KhdTdc",
     "header",
-    "17697855473f5e1453",
-    "17697855536e8c90d2"
+    "17697855473f5e1453"
   ]
 }
