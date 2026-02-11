@@ -113,6 +113,12 @@
             "show_inventory_quantity": true,
             "inventory_threshold": 10
           }
+        },
+        "preorder_notice": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% assign current_variant = product.selected_or_first_available_variant %}\n{% for option in current_variant.options %}\n  {% if option == \"Pre-Order\" %}\n    <div style=\"margin: 12px 0; padding: 12px 16px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 14px; color: #6d4c00;\">\n      <strong>Pre-Order:</strong> This item is available for pre-order. Please allow 2\u20133 weeks for delivery.\n    </div>\n    {% break %}\n  {% endif %}\n{% endfor %}"
+          }
         }
       },
       "block_order": [
@@ -122,6 +128,7 @@
         "description",
         "variant_picker",
         "inventory",
+        "preorder_notice",
         "buy_buttons",
         "icon_with_text",
         "pickup_availability",
