@@ -43,7 +43,7 @@
         "hero_button": {
           "type": "button",
           "settings": {
-            "button_label": "Join Free \u2014 Start Earning",
+            "button_label": "Join Free — Start Earning",
             "button_link": "https://shopify.com/authentication/74549035273/login?client_id=a530cdc7-8b98-4d15-9f45-4300b590f263&locale=en&redirect_uri=https%3A%2F%2Fshopify.com%2Fauthentication%2F74549035273%2Foauth%2Fauthorize%3Fclient_id%3Da530cdc7-8b98-4d15-9f45-4300b590f263%26locale%3Den%26nonce%3D683f2b71-a295-46e2-a5c7-4fd0482f74b8%26redirect_uri%3Dhttps%253A%252F%252Faccount.cambridgetcg.com%252Fcallback%253Fsource%253Dcore%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bcustomer-account-api%253Afull%26state%3D01JSY0Z2SZEAV98C3HC7QFEQV1",
             "button_style": "btn--primary"
           }
@@ -72,7 +72,7 @@
           "settings": {
             "icon": "",
             "title": "Create Your Free Account",
-            "text": "<p>Sign up in under a minute. No credit card required. You start at Bronze tier with 3% cashback immediately.</p>",
+            "text": "<p>Sign up in under a minute. No credit card required. You start at Basic tier with 3% cashback immediately.</p>",
             "button_label": "",
             "button_link": "",
             "button_style": "btn--primary"
@@ -141,7 +141,7 @@
             "image_width": "large",
             "title": "SR",
             "heading_size": "h3",
-            "text": "<p><strong>Unlock at \u00a3500 lifetime spend</strong></p><p>5% cashback on every order</p><p>3 raffle tickets per month</p><p>Priority access to new releases</p>",
+            "text": "<p><strong>Unlock at £500 lifetime spend</strong></p><p>5% cashback on every order</p><p>3 raffle tickets per month</p><p>Priority access to new releases</p>",
             "text_size": "text-base",
             "button_label": "Join Free",
             "button_style": "btn--secondary",
@@ -156,7 +156,7 @@
             "image_width": "large",
             "title": "SSR",
             "heading_size": "h3",
-            "text": "<p><strong>Unlock at \u00a3800 lifetime spend</strong></p><p>8% cashback on every order</p><p>5 raffle tickets per month</p><p>Early access to limited editions</p>",
+            "text": "<p><strong>Unlock at £800 lifetime spend</strong></p><p>8% cashback on every order</p><p>5 raffle tickets per month</p><p>Early access to limited editions</p>",
             "text_size": "text-base",
             "button_label": "Join Free",
             "button_style": "btn--secondary",
@@ -171,7 +171,7 @@
             "image_width": "large",
             "title": "Premium",
             "heading_size": "h3",
-            "text": "<p><strong>\u00a358 per year</strong></p><p>12% cashback on every order</p><p>8 raffle tickets per month</p><p>Exclusive mystery pack access</p><p>VIP support channel</p>",
+            "text": "<p><strong>£58 per year</strong></p><p>12% cashback on every order</p><p>8 raffle tickets per month</p><p>Exclusive mystery pack access</p><p>VIP support channel</p>",
             "text_size": "text-base",
             "button_label": "Coming Soon",
             "button_style": "btn--primary",
@@ -191,7 +191,7 @@
         "heading": "Membership Tiers",
         "heading_size": "h1",
         "heading_highlight_style": "none",
-        "subheading": "Every tier is earned by shopping \u2014 no upfront cost for Basic, SR, or SSR",
+        "subheading": "Every tier is earned by shopping — no upfront cost for Basic, SR, or SSR",
         "description": "",
         "text_size": "text-base",
         "column_alignment": "center",
@@ -282,7 +282,7 @@
         "rb_text": {
           "type": "text",
           "settings": {
-            "text": "<p>Only raffle winners receive a mystery pack \u2014 making every pack genuinely exclusive. We dedicate a percentage of profits to curating packs worth far more than what members pay in, because rewarding collectors is how we grow.</p><p>Higher tiers earn more tickets each month, giving you better odds at every drawing.</p>",
+            "text": "<p>Only raffle winners receive a mystery pack — making every pack genuinely exclusive. We dedicate a percentage of profits to curating packs worth far more than what members pay in, because rewarding collectors is how we grow.</p><p>Higher tiers earn more tickets each month, giving you better odds at every drawing.</p>",
             "text_size": "text-base"
           }
         },
@@ -324,7 +324,7 @@
           "settings": {
             "icon": "none",
             "heading": "Is it really free to join?",
-            "content": "<p>Yes. The Basic tier is completely free with no commitment. You get 3% cashback and 1 raffle ticket per month from your very first order. As your lifetime spend grows, you automatically unlock higher tiers with better rewards \u2014 no action needed.</p>",
+            "content": "<p>Yes. The Basic tier is completely free with no commitment. You get 3% cashback and 1 raffle ticket per month from your very first order. As your lifetime spend grows, you automatically unlock higher tiers with better rewards — no action needed.</p>",
             "custom_liquid": "",
             "page": "",
             "open": true
@@ -335,7 +335,7 @@
           "settings": {
             "icon": "none",
             "heading": "How does cashback work?",
-            "content": "<p>Every purchase earns cashback at your tier rate (3% to 12%). The cashback is automatically credited to your account as store credit. You can apply it to any future order at checkout \u2014 there are no restrictions on which products you can use it on, and it never expires.</p>",
+            "content": "<p>Every purchase earns cashback at your tier rate (3% to 12%). The cashback is automatically credited to your account as store credit. You can apply it to any future order at checkout — there are no restrictions on which products you can use it on, and it never expires.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -346,7 +346,7 @@
           "settings": {
             "icon": "none",
             "heading": "How do I move up tiers?",
-            "content": "<p>Tiers are based on your lifetime spend. Once you reach \u00a3500 in total purchases, you automatically unlock SR (5% cashback). At \u00a3800, you reach SSR (8% cashback). Tier upgrades are permanent \u2014 you never drop back down. Premium (12%) will be available as an annual subscription for \u00a358/year.</p>",
+            "content": "<p>Tiers are based on your lifetime spend. Once you reach £500 in total purchases, you automatically unlock SR (5% cashback). At £800, you reach SSR (8% cashback). Tier upgrades are permanent — you never drop back down. Premium (12%) will be available as an annual subscription for £58/year.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -368,7 +368,7 @@
           "settings": {
             "icon": "none",
             "heading": "Do members get free shipping?",
-            "content": "<p>All customers get free UK shipping on orders over \u00a380. Membership cashback can be combined with free shipping \u2014 so on a \u00a380 order at the SR tier, you would get \u00a34 back in cashback plus free delivery. International shipping rates apply as normal.</p>",
+            "content": "<p>All customers get free UK shipping on orders over £80. Membership cashback can be combined with free shipping — so on a £80 order at the SR tier, you would get £4 back in cashback plus free delivery. International shipping rates apply as normal.</p>",
             "custom_liquid": "",
             "page": "",
             "open": false
@@ -450,41 +450,6 @@
     },
     "rewards_hub": {
       "type": "apps",
-      "blocks": {
-        "rewards_pro_rewards_hub_section_VUAciF": {
-          "type": "shopify://apps/rewards-pro/blocks/rewards_hub_section/0199e8b4-621e-7cd3-af1c-32293a9bc305",
-          "settings": {
-            "title": "My Rewards",
-            "subtitle": "Earn points, enter raffles, and unlock exclusive rewards",
-            "show_balance": true,
-            "show_tier": true,
-            "show_raffles": true,
-            "show_mystery_boxes": true,
-            "show_challenges": true,
-            "max_items": 4,
-            "raffles_title": "Active Raffles",
-            "raffles_view_all_url": "",
-            "mystery_boxes_title": "Mystery Boxes",
-            "mystery_boxes_view_all_url": "",
-            "challenges_title": "Challenges",
-            "challenges_view_all_url": "",
-            "guest_icon": "\ud83c\udf81",
-            "guest_title": "Join Our Rewards Program",
-            "guest_description": "Sign in to earn points, enter raffles, open mystery boxes, and unlock exclusive rewards.",
-            "signup_text": "Create Account",
-            "signup_url": "",
-            "login_text": "Sign In",
-            "login_url": "",
-            "background_color": "",
-            "text_color": "",
-            "accent_color": "",
-            "card_bg_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "rewards_pro_rewards_hub_section_VUAciF"
-      ],
       "settings": {
         "include_margins": true,
         "padding_top": 0,

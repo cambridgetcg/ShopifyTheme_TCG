@@ -20,13 +20,13 @@
             "image_overlay_opacity": 0,
             "content_position": "middle-center",
             "text_alignment": "center",
-            "title": "<strong>Earn Up to 12% Cashback</strong>",
+            "title": "<strong>Earn Up to 12% Cashback<\/strong>",
             "heading_size": "hd1",
-            "subheading": "Join Cambridge TCG Membership \u2014 free rewards on every order",
+            "subheading": "Join Cambridge TCG Membership — free rewards on every order",
             "description": "",
             "description_size": "text-lg",
             "button_label": "Join Free",
-            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "button_link": "shopify:\/\/pages\/cambridge-tcg-membership",
             "button_style": "btn--primary"
           }
         },
@@ -34,17 +34,17 @@
           "type": "slide",
           "settings": {
             "color_scheme": "scheme-1",
-            "background": "shopify://shop_images/one-piece-card-game-see-why-to-play-where-to-buy-and-more_jpg.webp",
+            "background": "shopify:\/\/shop_images\/one-piece-card-game-see-why-to-play-where-to-buy-and-more_jpg.webp",
             "image_overlay_opacity": 20,
             "content_position": "middle-left",
             "text_alignment": "center",
-            "title": "<strong>One Piece Card Game</strong>",
+            "title": "<strong>One Piece Card Game<\/strong>",
             "heading_size": "hd1",
             "subheading": "Shop Japan-Exclusive Cards",
             "description": "",
             "description_size": "text-base",
             "button_label": "Browse Collection",
-            "button_link": "shopify://pages/one-piece-card-game",
+            "button_link": "shopify:\/\/pages\/one-piece-card-game",
             "button_style": "btn--primary"
           }
         },
@@ -52,17 +52,17 @@
           "type": "slide",
           "settings": {
             "color_scheme": "scheme-1",
-            "background": "shopify://shop_images/Ontwerp_zonder_titel_-_2021-06-23T174108_270_jpg.webp",
+            "background": "shopify:\/\/shop_images\/Ontwerp_zonder_titel_-_2021-06-23T174108_270_jpg.webp",
             "image_overlay_opacity": 20,
             "content_position": "middle-right",
             "text_alignment": "center",
-            "title": "<strong>Pokemon Card Game</strong>",
+            "title": "<strong>Pokemon Card Game<\/strong>",
             "heading_size": "hd1",
             "subheading": "Authentic Japanese Sets",
             "description": "",
             "description_size": "text-base",
             "button_label": "Browse Collection",
-            "button_link": "shopify://pages/pokemon-card-game",
+            "button_link": "shopify:\/\/pages\/pokemon-card-game",
             "button_style": "btn--primary"
           }
         },
@@ -70,17 +70,17 @@
           "type": "slide",
           "settings": {
             "color_scheme": "scheme-e04df1de-d9b5-4e4a-881d-5aeb5d7335ac",
-            "background": "shopify://shop_images/OP11.jpg",
+            "background": "shopify:\/\/shop_images\/OP11.jpg",
             "image_overlay_opacity": 25,
             "content_position": "middle-left",
             "text_alignment": "left",
-            "title": "<strong>Latest Collection OP13 \u2014 Carrying On His Will</strong>",
+            "title": "<strong>Latest Collection OP13 — Carrying On His Will<\/strong>",
             "heading_size": "hd3",
             "subheading": "",
             "description": "",
             "description_size": "text-inherit",
             "button_label": "Buy Now",
-            "button_link": "shopify://collections/op13-carrying-on-his-will",
+            "button_link": "shopify:\/\/collections\/op13-carrying-on-his-will",
             "button_style": "btn--primary"
           }
         }
@@ -252,13 +252,13 @@
         "heading": "One Piece Card Game",
         "heading_size": "h1",
         "heading_highlight_style": "none",
-        "description": "<p>Browse all of our collections</p>",
+        "description": "<p>Browse all of our collections<\/p>",
         "text_size": "text-base",
         "card_color_inherited": false,
         "show_product_count": true,
         "show_icon": true,
         "card_style": "",
-        "card_image_ratio": "1/1",
+        "card_image_ratio": "1\/1",
         "content_alignment": "left",
         "columns_desktop": 3,
         "column_gap": "medium",
@@ -284,14 +284,14 @@
         "mem_heading": {
           "type": "heading",
           "settings": {
-            "heading": "Save More with <strong>Every Order</strong>",
+            "heading": "Save More with <strong>Every Order<\/strong>",
             "heading_size": "hd1"
           }
         },
         "mem_text": {
           "type": "text",
           "settings": {
-            "text": "<p>Earn up to 12% cashback, enter monthly mystery pack raffles, and get priority access to new Japanese TCG releases. Over 200 members and growing.</p>",
+            "text": "<p>Earn up to 12% cashback, enter monthly mystery pack raffles, and get priority access to new Japanese TCG releases. Over 200 members and growing.<\/p>",
             "text_size": "text-lg"
           }
         },
@@ -299,7 +299,7 @@
           "type": "button",
           "settings": {
             "button_label": "Start Earning Cashback",
-            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "button_link": "shopify:\/\/pages\/cambridge-tcg-membership",
             "button_style": "btn--primary"
           }
         }
@@ -339,7 +339,7 @@
         "grid_layout": "standard",
         "enable_slider": true,
         "controls_position": "inside",
-        "pcard_image_ratio": "3/4",
+        "pcard_image_ratio": "3\/4",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
         "show_all_button_on_top": false,
@@ -445,13 +445,13 @@
         "heading": "Pokemon",
         "heading_size": "h1",
         "heading_highlight_style": "none",
-        "description": "<p>Browse all of our collections</p>",
+        "description": "<p>Browse all of our collections<\/p>",
         "text_size": "text-base",
         "card_color_inherited": false,
         "show_product_count": true,
         "show_icon": true,
         "card_style": "",
-        "card_image_ratio": "1/1",
+        "card_image_ratio": "1\/1",
         "content_alignment": "left",
         "columns_desktop": 3,
         "column_gap": "medium",
@@ -475,11 +475,11 @@
             "image_width": "medium",
             "title": "Up to 12% Cashback",
             "heading_size": "h4",
-            "text": "<p>Every order earns cashback. Bronze 3%, Silver 6%, Gold 9%, Platinum 12%. Redeem anytime as store credit.</p>",
+            "text": "<p>Every order earns cashback. Basic 3%, SR 5%, SSR 8%, Premium 12%. Redeem anytime as store credit.<\/p>",
             "text_size": "text-base",
             "button_label": "Join Free",
             "button_style": "btn--primary",
-            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "button_link": "shopify:\/\/pages\/cambridge-tcg-membership",
             "mobile_layout": "inherit"
           }
         },
@@ -490,7 +490,7 @@
             "image_width": "medium",
             "title": "100% Authentic",
             "heading_size": "h4",
-            "text": "<p>Every card sourced directly from Japanese distributors. Mint condition guaranteed or your money back.</p>",
+            "text": "<p>Every card sourced directly from Japanese distributors. Mint condition guaranteed or your money back.<\/p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -505,7 +505,7 @@
             "image_width": "medium",
             "title": "Fast & Secure Shipping",
             "heading_size": "h4",
-            "text": "<p>Free UK shipping over \u00a380. Every card in a sleeve, top loader, and waterproof team bag.</p>",
+            "text": "<p>Free UK shipping over £80. Every card in a sleeve, top loader, and waterproof team bag.<\/p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -520,7 +520,7 @@
             "image_width": "medium",
             "title": "PSA 9-10 Grade Quality",
             "heading_size": "h4",
-            "text": "<p>Hand-inspected before dispatch. Pulled from sealed product and immediately double-sleeved.</p>",
+            "text": "<p>Hand-inspected before dispatch. Pulled from sealed product and immediately double-sleeved.<\/p>",
             "text_size": "text-base",
             "button_label": "",
             "button_style": "btn--underline",
@@ -560,7 +560,7 @@
         "testimonial_dhi3Xf": {
           "type": "testimonial",
           "settings": {
-            "text": "<p>Awesome seller! Good prices, packed well and arrived in a timely fashion. Card as described and they've also included a free card which I happened to need! Will buy from again!</p>",
+            "text": "<p>Awesome seller! Good prices, packed well and arrived in a timely fashion. Card as described and they've also included a free card which I happened to need! Will buy from again!<\/p>",
             "author": "One Piece Collector",
             "bio": "Verified Buyer",
             "product": "",
@@ -570,7 +570,7 @@
         "testimonial_D7Mq7i": {
           "type": "testimonial",
           "settings": {
-            "text": "<p>Great communication. Delivery was quick and cards were packaged well and as described. Would definitely buy again! I highly recommend</p>",
+            "text": "<p>Great communication. Delivery was quick and cards were packaged well and as described. Would definitely buy again! I highly recommend<\/p>",
             "author": "TCG Collector",
             "bio": "Verified Buyer",
             "product": "",
@@ -580,7 +580,7 @@
         "testimonial_jWLXV3": {
           "type": "testimonial",
           "settings": {
-            "text": "<p>Cambridge TCG was quick at posting all the items I ordered. They were packaged perfectly and they all were as the description read. They were all good value and I would highly recommend Cambridge TCG for anyone looking for cards to add to a collection.</p>",
+            "text": "<p>Cambridge TCG was quick at posting all the items I ordered. They were packaged perfectly and they all were as the description read. They were all good value and I would highly recommend Cambridge TCG for anyone looking for cards to add to a collection.<\/p>",
             "author": "Pokemon Fan",
             "bio": "Verified Buyer",
             "product": "",
@@ -590,7 +590,7 @@
         "testimonial_33tAjm": {
           "type": "testimonial",
           "settings": {
-            "text": "<p>Communication was great and they have answered any questions I had. Cards were shipped and delivered quickly too! I would definitely buy again.</p>",
+            "text": "<p>Communication was great and they have answered any questions I had. Cards were shipped and delivered quickly too! I would definitely buy again.<\/p>",
             "author": "Card Enthusiast",
             "bio": "Verified Buyer",
             "product": "",
@@ -634,7 +634,7 @@
         "heading_size": "h2",
         "heading_highlight_style": "none",
         "subheading": "",
-        "description": "<p>Subscribe for exclusive member drops, cashback updates, mystery pack raffle alerts, and new Japanese TCG release notifications.</p>",
+        "description": "<p>Subscribe for exclusive member drops, cashback updates, mystery pack raffle alerts, and new Japanese TCG release notifications.<\/p>",
         "text_size": "text-base",
         "alignment": "center",
         "design": "design-1",
