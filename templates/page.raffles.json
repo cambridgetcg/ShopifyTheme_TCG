@@ -32,7 +32,7 @@
             "cta_url": "",
             "guest_cta_text": "Sign In to Join",
             "guest_cta_url": "",
-            "empty_icon": "🏆",
+            "empty_icon": "\ud83c\udfc6",
             "empty_message": "No active challenges right now",
             "background_color": "",
             "text_color": "",
@@ -65,7 +65,7 @@
             "cta_url": "",
             "guest_cta_text": "Sign In to Open",
             "guest_cta_url": "",
-            "empty_icon": "🎁",
+            "empty_icon": "\ud83c\udf81",
             "empty_message": "No mystery boxes available",
             "background_color": "",
             "text_color": "",
@@ -97,7 +97,7 @@
             "cta_url": "",
             "guest_cta_text": "Sign In to Enter",
             "guest_cta_url": "",
-            "empty_icon": "🎟️",
+            "empty_icon": "\ud83c\udf9f\ufe0f",
             "empty_message": "No active raffles right now",
             "background_color": "",
             "text_color": "",
@@ -114,12 +114,57 @@
         "padding_bottom": 0,
         "custom_class": ""
       }
+    },
+    "rewards_hub": {
+      "type": "apps",
+      "blocks": {
+        "rewards_pro_rewards_hub_section_raffle": {
+          "type": "shopify://apps/rewards-pro/blocks/rewards_hub_section/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "settings": {
+            "title": "My Rewards",
+            "subtitle": "Earn points, enter raffles, and unlock exclusive rewards",
+            "show_balance": true,
+            "show_tier": true,
+            "show_raffles": true,
+            "show_mystery_boxes": true,
+            "show_challenges": true,
+            "max_items": 4,
+            "raffles_title": "Active Raffles",
+            "raffles_view_all_url": "",
+            "mystery_boxes_title": "Mystery Boxes",
+            "mystery_boxes_view_all_url": "",
+            "challenges_title": "Challenges",
+            "challenges_view_all_url": "",
+            "guest_icon": "\ud83c\udf81",
+            "guest_title": "Join Our Rewards Program",
+            "guest_description": "Sign in to earn points, enter raffles, open mystery boxes, and unlock exclusive rewards.",
+            "signup_text": "Create Account",
+            "signup_url": "",
+            "login_text": "Sign In",
+            "login_url": "",
+            "background_color": "",
+            "text_color": "",
+            "accent_color": "",
+            "card_bg_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "rewards_pro_rewards_hub_section_raffle"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
     "1769785824e10c67b6",
     "17697858346ce0f20d",
-    "1769785841be54a987"
+    "1769785841be54a987",
+    "rewards_hub"
   ]
 }
