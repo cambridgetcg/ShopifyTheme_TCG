@@ -172,95 +172,6 @@
         "padding_bottom": 100
       }
     },
-    "testimonials_8JHr3L": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_dhi3Xf": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>Fast shipping Good packaging ! Great value Thank you very much I buy again for sure</p>",
-            "author": "na-1008",
-            "bio": "",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_D7Mq7i": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>Super great seller, cards were packaged really securely and came with extras!! Tysm I loved it &lt;33</p>",
-            "author": "embow_5049",
-            "bio": "",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_33tAjm": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>Arrived on time and incredibly well packaged, card in practically mint condition! Highly recommend Cambridge TCG for any OPTCG fan</p>",
-            "author": "hxxzzy",
-            "bio": "",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_dDRMwy": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>Perfect condition, very well packaged and fast shipping. Thank you.</p>",
-            "author": "georgetcg_uk\u00a0",
-            "bio": "",
-            "product": "",
-            "icon": "none"
-          }
-        },
-        "testimonial_RgfDDw": {
-          "type": "testimonial",
-          "settings": {
-            "show_image": true,
-            "text": "<p>Quick dispatch and came securely packaged. Definitely recommended!</p>",
-            "author": "joshawott",
-            "bio": "",
-            "product": "",
-            "icon": "none"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_dhi3Xf",
-        "testimonial_D7Mq7i",
-        "testimonial_33tAjm",
-        "testimonial_dDRMwy",
-        "testimonial_RgfDDw"
-      ],
-      "settings": {
-        "color_scheme": "scheme-2",
-        "heading": "Testimonials",
-        "heading_size": "h2",
-        "heading_highlight_style": "none",
-        "subheading": "",
-        "description": "",
-        "text_size": "text-base",
-        "card_color_scheme": "",
-        "card_layout": "1",
-        "card_text_size": "text-base",
-        "columns_desktop": 4,
-        "column_gap": "medium",
-        "enable_slider": true,
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "padding_top": 100,
-        "padding_bottom": 100,
-        "show_section_divider": false,
-        "divider_width": "fixed",
-        "custom_class": ""
-      }
-    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -392,7 +303,6 @@
   "order": [
     "breadcrumbs",
     "main",
-    "testimonials_8JHr3L",
     "related-products",
     "product_faq_cta",
     "browse_collections_cta"
