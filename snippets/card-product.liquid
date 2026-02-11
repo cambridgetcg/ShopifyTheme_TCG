@@ -308,6 +308,20 @@
         <a class="reversed-link" href="{{ product.url }}">{{- product.title -}}</a>
       </h3>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
+      {%- comment -%}Stock count badge{%- endcomment -%}
+      {%- for v in product.variants -%}
+        {%- for opt in v.options -%}
+          {%- if opt == "In Stock" and v.inventory_management == "shopify" and v.inventory_quantity > 0 -%}
+            <p class="product-card__stock text-sm m-0" style="margin-top: 4px; font-size: 12px; color: {% if v.inventory_quantity <= 5 %}#c0392b{% else %}#27ae60{% endif %};">
+              {%- if v.inventory_quantity <= 5 -%}
+                Only {{ v.inventory_quantity }} left
+              {%- else -%}
+                {{ v.inventory_quantity }} in stock
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
       {%- if show_color_swatches -%}
         {%- render 'pcard-color-swatch', product: product -%}
       {%- endif -%}
