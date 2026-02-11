@@ -9,6 +9,556 @@
  */
 {
   "sections": {
+    "slideshow_q3U4Jn": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_JhU8hg": {
+          "type": "slide",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "background": "shopify://shop_images/one-piece-card-game-see-why-to-play-where-to-buy-and-more_jpg.webp",
+            "image_overlay_opacity": 20,
+            "content_position": "middle-left",
+            "text_alignment": "center",
+            "title": "<strong>One Piece Card Game</strong>",
+            "heading_size": "hd1",
+            "subheading": "Shop Japan-Exclusive Cards",
+            "description": "",
+            "description_size": "text-base",
+            "button_label": "Browse Collection",
+            "button_link": "shopify://pages/one-piece-card-game",
+            "button_style": "btn--primary"
+          }
+        },
+        "slide_U9bPyj": {
+          "type": "slide",
+          "settings": {
+            "color_scheme": "scheme-1",
+            "background": "shopify://shop_images/Ontwerp_zonder_titel_-_2021-06-23T174108_270_jpg.webp",
+            "image_overlay_opacity": 20,
+            "content_position": "middle-right",
+            "text_alignment": "center",
+            "title": "<strong>Pokemon Card Game</strong>",
+            "heading_size": "hd1",
+            "subheading": "Authentic Japanese Sets",
+            "description": "",
+            "description_size": "text-base",
+            "button_label": "Browse Collection",
+            "button_link": "shopify://pages/pokemon-card-game",
+            "button_style": "btn--primary"
+          }
+        },
+        "slide_pEkPxY": {
+          "type": "slide",
+          "settings": {
+            "color_scheme": "scheme-e04df1de-d9b5-4e4a-881d-5aeb5d7335ac",
+            "background": "shopify://shop_images/OP11.jpg",
+            "image_overlay_opacity": 25,
+            "content_position": "middle-left",
+            "text_alignment": "left",
+            "title": "<strong>Latest Collection OP13 \u2014 Carrying On His Will</strong>",
+            "heading_size": "hd3",
+            "subheading": "",
+            "description": "",
+            "description_size": "text-inherit",
+            "button_label": "Buy Now",
+            "button_link": "shopify://collections/op13-carrying-on-his-will",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "slide_JhU8hg",
+        "slide_U9bPyj",
+        "slide_pEkPxY"
+      ],
+      "settings": {
+        "container": "full",
+        "layout": "centered",
+        "slide_height": "adapt",
+        "show_dots": true,
+        "autoplay": true,
+        "autoplay_delay": 5,
+        "controls_position": "below",
+        "show_text_below": true,
+        "text_alignment_mobile": "center",
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "collection_list_Pr36qH": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_drzY8m": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op13-carrying-on-his-will",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_wY9UaR": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op12-legacy-of-the-master",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_cfyJrd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "st13-the-three-brothers",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_4b33wp": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op11",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_qYHYMd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op10",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_GDdxPa": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op09",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_99RwiB": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op08",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_EWkTmk": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op07",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_tiMHjh": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op06",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_GykJbx": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op05",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_QK66HF": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op04",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_inyzwk": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op03",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_ytHAXL": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "op02",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_VHfaMD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "eb01",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_EB02nw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "eb02-anime-25th-collection",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_drzY8m",
+        "featured_collection_wY9UaR",
+        "featured_collection_cfyJrd",
+        "featured_collection_4b33wp",
+        "featured_collection_qYHYMd",
+        "featured_collection_GDdxPa",
+        "featured_collection_99RwiB",
+        "featured_collection_EWkTmk",
+        "featured_collection_tiMHjh",
+        "featured_collection_GykJbx",
+        "featured_collection_QK66HF",
+        "featured_collection_inyzwk",
+        "featured_collection_ytHAXL",
+        "featured_collection_VHfaMD",
+        "featured_collection_EB02nw"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "layout": "split",
+        "subheading": "",
+        "heading": "One Piece Card Game",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "description": "<p>Browse all of our collections</p>",
+        "text_size": "text-base",
+        "card_color_inherited": false,
+        "show_product_count": true,
+        "show_icon": true,
+        "card_style": "",
+        "card_image_ratio": "1/1",
+        "content_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "medium",
+        "row_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "featured_new_arrivals": {
+      "type": "featured-collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "header_layout": "horizontal",
+        "heading": "New Arrivals",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "show_collection_description": false,
+        "collection": "new-arrivals",
+        "limit": 8,
+        "columns": 4,
+        "column_gap": "medium",
+        "row_gap": "inherit",
+        "grid_layout": "standard",
+        "enable_slider": true,
+        "controls_position": "inside",
+        "pcard_image_ratio": "3/4",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "show_all_button_on_top": false,
+        "button_label": "View All",
+        "button_style": "btn--primary",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "collection_list_PKATjm": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_7gPrdK": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv9a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_AhiJFp": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv8a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_nNe9LQ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv7a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_RghDgH": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv6a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_y4Bibg": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv5a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_HKJziW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv4a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_d4eixL": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv3a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_qqt7cY": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv2a",
+            "title": "",
+            "description": ""
+          }
+        },
+        "featured_collection_m9x6iQ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "sv1a",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_7gPrdK",
+        "featured_collection_AhiJFp",
+        "featured_collection_nNe9LQ",
+        "featured_collection_RghDgH",
+        "featured_collection_y4Bibg",
+        "featured_collection_HKJziW",
+        "featured_collection_d4eixL",
+        "featured_collection_qqt7cY",
+        "featured_collection_m9x6iQ"
+      ],
+      "settings": {
+        "color_scheme": "scheme-8",
+        "layout": "split",
+        "subheading": "",
+        "heading": "Pokemon",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "description": "<p>Browse all of our collections</p>",
+        "text_size": "text-base",
+        "card_color_inherited": false,
+        "show_product_count": true,
+        "show_icon": true,
+        "card_style": "",
+        "card_image_ratio": "1/1",
+        "content_alignment": "left",
+        "columns_desktop": 3,
+        "column_gap": "medium",
+        "row_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 100,
+        "padding_bottom": 100,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "why_cambridge_tcg": {
+      "type": "multicolumn",
+      "blocks": {
+        "col_authentic": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "100% Authentic",
+            "heading_size": "h4",
+            "text": "<p>Every card sourced directly from Japanese distributors. Mint condition guaranteed or your money back.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "col_shipping": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "Fast & Secure Shipping",
+            "heading_size": "h4",
+            "text": "<p>Free UK shipping over \u00a380. Every card in a sleeve, top loader, and waterproof team bag.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "col_quality": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "PSA 9-10 Grade Quality",
+            "heading_size": "h4",
+            "text": "<p>Hand-inspected before dispatch. Pulled from sealed product and immediately double-sleeved.</p>",
+            "text_size": "text-base",
+            "button_label": "",
+            "button_style": "btn--underline",
+            "button_link": "",
+            "mobile_layout": "inherit"
+          }
+        },
+        "col_cashback": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "Up to 12% Cashback",
+            "heading_size": "h4",
+            "text": "<p>Join our membership for cashback, monthly mystery pack raffles, and exclusive rewards.</p>",
+            "text_size": "text-base",
+            "button_label": "Learn More",
+            "button_style": "btn--primary",
+            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "mobile_layout": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "col_authentic",
+        "col_shipping",
+        "col_quality",
+        "col_cashback"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Why Cambridge TCG",
+        "heading_size": "h1",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "column_alignment": "center",
+        "columns_desktop": 4,
+        "column_gap": "large",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
+    "testimonials_8JHr3L": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_dhi3Xf": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Awesome seller! Good prices, packed well and arrived in a timely fashion. Card as described and they've also included a free card which I happened to need! Will buy from again!</p>",
+            "author": "One Piece Collector",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_D7Mq7i": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Great communication. Delivery was quick and cards were packaged well and as described. Would definitely buy again! I highly recommend</p>",
+            "author": "TCG Collector",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_jWLXV3": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Cambridge TCG was quick at posting all the items I ordered. They were packaged perfectly and they all were as the description read. They were all good value and I would highly recommend Cambridge TCG for anyone looking for cards to add to a collection.</p>",
+            "author": "Pokemon Fan",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        },
+        "testimonial_33tAjm": {
+          "type": "testimonial",
+          "settings": {
+            "text": "<p>Communication was great and they have answered any questions I had. Cards were shipped and delivered quickly too! I would definitely buy again.</p>",
+            "author": "Card Enthusiast",
+            "bio": "Verified Buyer",
+            "product": "",
+            "icon": "none"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_dhi3Xf",
+        "testimonial_D7Mq7i",
+        "testimonial_jWLXV3",
+        "testimonial_33tAjm"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "What Our Customers Say",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "",
+        "text_size": "text-base",
+        "card_color_scheme": "",
+        "card_layout": "1",
+        "columns_desktop": 4,
+        "column_gap": "medium",
+        "enable_slider": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 100,
+        "padding_bottom": 80,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
     "newsletter_signup": {
       "type": "newsletter",
       "settings": {
@@ -34,6 +584,12 @@
     }
   },
   "order": [
+    "slideshow_q3U4Jn",
+    "collection_list_Pr36qH",
+    "featured_new_arrivals",
+    "collection_list_PKATjm",
+    "why_cambridge_tcg",
+    "testimonials_8JHr3L",
     "newsletter_signup"
   ]
 }
