@@ -17,14 +17,14 @@
         "announcement_membership": {
           "type": "announcement_bar",
           "settings": {
-            "text": "Earn Up to <strong>12% Cashback</strong> on Every Order \u2014 <a href=\"/pages/cambridge-tcg-membership\">Join Free</a>",
+            "text": "Earn Up to <strong>12% Cashback</strong> on Every Order — <a href=\"/pages/cambridge-tcg-membership\">Join Free</a>",
             "link": ""
           }
         },
         "announcement_shipping": {
           "type": "announcement_bar",
           "settings": {
-            "text": "Free UK Shipping over \u00a380 | Authentic Japanese Cards",
+            "text": "Free UK Shipping over £80 | Authentic Japanese Cards",
             "link": ""
           }
         }
@@ -64,8 +64,28 @@
         "padding_bottom": 0
       }
     },
-    "17697855473f5e1453": {
+    "17708360381a8d6471": {
       "type": "apps",
+      "blocks": {
+        "rewards_pro_raffles_eFpfen": {
+          "type": "shopify://apps/rewards-pro/blocks/raffles/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "settings": {
+            "heading": "Raffles",
+            "grid_columns": 3,
+            "show_images": true,
+            "show_countdown": true,
+            "enable_api_calls": true,
+            "cache_duration": 60,
+            "empty_message": "No raffles available right now. Check back soon!",
+            "guest_message": "Sign in to enter raffles and win prizes!",
+            "guest_cta_text": "Sign In",
+            "guest_cta_url": "/account/login"
+          }
+        }
+      },
+      "block_order": [
+        "rewards_pro_raffles_eFpfen"
+      ],
       "settings": {
         "include_margins": true,
         "padding_top": 0,
@@ -77,6 +97,6 @@
   "order": [
     "announcement_bar_home",
     "header",
-    "17697855473f5e1453"
+    "17708360381a8d6471"
   ]
 }
