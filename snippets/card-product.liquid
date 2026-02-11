@@ -309,19 +309,31 @@
       </h3>
       {% render 'price', product: product, alignment: settings.pcard_content_alignment %}
       {%- comment -%}Stock count badge{%- endcomment -%}
+      {%- assign instock_qty = 0 -%}
+      {%- assign has_preorder = false -%}
       {%- for v in product.variants -%}
         {%- for opt in v.options -%}
-          {%- if opt == "In Stock" and v.inventory_management == "shopify" and v.inventory_quantity > 0 -%}
-            <p class="product-card__stock text-sm m-0" style="margin-top: 4px; font-size: 12px; color: {% if v.inventory_quantity <= 5 %}#c0392b{% else %}#27ae60{% endif %};">
-              {%- if v.inventory_quantity <= 5 -%}
-                Only {{ v.inventory_quantity }} left
-              {%- else -%}
-                {{ v.inventory_quantity }} in stock
-              {%- endif -%}
-            </p>
+          {%- if opt == "In Stock" and v.inventory_management == "shopify" -%}
+            {%- assign instock_qty = v.inventory_quantity -%}
+          {%- endif -%}
+          {%- if opt == "Pre-Order" -%}
+            {%- assign has_preorder = true -%}
           {%- endif -%}
         {%- endfor -%}
       {%- endfor -%}
+      {%- if instock_qty > 0 -%}
+        <p class="product-card__stock text-sm m-0" style="margin-top: 4px; font-size: 12px; color: {% if instock_qty <= 5 %}#c0392b{% else %}#27ae60{% endif %};">
+          {%- if instock_qty <= 5 -%}
+            Only {{ instock_qty }} left
+          {%- else -%}
+            {{ instock_qty }} in stock
+          {%- endif -%}
+        </p>
+      {%- elsif has_preorder -%}
+        <p class="product-card__stock text-sm m-0" style="margin-top: 4px; font-size: 12px; color: #e67e22;">
+          Out of Stock — Pre-Orders Available
+        </p>
+      {%- endif -%}
       {%- if show_color_swatches -%}
         {%- render 'pcard-color-swatch', product: product -%}
       {%- endif -%}
