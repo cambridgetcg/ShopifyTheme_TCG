@@ -11,41 +11,27 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "scrolling_promotion_KhdTdc": {
-      "type": "scrolling-promotion",
+    "announcement_bar_home": {
+      "type": "announcement-bar",
       "blocks": {
-        "text_QCAxbn": {
-          "type": "text",
+        "announcement_1": {
+          "type": "announcement_bar",
           "settings": {
-            "text": "OP13 Carrying On His Will Now on Sale!",
-            "text_link": "",
-            "text_size": "text-base",
-            "font_weight": "font-heading",
-            "font_style": "normal",
-            "letter_spacing": 0,
-            "text_opacity": 100,
-            "text_style": "normal",
-            "use_custom_color": false,
-            "custom_color": "#000000"
+            "text": "Free UK Shipping over \u00a380 | Up to 12% Cashback with <a href=\"/pages/cambridge-tcg-membership\">Membership</a>",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "text_QCAxbn"
+        "announcement_1"
       ],
       "settings": {
         "color_scheme": "scheme-inverse",
-        "vertical_alignment": "center",
-        "direction": "left",
-        "pause_on_hover": false,
-        "speed": 0.5,
-        "h_spacing": 60,
-        "v_spacing": 0,
-        "padding_top": 12,
-        "padding_bottom": 12,
-        "show_divider": false,
-        "divider_layout": "vertical",
-        "custom_class": ""
+        "content_width": 60,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "padding_top": 8,
+        "padding_bottom": 8
       }
     },
     "header": {
@@ -81,7 +67,7 @@
     }
   },
   "order": [
-    "scrolling_promotion_KhdTdc",
+    "announcement_bar_home",
     "header",
     "17697855473f5e1453"
   ]
