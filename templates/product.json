@@ -119,6 +119,28 @@
           "settings": {
             "custom_liquid": "{% assign vi_json = \"\" %}{% for v in product.variants %}{% unless forloop.first %}{% assign vi_json = vi_json | append: \",\" %}{% endunless %}{% capture entry %}\"{{ v.id }}\":{{ v.inventory_quantity }}{% endcapture %}{% assign vi_json = vi_json | append: entry %}{% endfor %}<div id=\"preorder-notice\" style=\"display:none; margin: 12px 0; padding: 12px 16px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 14px; color: #6d4c00;\"><strong>Pre-Order:</strong> This item is available for pre-order. Please allow 2\u20133 weeks for delivery. Maximum 4 per order.</div><script>(function() {  var PO_LIMIT = 4;  var inventory = { {{ vi_json }} };  var notice = document.getElementById(\"preorder-notice\");  if (!notice) return;  function getQtyInput() {    return document.querySelector(\"input[name=quantity], .quantity__input, input.quantity-input\");  }  function getCurrentVariantId() {    var p = new URLSearchParams(window.location.search);    var vid = p.get(\"variant\");    if (vid) return vid;    var el = document.querySelector(\"input[name=id], select[name=id]\");    return el ? el.value : null;  }  function isPreorderSelected() {    var found = false;    document.querySelectorAll(\"fieldset input[type=radio]:checked, fieldset .swatch-input:checked\").forEach(function(el) {      if (el.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\"select\").forEach(function(sel) {      if (sel.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\".variant-picker__option--active, [aria-checked=true], .product-option__item--active\").forEach(function(el) {      if (el.textContent.trim() === \"Pre-Order\") found = true;    });    return found;  }  function enforce() {    var preorder = isPreorderSelected();    notice.style.display = preorder ? \"block\" : \"none\";    var qty = getQtyInput();    if (!qty) return;    if (preorder) {      qty.setAttribute(\"max\", PO_LIMIT);      if (parseInt(qty.value, 10) > PO_LIMIT) qty.value = PO_LIMIT;    } else {      var vid = getCurrentVariantId();      var avail = (vid && inventory[vid] != null) ? inventory[vid] : null;      if (avail != null && avail > 0) {        qty.setAttribute(\"max\", avail);        if (parseInt(qty.value, 10) > avail) qty.value = avail;      } else if (avail === 0) {        qty.setAttribute(\"max\", 0);        qty.value = 0;      } else {        qty.removeAttribute(\"max\");      }    }  }  enforce();  document.addEventListener(\"change\", enforce);  document.addEventListener(\"click\", function() { setTimeout(enforce, 50); });  document.addEventListener(\"variant:changed\", enforce);  document.addEventListener(\"input\", function(e) {    var qty = getQtyInput();    if (!qty) return;    var max = parseInt(qty.getAttribute(\"max\"), 10);    if (max && parseInt(qty.value, 10) > max) qty.value = max;  });})();</script>"
           }
+        },
+        "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Grading standard",
+            "icon": "star-four",
+            "content": "<p>All cards sold by Cambridge TCG are graded as <strong>Mint (M)</strong> condition unless otherwise stated.</p><p>Our grading criteria:</p><ul><li><strong>Mint (M)</strong> \u2014 Pack-fresh card with no visible wear, scratches, or whitening on edges or corners. Surface is clean with no print defects.</li><li><strong>Near Mint (NM)</strong> \u2014 Very minor imperfections only visible on close inspection. May have slight whitening on one corner or a faint surface mark.</li></ul><p>Cards are sourced directly from sealed Japanese booster packs and handled with care using sleeves and top loaders from the point of opening.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
+        },
+        "collapsible-row-3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Returns policy",
+            "icon": "return",
+            "content": "<p>We want you to be completely happy with your purchase.</p><ul><li><strong>Damaged or incorrect items</strong> \u2014 Contact us within 48 hours of delivery with photos. We will arrange a full refund or replacement at no extra cost.</li><li><strong>Change of mind</strong> \u2014 Returns accepted within 14 days of delivery. Item must be in the same condition as received (sleeved and unplayed). Buyer covers return postage.</li><li><strong>Pre-orders</strong> \u2014 May be cancelled for a full refund at any time before dispatch.</li></ul><p>To start a return, email <strong>contact@cambridgetcg.com</strong> with your order number.</p>",
+            "custom_liquid": "",
+            "page": "",
+            "default_open": false
+          }
         }
       },
       "block_order": [
@@ -134,6 +156,8 @@
         "pickup_availability",
         "complementary",
         "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3",
         "addons"
       ],
       "settings": {
