@@ -9,46 +9,31 @@
  */
 {
   "sections": {
-    "slideshow_q3U4Jn": {
-      "type": "slideshow",
-      "blocks": {
-        "slide_JhU8hg": {
-          "type": "slide",
-          "settings": {
-            "color_scheme": "scheme-1",
-            "background": "shopify://shop_images/one-piece-card-game-see-why-to-play-where-to-buy-and-more_jpg.webp",
-            "image_overlay_opacity": 20,
-            "content_position": "middle-left",
-            "text_alignment": "center",
-            "title": "<strong>One Piece Card Game</strong>",
-            "heading_size": "hd1",
-            "subheading": "Shop Japan-Exclusive Cards",
-            "description": "",
-            "description_size": "text-base",
-            "button_label": "Browse Collection",
-            "button_link": "shopify://pages/one-piece-card-game",
-            "button_style": "btn--primary"
-          }
-        }
-      },
-      "block_order": [
-        "slide_JhU8hg"
-      ],
+    "newsletter_signup": {
+      "type": "newsletter",
       "settings": {
-        "container": "full",
-        "layout": "centered",
-        "slide_height": "adapt",
-        "show_dots": true,
-        "autoplay": true,
-        "autoplay_delay": 5,
-        "controls_position": "below",
-        "show_text_below": true,
-        "text_alignment_mobile": "center",
-        "accessibility_info": "Slideshow about our brand"
+        "color_scheme": "scheme-2",
+        "layout": "vertical",
+        "heading": "Stay in the Loop",
+        "heading_size": "h2",
+        "heading_highlight_style": "none",
+        "subheading": "",
+        "description": "<p>Get notified about new Japanese TCG releases, exclusive drops, and membership rewards.</p>",
+        "text_size": "text-base",
+        "alignment": "center",
+        "design": "design-1",
+        "form_width": 500,
+        "newsletter_term": "",
+        "newsletter_term_size": "text-base",
+        "button_style": "btn--primary",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "show_section_divider": false,
+        "divider_width": "fixed"
       }
     }
   },
   "order": [
-    "slideshow_q3U4Jn"
+    "newsletter_signup"
   ]
 }
