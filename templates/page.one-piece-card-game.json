@@ -267,7 +267,7 @@
         "text_poke": {
           "type": "text",
           "settings": {
-            "text": "<p>Explore our collection of Japanese Pokemon Card Game sets, featuring the latest SV series.</p>",
+            "text": "<p>Explore our collection of Japanese Pokemon Card Game sets, featuring the latest SV series.<\/p>",
             "text_size": "text-base"
           }
         },
@@ -275,7 +275,7 @@
           "type": "button",
           "settings": {
             "button_label": "Browse Pokemon",
-            "button_link": "shopify://pages/pokemon-card-game",
+            "button_link": "shopify:\/\/pages\/pokemon-card-game",
             "button_style": "btn--primary"
           }
         }
@@ -309,7 +309,7 @@
         "text_FdCrdK": {
           "type": "text",
           "settings": {
-            "text": "<p>Message us and we'll help you find the card you need, or check our FAQ for quick answers.</p>",
+            "text": "<p>Message us and we'll help you find the card you need, or check our FAQ for quick answers.<\/p>",
             "text_size": "text-base"
           }
         },
@@ -317,7 +317,7 @@
           "type": "button",
           "settings": {
             "button_label": "Contact Us",
-            "button_link": "shopify://pages/about-us",
+            "button_link": "shopify:\/\/pages\/about-cambridge-tcg",
             "button_style": "btn--primary"
           }
         }
@@ -349,7 +349,7 @@
         "text_tradein": {
           "type": "text",
           "settings": {
-            "text": "<p>Looking to sell or trade your One Piece cards? Get competitive rates for store credit or cash through our Trade-In program.</p>",
+            "text": "<p>Looking to sell or trade your One Piece cards? Get competitive rates for store credit or cash through our Trade-In program.<\/p>",
             "text_size": "text-base"
           }
         },
@@ -357,7 +357,7 @@
           "type": "button",
           "settings": {
             "button_label": "Start Trade-In",
-            "button_link": "shopify://pages/trade-in",
+            "button_link": "shopify:\/\/pages\/trade-in",
             "button_style": "btn--primary"
           }
         }
