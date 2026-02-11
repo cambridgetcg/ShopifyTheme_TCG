@@ -13,25 +13,6 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {
-        "menu_shop": {
-          "type": "menu",
-          "settings": {}
-        },
-        "menu_support": {
-          "type": "menu",
-          "settings": {}
-        },
-        "menu_company": {
-          "type": "menu",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "menu_shop",
-        "menu_support",
-        "menu_company"
-      ],
       "custom_css": [
         ".form-control {--color-border: var(--color-field);}"
       ],
