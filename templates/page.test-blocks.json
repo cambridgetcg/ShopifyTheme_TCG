@@ -21,11 +21,16 @@
       "type": "apps",
       "blocks": {
         "test_block": {
-          "type": "shopify://apps/rewards-pro/blocks/mystery_boxes/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "type": "shopify://apps/rewards-pro/blocks/raffles/0199e8b4-621e-7cd3-af1c-32293a9bc305",
           "settings": {
-            "show_rarity": true,
+            "heading": "Missions",
+            "grid_columns": 3,
+            "show_images": true,
+            "show_countdown": true,
+            "enable_api_calls": true,
             "cache_duration": 60,
-            "guest_message": "Sign in to open mystery boxes!",
+            "empty_message": "No missions available right now.",
+            "guest_message": "Sign in to complete missions!",
             "guest_cta_text": "Sign In",
             "guest_cta_url": "/account/login"
           }
