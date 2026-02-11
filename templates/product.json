@@ -94,7 +94,7 @@
           "settings": {
             "heading": "Shipping methods",
             "icon": "package",
-            "content": "<p>Orders are sent with Royalmail </p>",
+            "content": "<p>All orders are shipped with Royal Mail:</p><ul><li><strong>Under \u00a3150</strong> \u2014 Royal Mail Tracked 48</li><li><strong>\u00a3150 to \u00a3250</strong> \u2014 Royal Mail Tracked 24</li><li><strong>Over \u00a3250</strong> \u2014 Royal Mail Special Delivery</li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
