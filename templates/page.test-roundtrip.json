@@ -1,0 +1,94 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "1769785824e10c67b6": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "17697858346ce0f20d": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "1769785841be54a987": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "rewards_hub": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    },
+    "raffles_grid": {
+      "type": "apps",
+      "blocks": {
+        "rewards_pro_raffles": {
+          "type": "shopify:\/\/apps\/rewards-pro\/blocks\/raffles\/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "settings": {
+            "heading": "Raffles",
+            "grid_columns": 3,
+            "show_images": true,
+            "show_countdown": true,
+            "enable_api_calls": true,
+            "cache_duration": 60,
+            "empty_message": "No raffles available right now. Check back soon!",
+            "guest_message": "Sign in to enter raffles and win prizes!",
+            "guest_cta_text": "Sign In",
+            "guest_cta_url": "\/account\/login"
+          }
+        }
+      },
+      "block_order": [
+        "rewards_pro_raffles"
+      ],
+      "settings": {
+        "include_margins": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_class": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "raffles_grid",
+    "1769785824e10c67b6",
+    "17697858346ce0f20d",
+    "1769785841be54a987",
+    "rewards_hub"
+  ]
+}
