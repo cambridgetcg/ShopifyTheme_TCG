@@ -66,7 +66,7 @@
             "title_font": "body",
             "title_size": "text-base",
             "icon_1": "package",
-            "heading_1": "Free UK Shipping for orders over £80",
+            "heading_1": "Free UK Shipping for orders over \u00a380",
             "icon_2": "currency-circle-dollar",
             "heading_2": "",
             "icon_3": "star-four",
@@ -106,6 +106,13 @@
             "show_share": true,
             "show_ask_question": true
           }
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "show_inventory_quantity": true,
+            "inventory_threshold": 10
+          }
         }
       },
       "block_order": [
@@ -114,6 +121,7 @@
         "price",
         "description",
         "variant_picker",
+        "inventory",
         "buy_buttons",
         "icon_with_text",
         "pickup_availability",
@@ -174,7 +182,7 @@
           "settings": {
             "show_image": true,
             "text": "<p>Perfect condition, very well packaged and fast shipping. Thank you.</p>",
-            "author": "georgetcg_uk ",
+            "author": "georgetcg_uk\u00a0",
             "bio": "",
             "product": "",
             "icon": "none"
