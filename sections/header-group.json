@@ -14,21 +14,29 @@
     "announcement_bar_home": {
       "type": "announcement-bar",
       "blocks": {
-        "announcement_1": {
+        "announcement_membership": {
           "type": "announcement_bar",
           "settings": {
-            "text": "Free UK Shipping over \u00a380 | Up to 12% Cashback with <a href=\"/pages/cambridge-tcg-membership\">Membership</a>",
+            "text": "Earn Up to <strong>12% Cashback</strong> on Every Order \u2014 <a href=\"/pages/cambridge-tcg-membership\">Join Free</a>",
+            "link": ""
+          }
+        },
+        "announcement_shipping": {
+          "type": "announcement_bar",
+          "settings": {
+            "text": "Free UK Shipping over \u00a380 | Authentic Japanese Cards",
             "link": ""
           }
         }
       },
       "block_order": [
-        "announcement_1"
+        "announcement_membership",
+        "announcement_shipping"
       ],
       "settings": {
         "color_scheme": "scheme-inverse",
         "content_width": 60,
-        "autoplay": false,
+        "autoplay": true,
         "autoplay_speed": 5,
         "padding_top": 8,
         "padding_bottom": 8

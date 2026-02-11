@@ -12,6 +12,24 @@
     "slideshow_q3U4Jn": {
       "type": "slideshow",
       "blocks": {
+        "slide_membership": {
+          "type": "slide",
+          "settings": {
+            "color_scheme": "scheme-6",
+            "background": "",
+            "image_overlay_opacity": 0,
+            "content_position": "middle-center",
+            "text_alignment": "center",
+            "title": "<strong>Earn Up to 12% Cashback</strong>",
+            "heading_size": "hd1",
+            "subheading": "Join Cambridge TCG Membership \u2014 free rewards on every order",
+            "description": "",
+            "description_size": "text-lg",
+            "button_label": "Join Free",
+            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "button_style": "btn--primary"
+          }
+        },
         "slide_JhU8hg": {
           "type": "slide",
           "settings": {
@@ -68,6 +86,7 @@
         }
       },
       "block_order": [
+        "slide_membership",
         "slide_JhU8hg",
         "slide_U9bPyj",
         "slide_pEkPxY"
@@ -253,6 +272,53 @@
         "divider_width": "fixed"
       }
     },
+    "membership_cta_banner": {
+      "type": "rich-text",
+      "blocks": {
+        "mem_subheading": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "Cambridge TCG Membership"
+          }
+        },
+        "mem_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Save More with <strong>Every Order</strong>",
+            "heading_size": "hd1"
+          }
+        },
+        "mem_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Earn up to 12% cashback, enter monthly mystery pack raffles, and get priority access to new Japanese TCG releases. Over 200 members and growing.</p>",
+            "text_size": "text-lg"
+          }
+        },
+        "mem_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Start Earning Cashback",
+            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "button_style": "btn--primary"
+          }
+        }
+      },
+      "block_order": [
+        "mem_subheading",
+        "mem_heading",
+        "mem_text",
+        "mem_button"
+      ],
+      "settings": {
+        "color_scheme": "scheme-6",
+        "content_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "show_section_divider": false,
+        "divider_width": "fixed"
+      }
+    },
     "featured_new_arrivals": {
       "type": "featured-collection",
       "settings": {
@@ -402,6 +468,21 @@
     "why_cambridge_tcg": {
       "type": "multicolumn",
       "blocks": {
+        "col_cashback": {
+          "type": "column",
+          "settings": {
+            "show_image": false,
+            "image_width": "medium",
+            "title": "Up to 12% Cashback",
+            "heading_size": "h4",
+            "text": "<p>Every order earns cashback. Bronze 3%, Silver 6%, Gold 9%, Platinum 12%. Redeem anytime as store credit.</p>",
+            "text_size": "text-base",
+            "button_label": "Join Free",
+            "button_style": "btn--primary",
+            "button_link": "shopify://pages/cambridge-tcg-membership",
+            "mobile_layout": "inherit"
+          }
+        },
         "col_authentic": {
           "type": "column",
           "settings": {
@@ -446,28 +527,13 @@
             "button_link": "",
             "mobile_layout": "inherit"
           }
-        },
-        "col_cashback": {
-          "type": "column",
-          "settings": {
-            "show_image": false,
-            "image_width": "medium",
-            "title": "Up to 12% Cashback",
-            "heading_size": "h4",
-            "text": "<p>Join our membership for cashback, monthly mystery pack raffles, and exclusive rewards.</p>",
-            "text_size": "text-base",
-            "button_label": "Learn More",
-            "button_style": "btn--primary",
-            "button_link": "shopify://pages/cambridge-tcg-membership",
-            "mobile_layout": "inherit"
-          }
         }
       },
       "block_order": [
+        "col_cashback",
         "col_authentic",
         "col_shipping",
-        "col_quality",
-        "col_cashback"
+        "col_quality"
       ],
       "settings": {
         "color_scheme": "scheme-2",
@@ -562,13 +628,13 @@
     "newsletter_signup": {
       "type": "newsletter",
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-6",
         "layout": "vertical",
-        "heading": "Stay in the Loop",
+        "heading": "Join the Club",
         "heading_size": "h2",
         "heading_highlight_style": "none",
         "subheading": "",
-        "description": "<p>Get notified about new Japanese TCG releases, exclusive drops, and membership rewards.</p>",
+        "description": "<p>Subscribe for exclusive member drops, cashback updates, mystery pack raffle alerts, and new Japanese TCG release notifications.</p>",
         "text_size": "text-base",
         "alignment": "center",
         "design": "design-1",
@@ -586,6 +652,7 @@
   "order": [
     "slideshow_q3U4Jn",
     "collection_list_Pr36qH",
+    "membership_cta_banner",
     "featured_new_arrivals",
     "collection_list_PKATjm",
     "why_cambridge_tcg",
