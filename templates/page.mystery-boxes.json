@@ -19,15 +19,21 @@
     },
     "mystery_boxes_grid": {
       "type": "apps",
-      "settings": {
-        "include_margins": true,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "custom_class": ""
-      }
-    },
-    "rewards_hub": {
-      "type": "apps",
+      "blocks": {
+        "rewards_pro_mystery_boxes": {
+          "type": "shopify://apps/rewards-pro/blocks/mystery_boxes/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "settings": {
+            "show_rarity": true,
+            "cache_duration": 60,
+            "guest_message": "Sign in to open mystery boxes and win prizes!",
+            "guest_cta_text": "Sign In",
+            "guest_cta_url": "/account/login"
+          }
+        }
+      },
+      "block_order": [
+        "rewards_pro_mystery_boxes"
+      ],
       "settings": {
         "include_margins": true,
         "padding_top": 0,
@@ -38,7 +44,6 @@
   },
   "order": [
     "main",
-    "mystery_boxes_grid",
-    "rewards_hub"
+    "mystery_boxes_grid"
   ]
 }
