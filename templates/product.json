@@ -66,7 +66,7 @@
             "title_font": "body",
             "title_size": "text-base",
             "icon_1": "package",
-            "heading_1": "Free UK Shipping for orders over £80",
+            "heading_1": "Free UK Shipping for orders over \u00a380",
             "icon_2": "currency-circle-dollar",
             "heading_2": "",
             "icon_3": "star-four",
@@ -94,7 +94,7 @@
           "settings": {
             "heading": "Shipping methods",
             "icon": "package",
-            "content": "<p>All orders are shipped with Royal Mail:<\/p><ul><li><strong>Under £150<\/strong> — Royal Mail Tracked 48<\/li><li><strong>£150 to £250<\/strong> — Royal Mail Tracked 24<\/li><li><strong>Over £250<\/strong> — Royal Mail Special Delivery<\/li><\/ul>",
+            "content": "<p>All orders are shipped with Royal Mail:</p><ul><li><strong>Under \u00a3150</strong> \u2014 Royal Mail Tracked 48</li><li><strong>\u00a3150 to \u00a3250</strong> \u2014 Royal Mail Tracked 24</li><li><strong>Over \u00a3250</strong> \u2014 Royal Mail Special Delivery</li></ul>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -117,7 +117,7 @@
         "preorder_notice": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": "{% assign vi_json = \"\" %}{% for v in product.variants %}{% unless forloop.first %}{% assign vi_json = vi_json | append: \",\" %}{% endunless %}{% capture entry %}\"{{ v.id }}\":{{ v.inventory_quantity }}{% endcapture %}{% assign vi_json = vi_json | append: entry %}{% endfor %}<div id=\"preorder-notice\" style=\"display:none; margin: 12px 0; padding: 12px 16px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 14px; color: #6d4c00;\"><strong>Pre-Order:<\/strong> This item is available for pre-order. Please allow 2–3 weeks for delivery. Maximum 4 per order.<\/div><script>(function() {  var PO_LIMIT = 4;  var inventory = { {{ vi_json }} };  var notice = document.getElementById(\"preorder-notice\");  if (!notice) return;  function getQtyInput() {    return document.querySelector(\"input[name=quantity], .quantity__input, input.quantity-input\");  }  function getCurrentVariantId() {    var p = new URLSearchParams(window.location.search);    var vid = p.get(\"variant\");    if (vid) return vid;    var el = document.querySelector(\"input[name=id], select[name=id]\");    return el ? el.value : null;  }  function isPreorderSelected() {    var found = false;    document.querySelectorAll(\"fieldset input[type=radio]:checked, fieldset .swatch-input:checked\").forEach(function(el) {      if (el.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\"select\").forEach(function(sel) {      if (sel.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\".variant-picker__option--active, [aria-checked=true], .product-option__item--active\").forEach(function(el) {      if (el.textContent.trim() === \"Pre-Order\") found = true;    });    return found;  }  function enforce() {    var preorder = isPreorderSelected();    notice.style.display = preorder ? \"block\" : \"none\";    var qty = getQtyInput();    if (!qty) return;    if (preorder) {      qty.setAttribute(\"max\", PO_LIMIT);      if (parseInt(qty.value, 10) > PO_LIMIT) qty.value = PO_LIMIT;    } else {      var vid = getCurrentVariantId();      var avail = (vid && inventory[vid] != null) ? inventory[vid] : null;      if (avail != null && avail > 0) {        qty.setAttribute(\"max\", avail);        if (parseInt(qty.value, 10) > avail) qty.value = avail;      } else if (avail === 0) {        qty.setAttribute(\"max\", 0);        qty.value = 0;      } else {        qty.removeAttribute(\"max\");      }    }  }  enforce();  document.addEventListener(\"change\", enforce);  document.addEventListener(\"click\", function() { setTimeout(enforce, 50); });  document.addEventListener(\"variant:changed\", enforce);  document.addEventListener(\"input\", function(e) {    var qty = getQtyInput();    if (!qty) return;    var max = parseInt(qty.getAttribute(\"max\"), 10);    if (max && parseInt(qty.value, 10) > max) qty.value = max;  });})();<\/script>"
+            "custom_liquid": "{% assign vi_json = \"\" %}{% for v in product.variants %}{% unless forloop.first %}{% assign vi_json = vi_json | append: \",\" %}{% endunless %}{% capture entry %}\"{{ v.id }}\":{{ v.inventory_quantity }}{% endcapture %}{% assign vi_json = vi_json | append: entry %}{% endfor %}<div id=\"preorder-notice\" style=\"display:none; margin: 12px 0; padding: 12px 16px; background: #fff8e1; border: 1px solid #ffe082; border-radius: 6px; font-size: 14px; color: #6d4c00;\"><strong>Pre-Order:</strong> This item is available for pre-order. Please allow 2\u20133 weeks for delivery. Maximum 4 per order.</div><script>(function() {  var PO_LIMIT = 4;  var inventory = { {{ vi_json }} };  var notice = document.getElementById(\"preorder-notice\");  if (!notice) return;  function getQtyInput() {    return document.querySelector(\"input[name=quantity], .quantity__input, input.quantity-input\");  }  function getCurrentVariantId() {    var p = new URLSearchParams(window.location.search);    var vid = p.get(\"variant\");    if (vid) return vid;    var el = document.querySelector(\"input[name=id], select[name=id]\");    return el ? el.value : null;  }  function isPreorderSelected() {    var found = false;    document.querySelectorAll(\"fieldset input[type=radio]:checked, fieldset .swatch-input:checked\").forEach(function(el) {      if (el.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\"select\").forEach(function(sel) {      if (sel.value === \"Pre-Order\") found = true;    });    document.querySelectorAll(\".variant-picker__option--active, [aria-checked=true], .product-option__item--active\").forEach(function(el) {      if (el.textContent.trim() === \"Pre-Order\") found = true;    });    return found;  }  function updateInventoryText(preorder) {    var invText = document.querySelector(\".product__inventory-text\");    if (!invText) return;    if (preorder) {      invText.textContent = \"Available\";      var icon = document.querySelector(\".product__inventory-icon\");      if (icon) icon.className = \"product__inventory-icon\";      var wrap = document.querySelector(\".product__inventory\");      if (wrap) {        wrap.className = wrap.className.replace(/product__inventory--\\S+/, \"product__inventory--in-stock\");      }    }  }  function enforce() {    var preorder = isPreorderSelected();    notice.style.display = preorder ? \"block\" : \"none\";    updateInventoryText(preorder);    var qty = getQtyInput();    if (!qty) return;    if (preorder) {      qty.setAttribute(\"max\", PO_LIMIT);      if (parseInt(qty.value, 10) > PO_LIMIT) qty.value = PO_LIMIT;    } else {      var vid = getCurrentVariantId();      var avail = (vid && inventory[vid] != null) ? inventory[vid] : null;      if (avail != null && avail > 0) {        qty.setAttribute(\"max\", avail);        if (parseInt(qty.value, 10) > avail) qty.value = avail;      } else if (avail === 0) {        qty.setAttribute(\"max\", 0);        qty.value = 0;      } else {        qty.removeAttribute(\"max\");      }    }  }  enforce();  document.addEventListener(\"change\", enforce);  document.addEventListener(\"click\", function() { setTimeout(enforce, 50); });  document.addEventListener(\"variant:changed\", enforce);  document.addEventListener(\"input\", function(e) {    var qty = getQtyInput();    if (!qty) return;    var max = parseInt(qty.getAttribute(\"max\"), 10);    if (max && parseInt(qty.value, 10) > max) qty.value = max;  });})();</script>"
           }
         },
         "collapsible-row-2": {
@@ -125,7 +125,7 @@
           "settings": {
             "heading": "Grading standard",
             "icon": "star-four",
-            "content": "<p>All cards sold by Cambridge TCG are graded as <strong>Mint (M)<\/strong> condition unless otherwise stated.<\/p><p>Our grading criteria:<\/p><ul><li><strong>Mint (M)<\/strong> — Pack-fresh card with no visible wear, scratches, or whitening on edges or corners. Surface is clean with no print defects.<\/li><li><strong>Near Mint (NM)<\/strong> — Very minor imperfections only visible on close inspection. May have slight whitening on one corner or a faint surface mark.<\/li><\/ul><p>Cards are sourced directly from sealed Japanese booster packs and handled with care using sleeves and top loaders from the point of opening.<\/p>",
+            "content": "<p>All cards sold by Cambridge TCG are graded as <strong>Mint (M)</strong> condition unless otherwise stated.</p><p>Our grading criteria:</p><ul><li><strong>Mint (M)</strong> \u2014 Pack-fresh card with no visible wear, scratches, or whitening on edges or corners. Surface is clean with no print defects.</li><li><strong>Near Mint (NM)</strong> \u2014 Very minor imperfections only visible on close inspection. May have slight whitening on one corner or a faint surface mark.</li></ul><p>Cards are sourced directly from sealed Japanese booster packs and handled with care using sleeves and top loaders from the point of opening.</p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -136,7 +136,7 @@
           "settings": {
             "heading": "Returns policy",
             "icon": "return",
-            "content": "<p>We want you to be completely happy with your purchase.<\/p><ul><li><strong>Damaged or incorrect items<\/strong> — Contact us within 48 hours of delivery with photos. We will arrange a full refund or replacement at no extra cost.<\/li><li><strong>Change of mind<\/strong> — Returns accepted within 14 days of delivery. Item must be in the same condition as received (sleeved and unplayed). Buyer covers return postage. Cards returned under change of mind may be subject to a restocking deduction if they show any signs of handling beyond inspection.<\/li><li><strong>Pre-orders<\/strong> — May be cancelled for a full refund within 48 hours of order placement. Cancellations after 48 hours are not guaranteed.<\/li><\/ul><p>To start a return or cancellation, email <strong>contact@cambridgetcg.com<\/strong> with your order number.<\/p>",
+            "content": "<p>We want you to be completely happy with your purchase.</p><ul><li><strong>Damaged or incorrect items</strong> \u2014 Contact us within 48 hours of delivery with photos. We will arrange a full refund or replacement at no extra cost.</li><li><strong>Change of mind</strong> \u2014 Returns accepted within 14 days of delivery. Item must be in the same condition as received (sleeved and unplayed). Buyer covers return postage. Cards returned under change of mind may be subject to a restocking deduction if they show any signs of handling beyond inspection.</li><li><strong>Pre-orders</strong> \u2014 May be cancelled for a full refund within 48 hours of order placement. Cancellations after 48 hours are not guaranteed.</li></ul><p>To start a return or cancellation, email <strong>contact@cambridgetcg.com</strong> with your order number.</p>",
             "custom_liquid": "",
             "page": "",
             "default_open": false
@@ -179,7 +179,7 @@
           "type": "testimonial",
           "settings": {
             "show_image": true,
-            "text": "<p>Fast shipping Good packaging ! Great value Thank you very much I buy again for sure<\/p>",
+            "text": "<p>Fast shipping Good packaging ! Great value Thank you very much I buy again for sure</p>",
             "author": "na-1008",
             "bio": "",
             "product": "",
@@ -190,7 +190,7 @@
           "type": "testimonial",
           "settings": {
             "show_image": true,
-            "text": "<p>Super great seller, cards were packaged really securely and came with extras!! Tysm I loved it &lt;33<\/p>",
+            "text": "<p>Super great seller, cards were packaged really securely and came with extras!! Tysm I loved it &lt;33</p>",
             "author": "embow_5049",
             "bio": "",
             "product": "",
@@ -201,7 +201,7 @@
           "type": "testimonial",
           "settings": {
             "show_image": true,
-            "text": "<p>Arrived on time and incredibly well packaged, card in practically mint condition! Highly recommend Cambridge TCG for any OPTCG fan<\/p>",
+            "text": "<p>Arrived on time and incredibly well packaged, card in practically mint condition! Highly recommend Cambridge TCG for any OPTCG fan</p>",
             "author": "hxxzzy",
             "bio": "",
             "product": "",
@@ -212,8 +212,8 @@
           "type": "testimonial",
           "settings": {
             "show_image": true,
-            "text": "<p>Perfect condition, very well packaged and fast shipping. Thank you.<\/p>",
-            "author": "georgetcg_uk ",
+            "text": "<p>Perfect condition, very well packaged and fast shipping. Thank you.</p>",
+            "author": "georgetcg_uk\u00a0",
             "bio": "",
             "product": "",
             "icon": "none"
@@ -223,7 +223,7 @@
           "type": "testimonial",
           "settings": {
             "show_image": true,
-            "text": "<p>Quick dispatch and came securely packaged. Definitely recommended!<\/p>",
+            "text": "<p>Quick dispatch and came securely packaged. Definitely recommended!</p>",
             "author": "joshawott",
             "bio": "",
             "product": "",
@@ -300,7 +300,7 @@
         "text_pfaq": {
           "type": "text",
           "settings": {
-            "text": "<p>Learn about our grading standards, shipping times, authenticity verification, and return policy.<\/p>",
+            "text": "<p>Learn about our grading standards, shipping times, authenticity verification, and return policy.</p>",
             "text_size": "text-base"
           }
         },
@@ -308,7 +308,7 @@
           "type": "button",
           "settings": {
             "button_label": "View FAQs",
-            "button_link": "shopify:\/\/pages\/faq",
+            "button_link": "shopify://pages/faq",
             "button_style": "btn--secondary"
           }
         }
@@ -339,11 +339,11 @@
             "image_width": "medium",
             "title": "One Piece Cards",
             "heading_size": "h4",
-            "text": "<p>Explore our complete One Piece collection from OP01 to the latest releases.<\/p>",
+            "text": "<p>Explore our complete One Piece collection from OP01 to the latest releases.</p>",
             "text_size": "text-base",
             "button_label": "Browse One Piece",
             "button_style": "btn--primary",
-            "button_link": "shopify:\/\/pages\/one-piece-card-game",
+            "button_link": "shopify://pages/one-piece-card-game",
             "mobile_layout": "inherit"
           }
         },
@@ -355,11 +355,11 @@
             "image_width": "medium",
             "title": "Pokemon Cards",
             "heading_size": "h4",
-            "text": "<p>Discover authentic Japanese Pokemon cards from the SV series.<\/p>",
+            "text": "<p>Discover authentic Japanese Pokemon cards from the SV series.</p>",
             "text_size": "text-base",
             "button_label": "Browse Pokemon",
             "button_style": "btn--primary",
-            "button_link": "shopify:\/\/pages\/pokemon-card-game",
+            "button_link": "shopify://pages/pokemon-card-game",
             "mobile_layout": "inherit"
           }
         }
