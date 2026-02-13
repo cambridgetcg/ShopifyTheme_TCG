@@ -162,11 +162,19 @@
         "color_scheme": "scheme-1",
         "heading": "Recently Viewed"
       }
+    },
+    "price-history": {
+      "type": "price-history",
+      "settings": {
+        "title": "Price History",
+        "api_url": "https://0okzxooy36.execute-api.us-east-1.amazonaws.com"
+      }
     }
   },
   "order": [
     "breadcrumbs",
     "main",
+    "price-history",
     "related-products",
     "recently_viewed"
   ]
