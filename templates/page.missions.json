@@ -19,6 +19,22 @@
     },
     "missions_grid": {
       "type": "apps",
+      "blocks": {
+        "rewards_pro_missions": {
+          "type": "shopify://apps/rewards-pro/blocks/missions_section/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+          "settings": {
+            "heading": "Complete Missions. Earn Rewards.",
+            "guest_message": "Sign in to unlock daily, weekly, and special missions. Earn XP, level up your tier, and claim exclusive rewards.",
+            "guest_cta_text": "Sign In to Start",
+            "guest_cta_url": "/account/login",
+            "cache_duration": 30,
+            "default_tab": "daily"
+          }
+        }
+      },
+      "block_order": [
+        "rewards_pro_missions"
+      ],
       "settings": {
         "include_margins": true,
         "padding_top": 0,
