@@ -1,18 +1,9 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
-    "logo": "shopify://shop_images/Transparent_Logo_ae36d9d7-b347-453f-974b-485bfb11b0e9.png",
+    "logo": "shopify:\/\/shop_images\/Transparent_Logo_ae36d9d7-b347-453f-974b-485bfb11b0e9.png",
     "logo_width": 150,
     "logo_width_mobile": 90,
-    "favicon": "shopify://shop_images/Wordpress.png",
+    "favicon": "shopify:\/\/shop_images\/Wordpress.png",
     "type_body_font": "dm_sans_n4",
     "body_font_weight_bolder": "500",
     "body_font_size": 16,
@@ -97,19 +88,19 @@
     "content_for_index": [],
     "blocks": {
       "6174324309569838175": {
-        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
+        "type": "shopify:\/\/apps\/smile-io\/blocks\/smile-shopify-app\/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
         "disabled": true,
         "settings": {}
       },
       "10836757519992038104": {
-        "type": "shopify://apps/rewards-pro/blocks/membership_widget/0199e8b4-621e-7cd3-af1c-32293a9bc305",
+        "type": "shopify:\/\/apps\/rewards-pro\/blocks\/membership_widget\/0199e8b4-621e-7cd3-af1c-32293a9bc305",
         "disabled": false,
         "settings": {
           "enable_api_calls": true,
           "cache_duration": 120,
           "guest_message": "Join our rewards program!",
           "guest_cta_text": "Sign In",
-          "guest_cta_url": "/account/login"
+          "guest_cta_url": "\/account\/login"
         }
       }
     },
@@ -693,7 +684,7 @@
       "cart_type": "drawer",
       "cart_icon": "shopping-bag",
       "free_shipping_minimum_amount": "500",
-      "cart_empty_message": "<p>Not sure where to start? <br/>Try these collections:</p>",
+      "cart_empty_message": "<p>Not sure where to start? <br\/>Try these collections:<\/p>",
       "social_facebook_link": "#",
       "social_instagram_link": "#",
       "social_youtube_link": "#",
@@ -982,7 +973,7 @@
       "pcard_style": "standard",
       "pcard_content_alignment": "left",
       "pcard_color_scheme": "scheme-10",
-      "pcard_image_ratio": "1/1",
+      "pcard_image_ratio": "1\/1",
       "pcard_show_vendor": false,
       "pcard_show_type": false,
       "pcard_button_style": "btn--primary",
@@ -1271,7 +1262,7 @@
       "badges_corner_radius": "square",
       "pcard_style": "standard",
       "pcard_color_scheme": "scheme-1",
-      "pcard_image_ratio": "3/4",
+      "pcard_image_ratio": "3\/4",
       "pcard_show_second_img": false,
       "pcard_show_vendor": false,
       "pcard_show_type": true,
@@ -1284,15 +1275,15 @@
       "blog_cards_image_ratio": "adapt",
       "cart_type": "drawer",
       "free_shipping_minimum_amount": "800",
-      "social_facebook_link": "https://www.facebook.com/",
-      "social_instagram_link": "https://www.instagram.com/",
-      "social_youtube_link": "https://www.youtube.com/",
-      "social_tiktok_link": "https://www.tiktok.com/",
-      "social_twitter_link": "https://x.com/",
+      "social_facebook_link": "https:\/\/www.facebook.com\/",
+      "social_instagram_link": "https:\/\/www.instagram.com\/",
+      "social_youtube_link": "https:\/\/www.youtube.com\/",
+      "social_tiktok_link": "https:\/\/www.tiktok.com\/",
+      "social_twitter_link": "https:\/\/x.com\/",
       "social_snapchat_link": "",
       "social_pinterest_link": "",
       "social_tumblr_link": "",
-      "social_vimeo_link": "https://vimeo.com/",
+      "social_vimeo_link": "https:\/\/vimeo.com\/",
       "predictive_search_enabled": true,
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
@@ -1563,7 +1554,7 @@
       "badges_corner_radius": "slightly",
       "pcard_style": "standard",
       "pcard_color_scheme": "scheme-10",
-      "pcard_image_ratio": "3/4",
+      "pcard_image_ratio": "3\/4",
       "pcard_show_vendor": false,
       "pcard_show_type": false,
       "pcard_overlay_color_scheme": "scheme-4",
@@ -1576,13 +1567,13 @@
       "collection_card_style": "standard",
       "cart_type": "drawer",
       "free_shipping_minimum_amount": "500",
-      "social_facebook_link": "https://facebook.com/shopify",
-      "social_instagram_link": "https://instagram.com/shopify",
-      "social_youtube_link": "https://youtube.com/shopify",
-      "social_tiktok_link": "https://tiktok.com/shopify",
-      "social_twitter_link": "https://twitter.com/shopify",
+      "social_facebook_link": "https:\/\/facebook.com\/shopify",
+      "social_instagram_link": "https:\/\/instagram.com\/shopify",
+      "social_youtube_link": "https:\/\/youtube.com\/shopify",
+      "social_tiktok_link": "https:\/\/tiktok.com\/shopify",
+      "social_twitter_link": "https:\/\/twitter.com\/shopify",
       "social_snapchat_link": "",
-      "social_pinterest_link": "https://pinterest.com/shopify",
+      "social_pinterest_link": "https:\/\/pinterest.com\/shopify",
       "social_tumblr_link": "",
       "social_vimeo_link": "",
       "predictive_search_enabled": true,
